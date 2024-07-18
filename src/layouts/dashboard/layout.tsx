@@ -4,13 +4,11 @@ import Box from '@mui/material/Box';
 import { useBoolean } from './../../hooks/use-boolean';
 import { useResponsive } from './../../hooks/use-responsive';
 // components
-import { useSettingsContext } from './../../components/settings';
+import { useSettingsContext } from '../../components/settings';
 //
 import Main from './main';
 import Header from './header';
-import NavMini from './nav-mini';
 import NavVertical from './nav-vertical';
-import NavHorizontal from './nav-horizontal';
 
 // ----------------------------------------------------------------------
 
@@ -29,10 +27,6 @@ export default function DashboardLayout({ children }: Props) {
 
   const isMini = settings.themeLayout === 'mini';
 
-  const renderNavMini = <NavMini />;
-
-  const renderHorizontal = <NavHorizontal />;
-
   const renderNavVertical = <NavVertical openNav={nav.value} onCloseNav={nav.onFalse} />;
 
   if (isHorizontal) {
@@ -40,7 +34,7 @@ export default function DashboardLayout({ children }: Props) {
       <>
         <Header onOpenNav={nav.onTrue} />
 
-        {lgUp ? renderHorizontal : renderNavVertical}
+        {renderNavVertical}
 
         <Main>{children}</Main>
       </>
@@ -58,7 +52,7 @@ export default function DashboardLayout({ children }: Props) {
             minHeight: { lg: 1 },
           }}
         >
-          {lgUp ? renderNavMini : renderNavVertical}
+          {renderNavVertical}
 
           <Main>{children}</Main>
         </Box>

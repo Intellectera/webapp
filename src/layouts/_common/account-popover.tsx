@@ -9,11 +9,11 @@ import MenuItem from '@mui/material/MenuItem';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 // routes
-import { useRouter } from './../../routes/hook';
+import { useRouter } from '../../routes/hook';
 // hooks
 import { useMockedUser } from './../../hooks/use-mocked-user';
 // auth
-import { useAuthContext } from './../../auth/hooks';
+import { useAuthContext } from '../../auth/hooks';
 // components
 import { varHover } from './../../components/animate';
 import CustomPopover, { usePopover } from './../../components/custom-popover';

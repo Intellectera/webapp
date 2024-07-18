@@ -1,6 +1,6 @@
 import {useContext} from 'react';
 //
-import {AuthContext} from './../context/jwt';
+import {AuthContext} from '../context/jwt';
 
 // ----------------------------------------------------------------------
 

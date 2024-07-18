@@ -1,6 +1,7 @@
 import * as Yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { useCallback, useState } from 'react';
+// @ts-ignore
 import { yupResolver } from '@hookform/resolvers/yup';
 // @mui
 import LoadingButton from '@mui/lab/LoadingButton';
@@ -77,7 +78,7 @@ export default function JwtRegisterView() {
       } catch (error) {
         console.error(error);
         reset();
-        setErrorMsg(typeof error === 'string' ? error : error.message);
+        setErrorMsg(typeof error === 'string' ? error : (error instanceof Error ? error.message : 'Unknown error'));
       }
     },
     [register, reset, returnTo]

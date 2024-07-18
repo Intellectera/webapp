@@ -16,12 +16,9 @@ import { useSettingsContext } from './../../components/settings';
 //
 import { HEADER, NAV } from './../config-layout';
 import {
-  Searchbar,
   AccountPopover,
   SettingsButton,
   LanguagePopover,
-  ContactsPopover,
-  NotificationsPopover,
 } from './../_common';
 
 // ----------------------------------------------------------------------
@@ -55,8 +52,6 @@ export default function Header({ onOpenNav }: Props) {
         </IconButton>
       )}
 
-      <Searchbar />
-
       <Stack
         flexGrow={1}
         direction="row"
@@ -65,10 +60,6 @@ export default function Header({ onOpenNav }: Props) {
         spacing={{ xs: 0.5, sm: 1 }}
       >
         <LanguagePopover />
-
-        <NotificationsPopover />
-
-        <ContactsPopover />
 
         <SettingsButton />
 

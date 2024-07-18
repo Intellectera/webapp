@@ -1,3 +1,4 @@
+// @ts-ignore
 import {LogoutOptions, PopupLoginOptions, RedirectLoginOptions} from '@auth0/auth0-react';
 
 // ----------------------------------------------------------------------

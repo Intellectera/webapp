@@ -10,7 +10,7 @@ import { useMockedUser } from './../../hooks/use-mocked-user';
 // components
 import Logo from './../../components/logo';
 import Scrollbar from './../../components/scrollbar';
-import { usePathname } from './../../routes/hook';
+import { usePathname } from '../../routes/hook';
 import { NavSectionVertical } from './../../components/nav-section';
 //
 import { NAV } from './../config-layout';
