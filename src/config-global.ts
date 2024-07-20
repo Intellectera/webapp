@@ -5,6 +5,7 @@ import {paths} from './routes/paths';
 // ----------------------------------------------------------------------
 
 export const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+export const IS_PRODUCTION: boolean = import.meta.env.VITE_PRODUCTION === 'true';
 export const ASSETS_API = import.meta.env.VITE_ASSETS_API;
 
 export const AUTH0_API = {

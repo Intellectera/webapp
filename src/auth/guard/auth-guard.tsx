@@ -1,9 +1,10 @@
 import {useCallback, useEffect, useState} from 'react';
 // routes
 import {paths} from './../../routes/paths';
-import {useRouter} from './../../routes/hook';
+import {useRouter} from '../../routes/hook';
 //
-import {useAuthContext} from './../hooks';
+import {useAuthContext} from '../hooks';
+import { isValidToken } from '../context/jwt/utils';
 
 // ----------------------------------------------------------------------
 
@@ -20,7 +21,9 @@ type AuthGuardProps = {
 export default function AuthGuard({ children }: AuthGuardProps) {
   const router = useRouter();
 
-  const { authenticated, method } = useAuthContext();
+  const authenticated = isValidToken()
+
+  const { method } = useAuthContext();
 
   const [checked, setChecked] = useState(false);
 

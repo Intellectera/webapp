@@ -1,7 +1,6 @@
-// routes
-import {paths} from './../../../routes/paths';
 // utils
 import axios from './../../../utils/axios';
+import {TOKEN_STORAGE_KEY} from "./auth-provider.tsx";
 
 // ----------------------------------------------------------------------
 
@@ -15,61 +14,35 @@ function jwtDecode(token: string) {
       .map((c) => `%${`00${c.charCodeAt(0).toString(16)}`.slice(-2)}`)
       .join('')
   );
-
   return JSON.parse(jsonPayload);
 }
 
 // ----------------------------------------------------------------------
 
-export const isValidToken = (accessToken: string) => {
-  if (!accessToken) {
+export const isValidToken = () => {
+  const token: string | null = sessionStorage.getItem(TOKEN_STORAGE_KEY);
+  if (!token) {
     return false;
   }
 
-  const decoded = jwtDecode(accessToken);
+  const decoded = jwtDecode(token);
 
-  const currentTime = Date.now() / 1000;
+  const currentTime: number = Math.floor(Date.now() / 1000);
 
   return decoded.exp > currentTime;
 };
 
 // ----------------------------------------------------------------------
 
-export const tokenExpired = (exp: number) => {
-  // eslint-disable-next-line prefer-const
-  let expiredTimer;
 
-  const currentTime = Date.now();
-
-  // Test token expires after 10s
-  // const timeLeft = currentTime + 10000 - currentTime; // ~10s
-  const timeLeft = exp * 1000 - currentTime;
-
-  clearTimeout(expiredTimer);
-
-  expiredTimer = setTimeout(() => {
-    alert('Token expired');
-
-    sessionStorage.removeItem('accessToken');
-
-    window.location.href = paths.auth.jwt.login;
-  }, timeLeft);
-};
-
-// ----------------------------------------------------------------------
-
-export const setSession = (accessToken: string | null) => {
-  if (accessToken) {
-    sessionStorage.setItem('accessToken', accessToken);
-
-    axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
-
-    // This function below will handle when token is expired
-    const { exp } = jwtDecode(accessToken); // ~3 days by minimals server
-    tokenExpired(exp);
+export const setSession = (token: string | null) => {
+  if (token) {
+    sessionStorage.setItem(TOKEN_STORAGE_KEY, token);
+    axios.defaults.headers.common.Authorization = `Bearer ${token}`;
   } else {
-    sessionStorage.removeItem('accessToken');
-
+    sessionStorage.removeItem(TOKEN_STORAGE_KEY);
     delete axios.defaults.headers.common.Authorization;
   }
 };
+
+// ----------------------------------------------------------------------

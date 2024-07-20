@@ -1,11 +1,13 @@
 import { Suspense, lazy } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, Navigate } from 'react-router-dom';
 // auth
 import { AuthGuard } from './../../auth/guard';
 // layouts
 import DashboardLayout from './../../layouts/dashboard';
 // components
 import { LoadingScreen } from './../../components/loading-screen';
+import { paths } from '../paths';
+import { element } from 'prop-types';
 
 // ----------------------------------------------------------------------
 
@@ -43,5 +45,5 @@ export const dashboardRoutes = [
         ],
       },
     ],
-  },
+  }
 ];

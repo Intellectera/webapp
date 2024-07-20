@@ -4,7 +4,7 @@ import {BACKEND_URL} from './../config-global';
 
 // ----------------------------------------------------------------------
 
-const axiosInstance = axios.create({ baseURL: BACKEND_URL });
+const axiosInstance = axios.create({ baseURL: BACKEND_URL , withCredentials: true});
 
 axiosInstance.interceptors.response.use(
   (response) => response,
@@ -14,28 +14,11 @@ axiosInstance.interceptors.response.use(
 export default axiosInstance;
 
 export const API_ENDPOINTS = {
-  chat: '/api/chat',
-  kanban: '/api/kanban',
-  calendar: '/api/calendar',
-  auth: {
-    me: '/api/auth/me',
-    login: '/api/auth/login',
-    register: '/api/auth/register',
-  },
-  mail: {
-    list: '/api/mail/list',
-    details: '/api/mail/details',
-    labels: '/api/mail/labels',
-  },
-  post: {
-    list: '/api/post/list',
-    details: '/api/post/details',
-    latest: '/api/post/latest',
-    search: '/api/post/search',
-  },
-  product: {
-    list: '/api/product/list',
-    details: '/api/product/details',
-    search: '/api/product/search',
+  v1: {
+    auth: {
+      me: '/api/v1/auth/me',
+      login: '/api/v1/auth/authenticate',
+      register: '/api/v1/auth/register',
+    },
   },
 };
