@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import { m } from 'framer-motion';
 // @mui
 import MenuItem from '@mui/material/MenuItem';
@@ -7,6 +7,9 @@ import IconButton from '@mui/material/IconButton';
 import Iconify from './../../components/iconify';
 import { varHover } from './../../components/animate';
 import CustomPopover, { usePopover } from './../../components/custom-popover';
+import { useTranslation } from "react-i18next";
+import { useSettingsContext } from './../../components/settings';
+import { localStorageGetItem, localStorageSetItem } from '../../utils/storage-available';
 
 // ----------------------------------------------------------------------
 
@@ -17,33 +20,32 @@ export const allLangs = [
     icon: 'flagpack:gb-nir',
   },
   {
-    label: 'French',
-    value: 'fr',
-    icon: 'flagpack:fr',
-  },
-  {
-    label: 'Vietnamese',
-    value: 'vi',
-    icon: 'flagpack:vn',
-  },
-  {
-    label: 'Chinese',
-    value: 'cn',
-    icon: 'flagpack:cn',
-  },
-  {
-    label: 'Arabic',
-    value: 'ar',
-    icon: 'flagpack:sa',
+    label: 'Persian',
+    value: 'fa',
+    icon: 'flagpack:ir',
   },
 ];
 
+export const localStorageLngKey = 'i18nextLng';
+
+const findLanguageObj = (lang: string) => {
+  return allLangs.find((obj) => obj.value === lang)!
+}
+
 export default function LanguagePopover() {
   const popover = usePopover();
+  const settings = useSettingsContext();
+  const {t, i18n: { changeLanguage, language} } = useTranslation();
+  const [currentLang, setCurrentLang] = useState(findLanguageObj(localStorageGetItem(localStorageLngKey, 'en')))
 
-  const currentLang = allLangs[0];
+  console.log(language);
+  
 
-  const handleChangeLang = useCallback(() => {
+  const handleChangeLang = useCallback((lang: { label: string; value: string; icon: string; }) => {
+    changeLanguage(lang.value);
+    setCurrentLang(lang)
+    settings.onChangeDirectionByLang(lang.value)
+    localStorageSetItem(localStorageLngKey, lang.value)
     popover.onClose();
   }, [popover]);
 
@@ -71,7 +73,7 @@ export default function LanguagePopover() {
           <MenuItem
             key={option.value}
             selected={option.value === currentLang.value}
-            onClick={handleChangeLang}
+            onClick={() => handleChangeLang(option)}
           >
             <Iconify icon={option.icon} sx={{ borderRadius: 0.65, width: 28 }} />
 

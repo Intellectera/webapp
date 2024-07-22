@@ -33,7 +33,7 @@ export default function AuthGuard({ children }: AuthGuardProps) {
 
       const loginPath = loginPaths[method];
 
-      const href = `${loginPath}?${searchParams}`;
+      const href =  `${loginPath}?${searchParams}`;
 
       router.replace(href);
     } else {

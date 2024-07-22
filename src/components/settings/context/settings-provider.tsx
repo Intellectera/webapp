@@ -7,6 +7,7 @@ import {localStorageGetItem} from './../../../utils/storage-available';
 //
 import {SettingsValueProps} from './../types';
 import {SettingsContext} from './settings-context';
+import { localStorageLngKey } from '../../../layouts/_common/language-popover';
 
 // ----------------------------------------------------------------------
 
@@ -20,11 +21,11 @@ export function SettingsProvider({ children, defaultSettings }: SettingsProvider
 
   const [settings, setSettings] = useLocalStorage('settings', defaultSettings);
 
-  const isArabic = localStorageGetItem('i18nextLng') === 'ar';
+  const isArabic = localStorageGetItem(localStorageLngKey) === 'fa';
 
   useEffect(() => {
     if (isArabic) {
-      onChangeDirectionByLang('ar');
+      onChangeDirectionByLang('fa');
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isArabic]);
@@ -42,7 +43,7 @@ export function SettingsProvider({ children, defaultSettings }: SettingsProvider
   // Direction by lang
   const onChangeDirectionByLang = useCallback(
     (lang: string) => {
-      onUpdate('themeDirection', lang === 'ar' ? 'rtl' : 'ltr');
+      onUpdate('themeDirection', lang === 'fa' ? 'rtl' : 'ltr');
     },
     [onUpdate]
   );

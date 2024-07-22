@@ -68,7 +68,6 @@ export default function JwtLoginView() {
         async (data: FormValuesProps) => {
             try {
                 await login?.(data.email, data.password);
-
                 window.location.href = returnTo || PATH_AFTER_LOGIN;
             } catch (error) {
                 if (!IS_PRODUCTION) {
@@ -85,7 +84,7 @@ export default function JwtLoginView() {
 
     const renderHead = (
         <Stack spacing={2} sx={{mb: 5}}>
-            <Typography variant="h4">Sign in to Minimal</Typography>
+            <Typography variant="h4">Sign in to Intellectera</Typography>
 
             <Stack direction="row" spacing={0.5}>
                 <Typography variant="body2">New user?</Typography>
@@ -138,10 +137,6 @@ export default function JwtLoginView() {
     return (
         <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
             {renderHead}
-
-            <Alert severity="info" sx={{mb: 3}}>
-                Use email : <strong>demo@minimals.cc</strong> / password :<strong> demo1234</strong>
-            </Alert>
 
             {renderForm}
         </FormProvider>

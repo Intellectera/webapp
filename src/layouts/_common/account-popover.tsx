@@ -20,20 +20,7 @@ import CustomPopover, { usePopover } from './../../components/custom-popover';
 
 // ----------------------------------------------------------------------
 
-const OPTIONS = [
-  {
-    label: 'Home',
-    linkTo: '/',
-  },
-  {
-    label: 'Profile',
-    linkTo: '/#1',
-  },
-  {
-    label: 'Settings',
-    linkTo: '/#2',
-  },
-];
+const OPTIONS: Array<{label: string, linkTo: string}> = [];
 
 // ----------------------------------------------------------------------
 
@@ -111,7 +98,7 @@ export default function AccountPopover() {
           ))}
         </Stack>
 
-        <Divider sx={{ borderStyle: 'dashed' }} />
+        {/* <Divider sx={{ borderStyle: 'dashed' }} /> */}
 
         <MenuItem
           onClick={handleLogout}

@@ -14,11 +14,15 @@ export function localStorageAvailable() {
 export function localStorageGetItem(key: string, defaultValue = '') {
   const storageAvailable = localStorageAvailable();
 
-  let value;
+  let value = '';
 
   if (storageAvailable) {
     value = localStorage.getItem(key) || defaultValue;
   }
 
   return value;
+}
+
+export function localStorageSetItem(key: string, value: string) {
+  localStorage.setItem(key, value);
 }

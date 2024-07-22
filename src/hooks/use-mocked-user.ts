@@ -13,8 +13,8 @@
 export function useMockedUser() {
   const user = {
     id: '8864c717-587d-472a-929a-8e5f298024da-0',
-    displayName: 'Jaydon Frankie',
-    email: 'demo@minimals.cc',
+    displayName: 'Demo Demo',
+    email: 'demo@intellectera.ai',
     password: 'demo1234',
     photoURL: '',
     phoneNumber: '+40 777666555',
