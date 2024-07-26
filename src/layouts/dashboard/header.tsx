@@ -20,6 +20,7 @@ import {
   SettingsButton,
   LanguagePopover,
 } from './../_common';
+import ModeToggle from '../_common/mode-toggle';
 
 // ----------------------------------------------------------------------
 
@@ -61,9 +62,10 @@ export default function Header({ onOpenNav }: Props) {
       >
         <LanguagePopover />
 
-        <SettingsButton />
+        <ModeToggle />
 
         <AccountPopover />
+
       </Stack>
     </>
   );

@@ -20,7 +20,7 @@ import { useScrollToTop } from './hooks/use-scroll-to-top';
 // components
 import ProgressBar from './components/progress-bar';
 import MotionLazy from './components/animate/motion-lazy';
-import { SettingsProvider, SettingsDrawer } from './components/settings';
+import { SettingsProvider } from './components/settings';
 // auth
 import { AuthProvider, AuthConsumer } from './auth/context/jwt';
 import { useEffect } from 'react';
@@ -56,7 +56,6 @@ export default function App() {
             >
                 <ThemeProvider>
                     <MotionLazy>
-                        <SettingsDrawer />
                         <ProgressBar />
                         <AuthConsumer>
                             <Router />

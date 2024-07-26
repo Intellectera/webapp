@@ -26,3 +26,7 @@ export function localStorageGetItem(key: string, defaultValue = '') {
 export function localStorageSetItem(key: string, value: string) {
   localStorage.setItem(key, value);
 }
+
+export function localStorageRemoveItem(key: string) {
+  localStorage.removeItem(key);
+}

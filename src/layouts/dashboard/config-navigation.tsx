@@ -52,7 +52,6 @@ export function useNavData() {
         subheader: 'Main Actions',
         items: [
           { title: 'one', path: paths.dashboard.root, icon: ICONS.dashboard },
-          { title: 'two', path: paths.dashboard.two, icon: ICONS.ecommerce },
         ],
       },
     ],

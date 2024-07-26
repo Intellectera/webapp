@@ -38,9 +38,6 @@ export default function LanguagePopover() {
   const {t, i18n: { changeLanguage, language} } = useTranslation();
   const [currentLang, setCurrentLang] = useState(findLanguageObj(localStorageGetItem(localStorageLngKey, 'en')))
 
-  console.log(language);
-  
-
   const handleChangeLang = useCallback((lang: { label: string; value: string; icon: string; }) => {
     changeLanguage(lang.value);
     setCurrentLang(lang)

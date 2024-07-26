@@ -20,5 +20,15 @@ export const API_ENDPOINTS = {
       login: '/api/v1/auth/authenticate',
       register: '/api/v1/auth/register',
     },
+    core: {
+      agent: {
+        create: '/api/v1/agent/create',
+        load: '/api/v1/agent/load'
+      },
+    },
+    workspace: {
+      create: '/api/v1/workspace/create',
+      loadAvailable: '/api/v1/workspace/list-available',
+    }
   },
 };
