@@ -24,6 +24,7 @@ import {SettingsView} from "../../sections/settings/view.tsx";
 import {useState} from "react";
 import {WORKSPACE_STORAGE_KEY} from "../dashboard/context/workspace-provider.tsx";
 import {ChangeWorkspaceView} from "../../sections/workspace/view.tsx";
+import {useTranslation} from "react-i18next";
 
 // ----------------------------------------------------------------------
 
@@ -37,6 +38,8 @@ export default function AccountPopover() {
     const handleClose = () => {
         setOpenSettings(false);
     }
+
+    const {t } = useTranslation();
 
     const [openChangeWorkspace, setOpenChangeWorkspace] = useState(false);
 
@@ -139,21 +142,21 @@ export default function AccountPopover() {
                     onClick={handleOpenSettings}
                     sx={{m: 1, fontWeight: 'fontWeightBold'}}
                 >
-                    Settings
+                    {t('settings')}
                 </MenuItem>
 
                 <MenuItem
                     onClick={handleOpenChangeWorkspace}
                     sx={{m: 1, fontWeight: 'fontWeightBold'}}
                 >
-                    Change Workspace
+                    {t('titles.change_workspace')}
                 </MenuItem>
 
                 <MenuItem
                     onClick={handleLogout}
                     sx={{m: 1, fontWeight: 'fontWeightBold', color: 'error.main'}}
                 >
-                    Logout
+                    {t('logout')}
                 </MenuItem>
             </CustomPopover>
         </>

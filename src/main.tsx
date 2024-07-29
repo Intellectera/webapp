@@ -6,13 +6,25 @@ import './index.css'
 import './i18n.ts'
 import { BrowserRouter } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
+import {ErrorBoundary} from "react-error-boundary";
+
+
+const getErrorDisplay = () => {
+    return (
+        <div className={'h-screen w-screen bg-gray-400 flex justify-center items-center'}>
+            <h1 className={'text-white'}>Something Went Wrong</h1>
+        </div>
+    )
+}
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-    <HelmetProvider>
-        <BrowserRouter>
-            <Suspense>
-                <App />
-            </Suspense>
-        </BrowserRouter>
-    </HelmetProvider>
+    <ErrorBoundary fallback={getErrorDisplay()}>
+        <HelmetProvider>
+            <BrowserRouter>
+                <Suspense>
+                    <App />
+                </Suspense>
+            </BrowserRouter>
+        </HelmetProvider>
+    </ErrorBoundary>
 )

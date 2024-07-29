@@ -1,6 +1,3 @@
-import { useMemo } from 'react';
-// routes
-import { paths } from './../../routes/paths';
 // components
 import SvgColor from './../../components/svg-color';
 
@@ -42,21 +39,3 @@ const ICONS = {
 };
 
 // ----------------------------------------------------------------------
-
-export function useNavData() {
-  const data = useMemo(
-    () => [
-      // OVERVIEW
-      // ----------------------------------------------------------------------
-      {
-        subheader: 'Main Actions',
-        items: [
-          { title: 'one', path: paths.dashboard.root, icon: ICONS.dashboard },
-        ],
-      },
-    ],
-    []
-  );
-
-  return data;
-}

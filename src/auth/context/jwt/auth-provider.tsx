@@ -5,6 +5,9 @@ import axios, {API_ENDPOINTS} from './../../../utils/axios';
 import {AuthContext} from './auth-context';
 import {setSession} from './utils';
 import {ActionMapType, AuthStateType, AuthUserType} from './../../types';
+import {localStorageGetItem} from "../../../utils/storage-available.ts";
+import {localStorageLngKey} from "../../../layouts/_common/language-popover.tsx";
+import {useTranslation} from "react-i18next";
 
 enum Types {
   LOGIN = 'LOGIN',
@@ -62,6 +65,12 @@ type Props = {
 };
 
 export function AuthProvider({ children }: Props) {
+  const {i18n: {changeLanguage} } = useTranslation();
+
+  useEffect(() => {
+    changeLanguage(localStorageGetItem(localStorageLngKey, 'en')).then();
+  }, [])
+
   const [state, dispatch] = useReducer(reducer, initialState);
 
   // LOGIN

@@ -1,14 +1,14 @@
-import { useCallback, useState } from 'react';
+import {useCallback, useEffect, useState} from 'react';
 import { m } from 'framer-motion';
 // @mui
 import MenuItem from '@mui/material/MenuItem';
 import IconButton from '@mui/material/IconButton';
 // components
 import Iconify from './../../components/iconify';
-import { varHover } from './../../components/animate';
+import { varHover } from '../../components/animate';
 import CustomPopover, { usePopover } from './../../components/custom-popover';
 import { useTranslation } from "react-i18next";
-import { useSettingsContext } from './../../components/settings';
+import { useSettingsContext } from '../../components/settings';
 import { localStorageGetItem, localStorageSetItem } from '../../utils/storage-available';
 
 // ----------------------------------------------------------------------
@@ -39,11 +39,12 @@ export default function LanguagePopover() {
   const [currentLang, setCurrentLang] = useState(findLanguageObj(localStorageGetItem(localStorageLngKey, 'en')))
 
   const handleChangeLang = useCallback((lang: { label: string; value: string; icon: string; }) => {
-    changeLanguage(lang.value);
+    changeLanguage(lang.value).then();
     setCurrentLang(lang)
     settings.onChangeDirectionByLang(lang.value)
     localStorageSetItem(localStorageLngKey, lang.value)
     popover.onClose();
+    window.location.reload();
   }, [popover]);
 
   return (

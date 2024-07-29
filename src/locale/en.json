@@ -1,5 +1,26 @@
 {
     "translation": {
-      "name": "Name"
+      "name": "Name",
+      "settings": "Settings",
+      "logout": "Logout",
+      "login": "Sing in to Intellectera",
+      "forgot_password": "Forgot Password?",
+      "new_user": "New User?",
+      "create_account" : "Create an Account",
+      "email": "Email",
+      "password": "Password",
+      "continue": "Continue",
+      "errors": {
+        "email_required": "Email is Required.",
+        "password_required": "Password is Required.",
+        "email_valid": "Email must be valid."
+      },
+      "titles": {
+        "change_workspace": "Change Workspace"
+      },
+      "labels": {
+        "selected_agent": "Selected Agent",
+        "agents": "Agents"
+      }
     }
   }

@@ -34,7 +34,7 @@ type Props = {
   children: React.ReactNode;
 };
 
-export default function AuthClassicLayout({ children, image, title }: Props) {
+export default function AuthClassicLayout({ children, image }: Props) {
   const { method } = useAuthContext();
 
   const theme = useTheme();
@@ -82,7 +82,7 @@ export default function AuthClassicLayout({ children, image, title }: Props) {
       }}
     >
       <Typography variant="h3" sx={{ maxWidth: 480, textAlign: 'center' }}>
-        {title || 'Hi, Welcome back'}
+        {''}
       </Typography>
 
       <Box
@@ -96,18 +96,7 @@ export default function AuthClassicLayout({ children, image, title }: Props) {
         {METHODS.map((option) => (
           <Tooltip key={option.label} title={option.label}>
             <Link component={RouterLink} href={option.path}>
-              <Box
-                component="img"
-                alt={option.label}
-                src={option.icon}
-                sx={{
-                  width: 32,
-                  height: 32,
-                  ...(method !== option.id && {
-                    filter: 'grayscale(100%)',
-                  }),
-                }}
-              />
+
             </Link>
           </Tooltip>
         ))}

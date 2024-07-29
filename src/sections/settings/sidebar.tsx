@@ -2,15 +2,14 @@ import {useState} from 'react'
 import {MdSmartToy} from "react-icons/md";
 import SearchableDropdown from "../../components/_common/searchable-dropdown.tsx";
 import Iconify from "../../components/iconify";
+import {Agent} from "../../utils/dto/Agent.ts";
+import {useSettingsContext} from "../../components/settings";
+import {useTranslation} from "react-i18next";
 
 
 const pages = {
     agents: 'agents'
 }
-
-const navigations = [
-    {name: 'Agents', href: '#', icon: MdSmartToy, current: true, page: pages.agents},
-]
 
 type NavigationType = {
     name: string,
@@ -24,7 +23,20 @@ function classNames(...classes: any) {
     return classes.filter(Boolean).join(' ')
 }
 
-export default function SettingsSidebar({handleClose}: {handleClose: any}) {
+type Props = {
+    handleClose: any,
+    agents: Array<Agent>,
+}
+
+export default function SettingsSidebar({handleClose, agents}: Props) {
+    const {t } = useTranslation();
+
+    const navigations = [
+        {name: t('labels.agents'), href: '#', icon: MdSmartToy, current: true, page: pages.agents},
+    ]
+
+
+    let settings = useSettingsContext();
     const [navigation, setNavigation] = useState<Array<NavigationType>>(navigations)
     const [current, setCurrent] = useState<NavigationType>(navigation[0]);
 
@@ -35,6 +47,10 @@ export default function SettingsSidebar({handleClose}: {handleClose: any}) {
         }
         navigation[index].current = true;
         setNavigation(navigation);
+    }
+
+    const handleSelectAgent = (value: Agent) => {
+        console.log(value)
     }
 
     return (
@@ -50,13 +66,13 @@ export default function SettingsSidebar({handleClose}: {handleClose: any}) {
                                     <ul role="list" className="-mx-2 space-y-1">
                                         {navigation.map((item, index) => (
                                             <li onClick={() => handleOnSectionClick(index)} key={item.name}>
-                                                <a  href={item.href}
-                                                    className={classNames(
-                                                        item.current
-                                                            ? 'bg-gray-800 text-white'
-                                                            : 'text-gray-400 hover:text-white hover:bg-gray-800',
-                                                        'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold'
-                                                    )}
+                                                <a href={item.href}
+                                                   className={classNames(
+                                                       item.current
+                                                           ? 'bg-gray-800 text-white'
+                                                           : 'text-gray-400 hover:text-white hover:bg-gray-800',
+                                                       'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold'
+                                                   )}
                                                 >
                                                     <item.icon className="h-6 w-6 shrink-0" aria-hidden="true"/>
                                                     {item.name}
@@ -103,16 +119,16 @@ export default function SettingsSidebar({handleClose}: {handleClose: any}) {
                     </div>
                 </div>
 
-                    <div onClick={handleClose} className={'w-100 hover:cursor-pointer relative flex items-center justify-end mt-5 mr-5'}>
-                        <Iconify icon="gridicons:cross" width={24} />
-                    </div>
+                <div onClick={handleClose}
+                     className={'w-100 hover:cursor-pointer relative flex items-center justify-end m-5'}>
+                    <Iconify icon="gridicons:cross" width={24}/>
+                </div>
 
-                <main className="py-5 lg:pl-72">
+                <main className={classNames("py-5", settings.themeDirection === 'rtl' ? 'lg:pr-72' : 'lg:pl-72')}>
                     <div className="px-4 sm:px-6 lg:px-8">
-
-
                         {current.page === 'agents' && (
-                            <SearchableDropdown></SearchableDropdown>
+                            <SearchableDropdown title={t('labels.selected_agent')} list={agents} uniqueKey={'id'} displayKey={'name'}
+                                                handleSelect={(value: any) => handleSelectAgent(value as Agent)}></SearchableDropdown>
                         )}
                     </div>
                 </main>

@@ -1,5 +1,5 @@
 import {Suspense, lazy} from 'react';
-import {Outlet, Navigate} from 'react-router-dom';
+import {Outlet} from 'react-router-dom';
 // auth
 import {AuthGuard} from './../../auth/guard';
 // layouts
@@ -10,7 +10,7 @@ import {SelectedWorkspaceProvider} from "../../layouts/dashboard/context/workspa
 
 // ----------------------------------------------------------------------
 
-const IndexPage = lazy(() => import('./../../pages/dashboard/one'));
+const IndexPage = lazy(() => import('./../../pages/dashboard/chat'));
 
 // ----------------------------------------------------------------------
 
@@ -20,7 +20,7 @@ export const dashboardRoutes = [
         element: (
             <AuthGuard>
                 <SelectedWorkspaceProvider>
-                    <DashboardLayout>
+                    <DashboardLayout >
                         <Suspense fallback={<LoadingScreen/>}>
                             <Outlet/>
                         </Suspense>

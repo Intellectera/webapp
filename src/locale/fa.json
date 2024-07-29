@@ -1,5 +1,26 @@
 {
     "translation": {
-      "name": "نام"
+      "name": "نام",
+      "settings": "تنظیمات",
+      "logout": "خروج",
+      "login": "وارد Intellectera شوید.",
+      "forgot_password": "رمز عبور را فراموش کردید‌؟",
+      "new_user": "کاربر جدید؟",
+      "create_account" : "ایجاد حساب کاربری",
+      "email": "ایمیل",
+      "password": "رمز عبور",
+      "continue": "ادامه",
+      "errors": {
+        "email_required": "ایمیل ضروری است.",
+        "password_required": "رمز عبور ضروری است.",
+        "email_valid": "ایمیل باید معتبر باشد."
+      },
+      "titles": {
+        "change_workspace": "تغییر فضای کاری"
+      },
+      "labels": {
+        "selected_agent": "ایجنت انتخاب شده",
+        "agents": "ایجنت ها"
+      }
     }
   }

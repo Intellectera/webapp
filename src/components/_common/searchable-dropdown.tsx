@@ -1,28 +1,31 @@
 import TextField from "@mui/material/TextField";
 import { Autocomplete } from '@mui/material'
 import Typography from "@mui/material/Typography";
+import {SyntheticEvent, useState} from "react";
 
-const top100Films = [
-    {label: 'The Shawshank Redemption', year: 1994},
-    {label: 'The Godfather', year: 1972},
-]
+export default function SearchableDropdown({list, displayKey, uniqueKey, handleSelect, title}: {list: Array<any>, displayKey: string, uniqueKey: string, handleSelect: any, title: string}) {
+    const [label, setLabel] = useState<string>((list && list.length > 0) ? list[0][displayKey] : "");
 
-function classNames(...classes: any) {
-    return classes.filter(Boolean).join(' ')
-}
-
-export default function SearchableDropdown() {
     return (
         <div>
             <Typography variant="subtitle2" noWrap>
-                Selected Agent
+                {title}
             </Typography>
             <Autocomplete
                 disablePortal
                 id="combo-box-demo"
-                options={top100Films}
+                options={list as any[]}
+                getOptionKey={(option) => option[uniqueKey]}
+                getOptionLabel={(option) => option[displayKey] ?? option}
                 className={'w-100 mt-3'}
-                renderInput={(params) => <TextField {...params} label={top100Films[0].label}/>}
+                isOptionEqualToValue={(option, value) => option[uniqueKey] === value[uniqueKey]}
+                onChange={(_: SyntheticEvent, value: any, reason: string) => {
+                    setLabel('');
+                    if (reason === 'selectOption') {
+                        handleSelect(value)
+                    }
+                }}
+                renderInput={(params) => <TextField {...params} label={label}/>}
             />
         </div>
     );
