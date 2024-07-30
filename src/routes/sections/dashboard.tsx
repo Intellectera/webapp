@@ -7,6 +7,8 @@ import DashboardLayout from './../../layouts/dashboard';
 // components
 import {LoadingScreen} from './../../components/loading-screen';
 import {SelectedWorkspaceProvider} from "../../layouts/dashboard/context/workspace-provider.tsx";
+import {SelectedAgentProvider} from "../../layouts/dashboard/context/agent-provider.tsx";
+import {SelectedSessionProvider} from "../../layouts/dashboard/context/session-provider.tsx";
 
 // ----------------------------------------------------------------------
 
@@ -20,11 +22,15 @@ export const dashboardRoutes = [
         element: (
             <AuthGuard>
                 <SelectedWorkspaceProvider>
-                    <DashboardLayout >
-                        <Suspense fallback={<LoadingScreen/>}>
-                            <Outlet/>
-                        </Suspense>
-                    </DashboardLayout>
+                    <SelectedAgentProvider>
+                        <SelectedSessionProvider>
+                            <DashboardLayout>
+                                <Suspense fallback={<LoadingScreen/>}>
+                                    <Outlet/>
+                                </Suspense>
+                            </DashboardLayout>
+                        </SelectedSessionProvider>
+                    </SelectedAgentProvider>
                 </SelectedWorkspaceProvider>
             </AuthGuard>
         ),

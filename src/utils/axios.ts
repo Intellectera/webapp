@@ -27,6 +27,12 @@ export const API_ENDPOINTS = {
     workspace: {
       create: '/api/v1/workspace/create',
       loadAvailable: '/api/v1/workspace/list-available',
+    },
+    session: {
+      load: '/api/v1/session/load',
+    },
+    chat: {
+      load: '/api/v1/conversation/load',
     }
   },
 };

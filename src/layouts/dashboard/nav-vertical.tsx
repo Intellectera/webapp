@@ -43,9 +43,6 @@ export default function NavVertical({openNav, onCloseNav}: Props) {
                 },
             }}
         >
-            <div className={'w-[100%] flex justify-center items-center'}>
-                <Logo sx={{mt: 2, ml: 0, mb: 3, mr: 0}}/>
-            </div>
 
             <SessionsList/>
 

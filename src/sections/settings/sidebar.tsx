@@ -5,6 +5,9 @@ import Iconify from "../../components/iconify";
 import {Agent} from "../../utils/dto/Agent.ts";
 import {useSettingsContext} from "../../components/settings";
 import {useTranslation} from "react-i18next";
+import {AGENT_STORAGE_KEY, SelectedAgentContextValue} from "../../layouts/dashboard/context/agent-provider.tsx";
+import {useSelectedAgentContext} from "../../layouts/dashboard/context/agent-context.tsx";
+import {localStorageSetItem} from "../../utils/storage-available.ts";
 
 
 const pages = {
@@ -30,6 +33,7 @@ type Props = {
 
 export default function SettingsSidebar({handleClose, agents}: Props) {
     const {t } = useTranslation();
+    const selectedAgentContextValue: SelectedAgentContextValue = useSelectedAgentContext();
 
     const navigations = [
         {name: t('labels.agents'), href: '#', icon: MdSmartToy, current: true, page: pages.agents},
@@ -50,7 +54,8 @@ export default function SettingsSidebar({handleClose, agents}: Props) {
     }
 
     const handleSelectAgent = (value: Agent) => {
-        console.log(value)
+        selectedAgentContextValue.setSelectedAgent(value);
+        localStorageSetItem(AGENT_STORAGE_KEY, JSON.stringify(value))
     }
 
     return (
