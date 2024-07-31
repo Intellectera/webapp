@@ -20,7 +20,8 @@
       },
       "labels": {
         "selected_agent": "Selected Agent",
-        "agents": "Agents"
+        "agents": "Agents",
+        "new_chat": "New Chat"
       }
     }
   }

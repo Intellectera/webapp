@@ -38,16 +38,19 @@ export default function SessionsList() {
     let BGClass = settings.themeMode === 'light' ? 'bg-gray-200' : 'bg-gray-700';
 
     return (
-            <List className={'overflow-y-scroll'} sx={{ width: '100%', maxWidth: 360, bgcolor: (theme) => alpha(theme.palette.grey[600], 0.1) }}>
+            <List className={'overflow-y-scroll h-[85vh] border-b-[1px] border-dashed'} sx={{ width: '100%', maxWidth: 360 , borderColor: (theme) => theme.palette.divider}}>
                 {sessions.map((session: Session) => (
-                    <div key={session.id} className={classNames(' w-100 p-2 m-1 hover:rounded-lg group flex justify-between',
+                    <div key={session.id} className={classNames(' w-100 py-2 px-3 my-1 mx-2 hover:rounded-lg group flex justify-between',
                         hoverBGClass,
                         selectedSessionContextValue.selectedSession?.id === session.id ? (BGClass + ' rounded-lg') : '' )}>
-                        <p onClick={() => handleSessionSelect(session)} className={'text-sm font-light cursor-pointer flex-1'}>
-                            {session.name}
+                        <p onClick={() => handleSessionSelect(session)} className={'cursor-pointer flex-1 flex flex-col'}>
+                            <span className={'font-bold text-sm'}>
+                                {session.name}
+                            </span>
+                            <span className={'mt-2 text-gray-500 text-sm'}>2024/12/11</span>
                         </p>
 
-                        <div className={'invisible group-hover:visible cursor-pointer'}>
+                        <div className={'invisible group-hover:visible cursor-pointer mt-3'}>
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5}
                                  stroke="currentColor" className="size-6">
                                 <path strokeLinecap="round" strokeLinejoin="round"

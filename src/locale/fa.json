@@ -20,7 +20,8 @@
       },
       "labels": {
         "selected_agent": "ایجنت انتخاب شده",
-        "agents": "ایجنت ها"
+        "agents": "ایجنت ها",
+        "new_chat": "چت جدید"
       }
     }
   }

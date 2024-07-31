@@ -1,13 +1,8 @@
 import {useState} from 'react'
 import {MdSmartToy} from "react-icons/md";
-import SearchableDropdown from "../../components/_common/searchable-dropdown.tsx";
 import Iconify from "../../components/iconify";
-import {Agent} from "../../utils/dto/Agent.ts";
 import {useSettingsContext} from "../../components/settings";
 import {useTranslation} from "react-i18next";
-import {AGENT_STORAGE_KEY, SelectedAgentContextValue} from "../../layouts/dashboard/context/agent-provider.tsx";
-import {useSelectedAgentContext} from "../../layouts/dashboard/context/agent-context.tsx";
-import {localStorageSetItem} from "../../utils/storage-available.ts";
 
 
 const pages = {
@@ -28,12 +23,10 @@ function classNames(...classes: any) {
 
 type Props = {
     handleClose: any,
-    agents: Array<Agent>,
 }
 
-export default function SettingsSidebar({handleClose, agents}: Props) {
+export default function SettingsSidebar({handleClose}: Props) {
     const {t } = useTranslation();
-    const selectedAgentContextValue: SelectedAgentContextValue = useSelectedAgentContext();
 
     const navigations = [
         {name: t('labels.agents'), href: '#', icon: MdSmartToy, current: true, page: pages.agents},
@@ -51,11 +44,6 @@ export default function SettingsSidebar({handleClose, agents}: Props) {
         }
         navigation[index].current = true;
         setNavigation(navigation);
-    }
-
-    const handleSelectAgent = (value: Agent) => {
-        selectedAgentContextValue.setSelectedAgent(value);
-        localStorageSetItem(AGENT_STORAGE_KEY, JSON.stringify(value))
     }
 
     return (
@@ -131,10 +119,7 @@ export default function SettingsSidebar({handleClose, agents}: Props) {
 
                 <main className={classNames("py-5", settings.themeDirection === 'rtl' ? 'lg:pr-72' : 'lg:pl-72')}>
                     <div className="px-4 sm:px-6 lg:px-8">
-                        {current.page === 'agents' && (
-                            <SearchableDropdown title={t('labels.selected_agent')} list={agents} uniqueKey={'id'} displayKey={'name'}
-                                                handleSelect={(value: any) => handleSelectAgent(value as Agent)}></SearchableDropdown>
-                        )}
+                        {/*The main content here*/}
                     </div>
                 </main>
             </div>
