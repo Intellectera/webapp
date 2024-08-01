@@ -32,6 +32,7 @@ export const API_ENDPOINTS = {
       load: '/api/v1/session/load',
     },
     chat: {
+      send: '/api/v1/conversation/send',
       load: '/api/v1/conversation/load',
     }
   },

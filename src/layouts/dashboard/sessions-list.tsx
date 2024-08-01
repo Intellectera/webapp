@@ -30,6 +30,14 @@ export default function SessionsList() {
         }
     }, [selectedAgentContextValue.selectedAgent])
 
+    useEffect(() => {
+        if (selectedSessionContextValue.selectedSession && selectedSessionContextValue.selectedSession.isNewSessionTriggered){
+            let sessionsClone = [...sessions];
+            sessionsClone.unshift(selectedSessionContextValue.selectedSession);
+            setSessions(sessionsClone);
+        }
+    }, [selectedSessionContextValue.selectedSession])
+
     const handleSessionSelect = (session: Session): void => {
         selectedSessionContextValue.setSelectedSession(session);
     }
@@ -47,7 +55,7 @@ export default function SessionsList() {
                             <span className={'font-bold text-sm'}>
                                 {session.name}
                             </span>
-                            <span className={'mt-2 text-gray-500 text-sm'}>2024/12/11</span>
+                            <span className={'mt-2 text-gray-500 text-sm'}>{session.createdDate}</span>
                         </p>
 
                         <div className={'invisible group-hover:visible cursor-pointer mt-3'}>

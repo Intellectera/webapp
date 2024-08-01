@@ -21,6 +21,7 @@ import {AGENT_STORAGE_KEY} from "./context/agent-provider.tsx";
 import {useSelectedAgentContext} from "./context/agent-context.tsx";
 import loadAgents from "../../utils/calls/agent/load-agents.ts";
 import {useSelectedWorkspaceContext} from "./context/workspace-context.tsx";
+import {useSelectedSessionContext} from "./context/session-context.tsx";
 
 // ----------------------------------------------------------------------
 
@@ -39,6 +40,7 @@ export default function NavVertical({openNav, onCloseNav}: Props) {
     const lgUp = useResponsive('up', 'lg');
     const selectedAgentContextValue = useSelectedAgentContext();
     const selectedWorkspace = useSelectedWorkspaceContext();
+    let selectedSessionContextValue = useSelectedSessionContext();
 
     const [agents, setAgents] = useState<Array<Agent>>([]);
 
@@ -55,6 +57,12 @@ export default function NavVertical({openNav, onCloseNav}: Props) {
         let value = agents.find((agent) => agent.id === id)!;
         selectedAgentContextValue.setSelectedAgent(value);
         localStorageSetItem(AGENT_STORAGE_KEY, JSON.stringify(value))
+    }
+
+    const handleNewChat = () => {
+        if (selectedSessionContextValue){
+            selectedSessionContextValue.setSelectedSession(undefined);
+        }
     }
 
     useEffect(() => {
@@ -88,7 +96,7 @@ export default function NavVertical({openNav, onCloseNav}: Props) {
             </div>
 
             <div className="mx-3 my-4">
-                <button
+                <button onClick={handleNewChat}
                     className={classNames('flex w-full gap-x-4 rounded-lg border border-slate-300 p-2 text-sm font-medium transition-colors duration-200 hover:bg-slate-200 focus:outline-none', settings.themeMode === 'dark' ? 'border-slate-700 text-slate-200 hover:bg-slate-800' : '')}>
                     <svg
                         xmlns="http://www.w3.org/2000/svg"

@@ -6,6 +6,7 @@ import { mainRoutes } from './main';
 
 import { authRoutes } from './auth';
 import { dashboardRoutes } from './dashboard';
+import {newAgentRoutes} from "./new-agent.tsx";
 
 // ----------------------------------------------------------------------
 
@@ -24,6 +25,9 @@ export default function Router() {
 
     // Main routes
     ...mainRoutes,
+
+      // New Agent Routes
+      ...newAgentRoutes,
 
     // No match 404
     { path: '*', element: <Navigate to="/404" replace /> },
