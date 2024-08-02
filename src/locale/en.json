@@ -22,6 +22,11 @@
         "selected_agent": "Selected Agent",
         "agents": "Agents",
         "new_chat": "New Chat"
+      },
+      "buttons": {
+        "close": "Close",
+        "export": "Export",
+        "download": "Download"
       }
     }
   }

@@ -22,6 +22,11 @@
         "selected_agent": "ایجنت انتخاب شده",
         "agents": "ایجنت ها",
         "new_chat": "چت جدید"
+      },
+      "buttons": {
+        "close": "بستن",
+        "export": "خروجی",
+        "download": "دانلود"
       }
     }
   }
