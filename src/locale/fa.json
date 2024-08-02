@@ -21,7 +21,9 @@
       "labels": {
         "selected_agent": "ایجنت انتخاب شده",
         "agents": "ایجنت ها",
-        "new_chat": "چت جدید"
+        "new_chat": "چت جدید",
+        "show_sql": "نمایش SQL",
+        "show_message": "نمایش پیام"
       },
       "buttons": {
         "close": "بستن",

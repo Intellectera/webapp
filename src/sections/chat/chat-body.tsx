@@ -8,8 +8,9 @@ import * as React from "react";
 import {useSettingsContext} from "../../components/settings";
 import {Conversation} from "../../utils/dto/Conversation.ts";
 import {SetStateAction, useState} from "react";
-import Collapse from "@mui/material/Collapse";
 import {Grow} from "@mui/material";
+import Button from "@mui/material/Button";
+import {useTranslation} from "react-i18next";
 
 
 type Props = {
@@ -28,10 +29,16 @@ function classNames(...classes: any) {
 
 export default function ChatBody({showTable, setShowTable, chat, tableHeaders, tableRows, messagesEndRef}: Props) {
     const settings = useSettingsContext();
-    const [showCopied, setShowCopied] = useState<boolean>(false);
+    const {t } = useTranslation();
 
-    const handleCopy = async (conversation: Conversation) => {
-        await navigator.clipboard.writeText(conversation.response);
+    const [showCopied, setShowCopied] = useState<boolean>(false);
+    const [showSQL, setShowSQL] = useState<boolean>(false);
+    const [copiedIndex, setCopiedIndex] = useState<number>(0);
+
+    const handleCopy = async (conversation: Conversation, index: number) => {
+        let text = (conversation.agentResponseParam && showSQL) ? conversation.agentResponseParam.sql : conversation.response;
+        await navigator.clipboard.writeText(text);
+        setCopiedIndex(index);
         setShowCopied(true)
         setTimeout(() => {
             setShowCopied(false);
@@ -68,8 +75,15 @@ export default function ChatBody({showTable, setShowTable, chat, tableHeaders, t
                                     className={classNames('w-[100%] h-[100%] prose', settings.themeMode === 'dark' ? 'prose-invert' : '')}
                                     dir={'auto'}>
                                     <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                                        {conversation.response}
+                                        {(showSQL && index === chat.length - 1) ? '``` ' + conversation.agentResponseParam.sql : conversation.response}
                                     </ReactMarkdown>
+                                    {(index === chat.length - 1 && conversation.agentResponseParam && conversation.agentResponseParam.sql) && (
+                                        <div>
+                                            <Button onClick={() => setShowSQL(!showSQL)} variant={'outlined'} color={'info'}>{
+                                                showSQL ? t('labels.show_message') : t('labels.show_sql')
+                                            }</Button>
+                                        </div>
+                                    )}
                                 </div>
                             </Box>
                         </Box>
@@ -90,9 +104,9 @@ export default function ChatBody({showTable, setShowTable, chat, tableHeaders, t
                                 </svg>
                             </div>
                             <div onClick={() => {
-                                handleCopy(conversation).then()
+                                handleCopy(conversation, index).then()
                             }} className={'ml-3 cursor-pointer'}>
-                                {showCopied ? (
+                                {(showCopied && index === copiedIndex) ? (
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                          strokeWidth={1.5} stroke="currentColor" className="size-6">
                                         <path strokeLinecap="round" strokeLinejoin="round"

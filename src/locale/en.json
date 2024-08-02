@@ -21,7 +21,9 @@
       "labels": {
         "selected_agent": "Selected Agent",
         "agents": "Agents",
-        "new_chat": "New Chat"
+        "new_chat": "New Chat",
+        "show_sql": "Show SQL",
+        "show_message": "Show Message"
       },
       "buttons": {
         "close": "Close",
