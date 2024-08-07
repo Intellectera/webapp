@@ -1,6 +1,11 @@
-import {Backdrop, Modal} from "@mui/material";
-import SettingsSidebar from "./sidebar.tsx";
+import {Backdrop, Grow, Modal} from "@mui/material";
+import SettingsSidebar, {settingsNavIds} from "./sidebar.tsx";
 import {useSettingsContext} from "../../components/settings";
+import {useState} from "react";
+import EditAgentSettings from "./edit-agent.tsx";
+import NewAgentSettings from "./new-agent/new-agent.tsx";
+import {useSelectedWorkspaceContext} from "../../layouts/dashboard/context/workspace-context.tsx";
+
 
 // ----------------------------------------------------------------------
 function classNames(...classes: any) {
@@ -9,12 +14,22 @@ function classNames(...classes: any) {
 
 export const SettingsView = ({handleClose, open}: {handleClose: any, open: boolean}) => {
     const settings = useSettingsContext();
+    const workspace = useSelectedWorkspaceContext();
+    const [currentNav, setCurrentNav] = useState<string>(settingsNavIds.newAgent);
+    const [newAgentCreated, setNewAgentCreated] = useState<boolean>(false);
+    const menuBasedHandleClose = () => {
+        if (newAgentCreated){
+            /*To trigger agents loading*/
+            workspace.setSelectedWorkspace(prevState => JSON.parse(JSON.stringify(prevState)));
+        }
+        handleClose();
+    }
 
     return (
         <div>
             <Modal
                 open={open}
-                onClose={handleClose}
+                onClose={menuBasedHandleClose}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
                 closeAfterTransition
@@ -25,12 +40,23 @@ export const SettingsView = ({handleClose, open}: {handleClose: any, open: boole
                     },
                 }}
             >
-                <div className={'h-screen w-screen transition-all ease-in '}>
-                    <div className={classNames(settings.themeMode === 'light' ? 'bg-white' : 'bg-gray-800',
-                        'absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-xl w-5/6 h-4/6')}>
-                        <SettingsSidebar handleClose={handleClose}></SettingsSidebar>
+                <Grow
+                    style={{transformOrigin: '0 0 0'}}
+                    {...((open) ? {timeout: 300} : {})}
+                    in={open} >
+                    <div className={'h-screen w-screen transition-all ease-in '}>
+                        <div className={classNames(settings.themeMode === 'light' ? 'bg-white' : 'bg-gray-800',
+                            'absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-xl md:w-4/6 w-5/6 h-5/6')}>
+                            <SettingsSidebar currentNav={currentNav} setCurrentNav={setCurrentNav}></SettingsSidebar>
+                            {currentNav === settingsNavIds.editAgent && (
+                                <EditAgentSettings></EditAgentSettings>
+                            )}
+                            {currentNav === settingsNavIds.newAgent && (
+                                <NewAgentSettings setNewAgentCreated={setNewAgentCreated}></NewAgentSettings>
+                            )}
+                        </div>
                     </div>
-                </div>
+                </Grow>
             </Modal>
         </div>
     );

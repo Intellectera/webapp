@@ -1,6 +1,5 @@
 import {useEffect} from 'react';
 // rtl
-import {prefixer} from 'stylis';
 import rtlPlugin from 'stylis-plugin-rtl';
 // emotion
 import createCache from '@emotion/cache';
@@ -20,7 +19,6 @@ export default function RTL({ children, themeDirection }: Props) {
 
   const cacheRtl = createCache({
     key: 'rtl',
-    prepend: true,
     // @ts-ignore
     // https://github.com/styled-components/stylis-plugin-rtl/issues/35
     stylisPlugins: [rtlPlugin],
@@ -36,9 +34,7 @@ export default function RTL({ children, themeDirection }: Props) {
 // ----------------------------------------------------------------------
 
 export function direction(themeDirection: 'rtl' | 'ltr') {
-  const theme = {
+  return {
     direction: themeDirection,
   };
-
-  return theme;
 }

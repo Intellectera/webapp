@@ -50,11 +50,13 @@ export default function ChatView() {
             let selectedSession = selectedSessionContextValue.selectedSession;
             if (!selectedSession.isNewSessionTriggered){
                 loadChat(selectedSession.id!).then((result) => {
+                    console.log('loading chat')
                     setChat(result);
                     scrollToBottom(500);
                 });
             }
         } else {
+            console.log('emptying chat')
             setChat([])
         }
     }, [selectedSessionContextValue.selectedSession]);

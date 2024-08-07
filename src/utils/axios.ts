@@ -1,6 +1,7 @@
 import axios from 'axios';
 // config
 import {BACKEND_URL} from './../config-global';
+import {TOKEN_STORAGE_KEY} from "../auth/context/jwt/auth-provider.tsx";
 
 // ----------------------------------------------------------------------
 
@@ -8,7 +9,14 @@ const axiosInstance = axios.create({ baseURL: BACKEND_URL , withCredentials: tru
 
 axiosInstance.interceptors.response.use(
   (response) => response,
-  (error) => Promise.reject((error.response && error.response.data) || 'Something went wrong')
+  (error) => {
+    if (error && error.response && error.response.status === 401){
+      sessionStorage.removeItem(TOKEN_STORAGE_KEY);
+      delete axios.defaults.headers.common.Authorization;
+      window.location.href = '/';
+    }
+    return Promise.reject((error.response && error.response.data) || 'Something went wrong');
+  }
 );
 
 export default axiosInstance;
@@ -34,6 +42,9 @@ export const API_ENDPOINTS = {
     chat: {
       send: '/api/v1/conversation/send',
       load: '/api/v1/conversation/load',
+    },
+    db: {
+      loadTablesList: '/api/v1/conversation/list-tables'
     }
   },
 };

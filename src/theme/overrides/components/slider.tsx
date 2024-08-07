@@ -16,6 +16,9 @@ export default function Slider(theme: Theme) {
           [`&.${sliderClasses.disabled}`]: {
             color: theme.palette.action.disabled,
           },
+          [`&.${sliderClasses.root}`]: {
+            backgroundColor: 'red'
+          },
         },
         rail: {
           opacity: 0.32,

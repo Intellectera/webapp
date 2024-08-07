@@ -25,6 +25,8 @@ export default function SessionsList() {
                 setSessions(result)
                 if (result.length > 0){
                     selectedSessionContextValue.setSelectedSession(result[0])
+                } else {
+                    selectedSessionContextValue.setSelectedSession(undefined);
                 }
             })
         }

@@ -24,7 +24,6 @@ import Switch from './components/switch';
 import Select from './components/select';
 import Tooltip from './components/tooltip';
 import Popover from './components/popover';
-import Stepper from './components/stepper';
 import SvgIcon from './components/svg-icon';
 import Skeleton from './components/skeleton';
 import Backdrop from './components/backdrop';
@@ -71,7 +70,6 @@ export function componentsOverrides(theme: Theme) {
     Avatar(theme),
     Slider(theme),
     Drawer(theme),
-    Stepper(theme),
     Tooltip(theme),
     Popover(theme),
     SvgIcon(theme),

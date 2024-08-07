@@ -1,128 +1,111 @@
-import {useState} from 'react'
-import {MdSmartToy} from "react-icons/md";
-import Iconify from "../../components/iconify";
-import {useSettingsContext} from "../../components/settings";
 import {useTranslation} from "react-i18next";
-
-
-const pages = {
-    agents: 'agents'
-}
-
-type NavigationType = {
-    name: string,
-    href: string,
-    icon: any,
-    current: boolean,
-    page: string
-}
+import {
+    Disclosure,
+    DisclosureButton,
+    DisclosurePanel,
+} from '@headlessui/react'
+import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
+import {useSettingsContext} from "../../components/settings";
+import Divider from "@mui/material/Divider";
+import {SetStateAction} from "react";
+import * as React from "react";
 
 function classNames(...classes: any) {
     return classes.filter(Boolean).join(' ')
 }
 
 type Props = {
-    handleClose: any,
+    currentNav: string,
+    setCurrentNav: React.Dispatch<SetStateAction<string>>
 }
 
-export default function SettingsSidebar({handleClose}: Props) {
-    const {t } = useTranslation();
+export const settingsNavIds = {
+    general: 'general',
+    editAgent: 'edit_agent',
+    users: 'users',
+    knowledge: 'knowledge',
+    newAgent: 'new_agent'
+}
 
-    const navigations = [
-        {name: t('labels.agents'), href: '#', icon: MdSmartToy, current: true, page: pages.agents},
+export default function SettingsSidebar({ currentNav, setCurrentNav}: Props) {
+    const {t } = useTranslation();
+    const settings = useSettingsContext();
+    const navigation = [
+        {id: settingsNavIds.newAgent, name: t('titles.new_agent'), href: '#' },
+        {id: settingsNavIds.editAgent, name: t('titles.edit_agent'), href: '#' },
+        {id: settingsNavIds.users, name: t('titles.users'), href: '#' },
+        {id: settingsNavIds.knowledge, name: t('titles.knowledge'), href: '#' },
     ]
 
-
-    let settings = useSettingsContext();
-    const [navigation, setNavigation] = useState<Array<NavigationType>>(navigations)
-    const [current, setCurrent] = useState<NavigationType>(navigation[0]);
-
-    const handleOnSectionClick = (index: number): void => {
-        setCurrent(navigation[index]);
-        for (let i = 0; i < navigation.length; i++) {
-            navigation[i].current = false;
-        }
-        navigation[index].current = true;
-        setNavigation(navigation);
-    }
-
     return (
-        <>
-            <div>
-                {/* Static sidebar for desktop */}
-                <div className="hidden rounded-l-xl md:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
-                    {/* Sidebar component, swap this element with another sidebar if you like */}
-                    <div className="flex rounded-l-xl grow flex-col gap-y-5 overflow-y-auto bg-gray-900 px-6">
-                        <nav className="flex flex-1 mt-5 flex-col">
-                            <ul role="list" className="flex flex-1 flex-col gap-y-7">
-                                <li>
-                                    <ul role="list" className="-mx-2 space-y-1">
-                                        {navigation.map((item, index) => (
-                                            <li onClick={() => handleOnSectionClick(index)} key={item.name}>
-                                                <a href={item.href}
-                                                   className={classNames(
-                                                       item.current
-                                                           ? 'bg-gray-800 text-white'
-                                                           : 'text-gray-400 hover:text-white hover:bg-gray-800',
-                                                       'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold'
-                                                   )}
-                                                >
-                                                    <item.icon className="h-6 w-6 shrink-0" aria-hidden="true"/>
-                                                    {item.name}
-                                                </a>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </li>
-                            </ul>
-                        </nav>
-                    </div>
-                </div>
+        <Disclosure as="nav" className={classNames(settings.themeMode === 'light' ? 'bg-white' : 'bg-gray-800')}>
+            {({ open }) => (
+                <>
+                    <div className={'h-[10%] w-[100%] flex justify-between'}>
+                        {/* Mobile menu button*/}
+                        <DisclosureButton
+                            className="relative mx-3 sm:hidden inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
+                            <span className="absolute -inset-0.5"/>
+                            <span className="sr-only">Open main menu</span>
+                            {open ? (
+                                <XMarkIcon className="block h-6 w-6" aria-hidden="true"/>
+                            ) : (
+                                <Bars3Icon className="block h-6 w-6" aria-hidden="true"/>
+                            )}
+                        </DisclosureButton>
 
-                <div
-                    className="sticky rounded-t-xl top-0 z-40 flex items-center gap-x-6 bg-gray-900 px-4 py-4 shadow-sm sm:px-6 lg:hidden">
-                    <div className="max-w-7xl sm:px-4 lg:px-8">
-                        <div
-                            className="relative flex h-12  items-center justify-between lg:border-b lg:border-indigo-400 lg:border-opacity-25">
-                            <div className="flex items-start justify-start px-2 lg:px-0">
-                                <nav className="flex rounded-t-2xl flex-1 flex-col">
-                                    <ul role="list" className="flex flex-1  flex-col items-start gap-y-7">
-                                        <li>
-                                            <ul role="list" className="space-y-1">
-                                                {navigation.map((item, index) => (
-                                                    <li onClick={() => handleOnSectionClick(index)} key={item.name}>
-                                                        <a href={item.href}
-                                                           className={classNames(
-                                                               item.current
-                                                                   ? 'bg-gray-800 text-white'
-                                                                   : 'text-gray-400 hover:text-white hover:bg-gray-800',
-                                                               'group flex gap-x-3 items-center justify-around rounded-md p-2 text-sm leading-6 font-semibold'
-                                                           )}
-                                                        >
-                                                            {item.name}
-                                                        </a>
-                                                    </li>
-                                                ))}
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </nav>
+                    </div>
+
+
+                    <div className="hidden sm:block max-w-7xl mx-auto px-2">
+                        <div className="relative flex h-16 items-center justify-between">
+                            <div className="flex w-[100%] items-center justify-center sm:items-stretch sm:justify-start">
+                                <div className="hidden w-[100%] sm:block">
+                                    <div className="flex w-[100%] justify-center space-x-4">
+                                        {navigation.map((item) => (
+                                            <a
+                                                key={item.name}
+                                                href={item.href}
+                                                onClick={() => setCurrentNav(item.id)}
+                                                className={classNames(
+                                                    item.id === currentNav ? 'bg-gray-500 text-white' :
+                                                        (settings.themeMode === 'light' ? 'hover:bg-gray-200 hover:text-black' : 'hover:bg-gray-700 hover:text-white'),
+                                                    'rounded-md px-4 py-3 text-sm font-medium'
+                                                )}
+                                                aria-current={item.id === currentNav ? 'page' : undefined}
+                                            >
+                                                {item.name}
+                                            </a>
+                                        ))}
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <div onClick={handleClose}
-                     className={'w-100 hover:cursor-pointer relative flex items-center justify-end m-5'}>
-                    <Iconify icon="gridicons:cross" width={24}/>
-                </div>
+                    <Divider className={''} sx={{ borderStyle: 'dashed', borderWidth: '1px' }} />
 
-                <main className={classNames("py-5", settings.themeDirection === 'rtl' ? 'lg:pr-72' : 'lg:pl-72')}>
-                    <div className="px-4 sm:px-6 lg:px-8">
-                        {/*The main content here*/}
-                    </div>
-                </main>
-            </div>
-        </>
+                    <DisclosurePanel className="sm:hidden">
+                        <div className="space-y-1 px-2 pb-3">
+                            {navigation.map((item) => (
+                                <DisclosureButton
+                                    key={item.name}
+                                    as="a"
+                                    href={item.href}
+                                    onClick={() => setCurrentNav(item.id)}
+                                    className={classNames(
+                                        item.id === currentNav ? 'bg-gray-900 text-white' : 'hover:bg-gray-700 hover:text-white',
+                                        'block rounded-md px-3 py-2 text-base font-medium'
+                                    )}
+                                    aria-current={item.id === currentNav ? 'page' : undefined}
+                                >
+                                    {item.name}
+                                </DisclosureButton>
+                            ))}
+                        </div>
+                    </DisclosurePanel>
+                </>
+            )}
+        </Disclosure>
     )
 }

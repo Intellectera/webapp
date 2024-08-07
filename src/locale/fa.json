@@ -13,22 +13,63 @@
       "errors": {
         "email_required": "ایمیل ضروری است.",
         "password_required": "رمز عبور ضروری است.",
-        "email_valid": "ایمیل باید معتبر باشد."
+        "email_valid": "ایمیل باید معتبر باشد.",
+        "username_required": "نام کاربری ضروری است.",
+        "host_required": "هاست ضروری است.",
+        "port_required": "پورت ضروری است.",
+        "db_name_required": "نام دیتابیس ضروری است.",
+        "at_least_one_table": "حداقل یک جدول را باید انتخاب کنید.",
+        "name_required": "نام ضروری است.",
+        "agent_instructions_required": "دستور العمل ایجنت ضروری است.",
+        "pre_def_question_required": "سوال از پیش تعیین شده ضروری است."
       },
       "titles": {
-        "change_workspace": "تغییر فضای کاری"
+        "change_workspace": "تغییر فضای کاری",
+        "users": "کاربران",
+        "knowledge" : "پایگاه دانش",
+        "general": "عمومی",
+        "new_agent": "ایجنت جدید",
+        "edit_agent": "ویرایش ایجنت",
+        "new_agents_steps": {
+          "step_1": "مرحله ۱: انتخاب یک دیتابیس",
+          "step_2": "مرحله ۲: به دیتابیس وصل شوید",
+          "step_3": "مرحله ۳: انتخاب جداول",
+          "step_4": "مرحله ۴: اتمام راه اندازی",
+          "sample_data": "یا با دیتای نمونه تست کنید"
+        },
+        "agent_created": "ایجنت با موفقیت ایجاد شد",
+        "agent_created_desc": "ایجنت ایجاد شده به لیست ایجنت های در دسترس اضافه شد"
       },
       "labels": {
         "selected_agent": "ایجنت انتخاب شده",
         "agents": "ایجنت ها",
         "new_chat": "چت جدید",
         "show_sql": "نمایش SQL",
-        "show_message": "نمایش پیام"
+        "show_message": "نمایش پیام",
+        "username": "نام کاربری",
+        "host": "هاست",
+        "port": "پورت",
+        "db_name": "نام دیتابیس",
+        "table_name": "نام جدول",
+        "search_tables": "جستجوی جداول",
+        "agent_instructions": "دستور العمل های ایجنت",
+        "max_response": "حداکثر میزان جواب",
+        "pre_def_question1": "سوال از پیش تعیین شده اول",
+        "pre_def_question2": "سوال از پیش تعیین شده دوم",
+        "words": "کلمه"
       },
       "buttons": {
         "close": "بستن",
         "export": "خروجی",
-        "download": "دانلود"
+        "download": "دانلود",
+        "save": "ذخیره",
+        "next": "بعدی",
+        "back": "بازگشت",
+        "finish": "اتمام",
+        "ok_thanks": "باشه! ممنون"
+      },
+      "placeholders": {
+        "db_name": "اسم دیتابیسی که میخواهید متصل شوید."
       }
     }
   }
