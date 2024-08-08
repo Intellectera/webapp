@@ -11,17 +11,18 @@
       "password": "رمز عبور",
       "continue": "ادامه",
       "errors": {
-        "email_required": "ایمیل ضروری است.",
-        "password_required": "رمز عبور ضروری است.",
-        "email_valid": "ایمیل باید معتبر باشد.",
-        "username_required": "نام کاربری ضروری است.",
-        "host_required": "هاست ضروری است.",
-        "port_required": "پورت ضروری است.",
-        "db_name_required": "نام دیتابیس ضروری است.",
-        "at_least_one_table": "حداقل یک جدول را باید انتخاب کنید.",
-        "name_required": "نام ضروری است.",
-        "agent_instructions_required": "دستور العمل ایجنت ضروری است.",
-        "pre_def_question_required": "سوال از پیش تعیین شده ضروری است."
+        "email_required": "ایمیل ضروری است",
+        "password_required": "رمز عبور ضروری است",
+        "email_valid": "ایمیل باید معتبر باشد",
+        "username_required": "نام کاربری ضروری است",
+        "host_required": "هاست ضروری است",
+        "port_required": "پورت ضروری است",
+        "db_name_required": "نام دیتابیس ضروری است",
+        "at_least_one_table": "حداقل یک جدول را باید انتخاب کنید",
+        "name_required": "نام ضروری است",
+        "agent_instructions_required": "دستور العمل ایجنت ضروری است",
+        "pre_def_question_required": "سوال از پیش تعیین شده ضروری است",
+        "something_went_wrong": "مشکلی پیش آمده است"
       },
       "titles": {
         "change_workspace": "تغییر فضای کاری",
@@ -38,7 +39,9 @@
           "sample_data": "یا با دیتای نمونه تست کنید"
         },
         "agent_created": "ایجنت با موفقیت ایجاد شد",
-        "agent_created_desc": "ایجنت ایجاد شده به لیست ایجنت های در دسترس اضافه شد"
+        "agent_created_desc": "ایجنت ایجاد شده به لیست ایجنت های در دسترس اضافه شد",
+        "manage_available_agents": "مدیریت ایجنت های در دسترس",
+        "manage_agents": "مدیریت ایجنت ها"
       },
       "labels": {
         "selected_agent": "ایجنت انتخاب شده",
@@ -56,7 +59,8 @@
         "max_response": "حداکثر میزان جواب",
         "pre_def_question1": "سوال از پیش تعیین شده اول",
         "pre_def_question2": "سوال از پیش تعیین شده دوم",
-        "words": "کلمه"
+        "words": "کلمه",
+        "delete_selected_agent": "حذف ایجنت انتخاب شده"
       },
       "buttons": {
         "close": "بستن",
@@ -65,8 +69,17 @@
         "save": "ذخیره",
         "next": "بعدی",
         "back": "بازگشت",
+        "cancel": "لفو",
         "finish": "اتمام",
-        "ok_thanks": "باشه! ممنون"
+        "ok_thanks": "باشه! ممنون",
+        "update_agent": "ذخیره تغییرات",
+        "delete_agent": "حذف ایجنت",
+        "delete_agent_confirm": "حذف ایجنت"
+      },
+      "messages": {
+        "agent_update": "ایجنت با موفقیت آپدیت شد",
+        "agent_delete_confirmation" : "تمام سابقه چت و داده های موجود این ایجنت به طور دائم حذف خواهد شد",
+        "agent_deleted": "ایجنت با موفقیت حذف شد"
       },
       "placeholders": {
         "db_name": "اسم دیتابیسی که میخواهید متصل شوید."

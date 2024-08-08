@@ -12,6 +12,7 @@ import Alert from "@mui/material/Alert";
 import ChatInput from "./input.tsx";
 import ThreeDotsLoading from "./three-dots.tsx";
 import ChatBody from "./chat-body.tsx";
+import {useTranslation} from "react-i18next";
 
 function classNames(...classes: any) {
     return classes.filter(Boolean).join(' ')
@@ -23,12 +24,13 @@ export default function ChatView() {
     const selectedWorkspaceContextValue = useSelectedWorkspaceContext();
     const messagesEndRef = useRef<null | HTMLDivElement>(null);
     const textAreaRef = useRef<HTMLTextAreaElement>(null);
+    const {t} = useTranslation();
 
     const [chat, setChat] = useState<Array<Conversation>>([]);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [inputMessage, setInputMessage] = useState<string>('')
     const [showError, setShowError] = useState<boolean>(false);
-    const [errorMessage, setErrorMessage] = useState<string>('Something went wrong.');
+    const [errorMessage, setErrorMessage] = useState<string>(t('errors.something_went_wrong'));
     const [tableHeaders, setTableHeaders] = useState<Array<string>>([]);
     const [tableRows, setTableRows] = useState<Array<any>>([]);
     const [showTable, setShowTable] = useState<boolean>(false);
@@ -50,13 +52,11 @@ export default function ChatView() {
             let selectedSession = selectedSessionContextValue.selectedSession;
             if (!selectedSession.isNewSessionTriggered){
                 loadChat(selectedSession.id!).then((result) => {
-                    console.log('loading chat')
                     setChat(result);
                     scrollToBottom(500);
                 });
             }
         } else {
-            console.log('emptying chat')
             setChat([])
         }
     }, [selectedSessionContextValue.selectedSession]);

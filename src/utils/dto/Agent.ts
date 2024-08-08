@@ -6,7 +6,6 @@ export class Agent extends BaseEntity{
   workspace: Workspace;
   configuration: AgentConfiguration;
   type: AgentType;
-  instructions?: string;
 
 
   constructor(name: string, workspace: Workspace) {

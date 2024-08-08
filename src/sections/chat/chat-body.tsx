@@ -11,6 +11,7 @@ import {SetStateAction, useState} from "react";
 import {Grow} from "@mui/material";
 import Button from "@mui/material/Button";
 import {useTranslation} from "react-i18next";
+import {useSelectedAgentContext} from "../../layouts/dashboard/context/agent-context.tsx";
 
 
 type Props = {
@@ -29,7 +30,8 @@ function classNames(...classes: any) {
 
 export default function ChatBody({showTable, setShowTable, chat, tableHeaders, tableRows, messagesEndRef}: Props) {
     const settings = useSettingsContext();
-    const {t } = useTranslation();
+    const {t} = useTranslation();
+    const agent = useSelectedAgentContext();
 
     const [showCopied, setShowCopied] = useState<boolean>(false);
     const [showSQL, setShowSQL] = useState<boolean>(false);
@@ -47,18 +49,21 @@ export default function ChatBody({showTable, setShowTable, chat, tableHeaders, t
 
     return (
         <div
-            className={' w-[90%] md:w-[80%] lg:w-[70%] h-[75vh] overflow-y-scroll rounded-lg scrollbar scrollbar-track-transparent'}>
+            className={'relative w-[90%] md:w-[80%] lg:w-[70%] h-[75vh] overflow-y-scroll rounded-lg scrollbar scrollbar-track-transparent'}>
             {chat.map((conversation, index: number) => (
                 <div key={conversation.id} className={'transition-all ease-in'}>
-                    <Box id={'request-message'}
-                         className={classNames('w-[100%] flex mt-5', settings.themeDirection === 'rtl' ? 'flex-row' : 'flex-row-reverse')}>
-                        <Box sx={{bgcolor: (theme) => alpha(theme.palette.grey[600], 0.1)}}
-                             className={'m-2 w-[70%] md:w-[60%] lg:w-[50%] text-start pt-3 pb-3 pr-5 pl-5 rounded-xl'}>
-                            <p dir={'auto'} className={'w-[100%] h-[100%]'}>
-                                {conversation.message}
-                            </p>
+                    <Grow style={{transformOrigin: '0 0 0'}} {...({timeout: 500})} in={conversation.message !== undefined}>
+                        <Box id={'request-message'}
+                             className={classNames('w-[100%] flex mt-5', settings.themeDirection === 'rtl' ? 'flex-row' : 'flex-row-reverse')}>
+                            <Box sx={{bgcolor: (theme) => alpha(theme.palette.grey[600], 0.1)}}
+                                 className={'m-2 w-[70%] md:w-[60%] lg:w-[50%] text-start pt-3 pb-3 pr-5 pl-5 rounded-xl'}>
+                                <p dir={'auto'} className={'w-[100%] h-[100%]'}>
+                                    {conversation.message}
+                                </p>
+                            </Box>
                         </Box>
-                    </Box>
+                    </Grow>
+
                     <div id={'divider'} className={"mt-3 mb-3"}></div>
 
                     <Grow
@@ -79,7 +84,8 @@ export default function ChatBody({showTable, setShowTable, chat, tableHeaders, t
                                     </ReactMarkdown>
                                     {(index === chat.length - 1 && conversation.agentResponseParam && conversation.agentResponseParam.sql) && (
                                         <div>
-                                            <Button onClick={() => setShowSQL(!showSQL)} variant={'outlined'} color={'info'}>{
+                                            <Button onClick={() => setShowSQL(!showSQL)} variant={'outlined'}
+                                                    color={'info'}>{
                                                 showSQL ? t('labels.show_message') : t('labels.show_sql')
                                             }</Button>
                                         </div>
@@ -148,6 +154,70 @@ export default function ChatBody({showTable, setShowTable, chat, tableHeaders, t
 
             {/*Dummy div for scrolling*/}
             <div ref={messagesEndRef}></div>
+
+            {(chat.length === 0 && agent.selectedAgent && agent.selectedAgent.configuration && agent.selectedAgent.configuration.suggestions) && (
+                <ul role="list"
+                    className={classNames("absolute flex flex-col gap-5 w-full sm:flex-row sm:justify-evenly bottom-0 mx-auto",
+                        settings.themeMode === 'dark' ? 'text-slate-200' : '')}>
+                    {(agent.selectedAgent.configuration.suggestions[0] && agent.selectedAgent.configuration.suggestions[0].trim().length > 0) && (
+                        <li className={classNames("group flex-1 col-span-1 rounded-lg shadow transition-colors duration-300",
+                            settings.themeMode === 'dark' ? 'bg-slate-800 hover:bg-blue-900' : 'bg-slate-200 hover:bg-blue-200')}>
+                            <a className="flex cursor-pointer items-center justify-between space-x-6 truncate p-4"
+                               href="">
+                                <div className="flex flex-col items-center gap-y-1 rounded-lg text-xs">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                         strokeWidth="1.5"
+                                         stroke="currentColor" className="size-6">
+                                        <path strokeLinecap="round" strokeLinejoin="round"
+                                              d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125"/>
+                                    </svg>
+                                </div>
+                                <div className="flex-1 truncate">
+                                    <div className="flex items-center space-x-3">
+                                        <h3 className={classNames("text-sm font-bold transition-colors duration-300",
+                                            settings.themeMode === 'dark' ? 'text-slate-200  group-hover:text-slate-50' : 'text-slate-900  group-hover:text-black')}>
+                                            {t('labels.pre_def_question1')}
+                                        </h3>
+                                    </div>
+                                    <p className={classNames("mt-1 truncate text-sm transition-colors duration-300",
+                                        settings.themeMode === 'dark' ? 'text-slate-500 group-hover:text-slate-200' : ' text-slate-500 group-hover:text-slate-900')}>
+                                        {agent.selectedAgent.configuration.suggestions[0]}
+                                    </p>
+                                </div>
+                            </a>
+                        </li>
+                    )}
+
+                    {(agent.selectedAgent.configuration.suggestions[0] && agent.selectedAgent.configuration.suggestions[1].trim().length > 0) && (
+                        <li className={classNames("group flex-1 col-span-1 rounded-lg shadow transition-colors duration-300",
+                            settings.themeMode === 'dark' ? 'bg-slate-800 hover:bg-blue-900' : 'bg-slate-200 hover:bg-blue-200')}>
+                            <a className="flex cursor-pointer items-center justify-between space-x-6 truncate p-4"
+                               href="">
+                                <div className="flex flex-col items-center gap-y-1 rounded-lg text-xs">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                         strokeWidth="1.5"
+                                         stroke="currentColor" className="size-6">
+                                        <path strokeLinecap="round" strokeLinejoin="round"
+                                              d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125"/>
+                                    </svg>
+                                </div>
+                                <div className="flex-1 truncate">
+                                    <div className="flex items-center space-x-3">
+                                        <h3 className={classNames("text-sm font-bold transition-colors duration-300",
+                                            settings.themeMode === 'dark' ? 'text-slate-200  group-hover:text-slate-50' : 'text-slate-900  group-hover:text-black')}>
+                                            {t('labels.pre_def_question2')}
+                                        </h3>
+                                    </div>
+                                    <p className={classNames("mt-1 truncate text-sm transition-colors duration-300",
+                                        settings.themeMode === 'dark' ? 'text-slate-500 group-hover:text-slate-200' : ' text-slate-500 group-hover:text-slate-900')}>
+                                        {agent.selectedAgent.configuration.suggestions[1]}
+                                    </p>
+                                </div>
+                            </a>
+                        </li>
+                    )}
+                </ul>
+            )}
         </div>
 
     );

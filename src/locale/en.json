@@ -11,17 +11,18 @@
       "password": "Password",
       "continue": "Continue",
       "errors": {
-        "email_required": "Email is Required.",
-        "password_required": "Password is Required.",
-        "email_valid": "Email must be valid.",
-        "username_required": "Username is Required.",
-        "host_required": "Host is Required.",
-        "port_required": "Port is Required.",
-        "db_name_required": "Database Name is Required.",
-        "at_least_one_table": "You must select at least one Table.",
-        "name_required": "Name is Required.",
-        "agent_instructions_required": "Agent Instructions is Required.",
-        "pre_def_question_required": "Pre Defined Question is Required."
+        "email_required": "Email is Required",
+        "password_required": "Password is Required",
+        "email_valid": "Email must be valid",
+        "username_required": "Username is Required",
+        "host_required": "Host is Required",
+        "port_required": "Port is Required",
+        "db_name_required": "Database Name is Required",
+        "at_least_one_table": "You must select at least one Table",
+        "name_required": "Name is Required",
+        "agent_instructions_required": "Agent Instructions is Required",
+        "pre_def_question_required": "Pre Defined Question is Required",
+        "something_went_wrong": "Something went wrong"
       },
       "titles": {
         "change_workspace": "Change Workspace",
@@ -38,7 +39,9 @@
           "sample_data": "or play around with Sample Data"
         },
         "agent_created": "Agent Created Successfully",
-        "agent_created_desc": "The created Agent has been added to the list of available Agents"
+        "agent_created_desc": "The created Agent has been added to the list of available Agents",
+        "manage_available_agents": "Manage Available Agents",
+        "manage_agents": "Manage Agents"
       },
       "labels": {
         "selected_agent": "Selected Agent",
@@ -56,7 +59,8 @@
         "max_response": "Maximum Response",
         "pre_def_question1": "First Predefined Question",
         "pre_def_question2": "Second Predefined Question",
-        "words": "Words"
+        "words": "Words",
+        "delete_selected_agent": "Delete Selected Agent"
       },
       "buttons": {
         "close": "Close",
@@ -65,8 +69,17 @@
         "save": "Save",
         "next": "Next",
         "back": "Back",
+        "cancel": "Cancel",
         "finish": "Finish",
-        "ok_thanks": "Ok! Thanks"
+        "ok_thanks": "Ok! Thanks",
+        "update_agent": "Update Agent",
+        "delete_agent": "Delete Agent",
+        "delete_agent_confirm": "Yes, Delete Agent"
+      },
+      "messages": {
+        "agent_update": "Agent updated successfully",
+        "agent_delete_confirmation" : "All the chat history and available data of this Agent will be deleted permanently",
+        "agent_deleted": "Agent deleted successfully"
       },
       "placeholders": {
         "db_name": "The name of the Database you want to connect."

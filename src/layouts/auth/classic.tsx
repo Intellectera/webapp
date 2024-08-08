@@ -16,6 +16,7 @@ import { useResponsive } from './../../hooks/use-responsive';
 import { bgGradient } from './../../theme/css';
 // components
 import Logo from './../../components/logo';
+import {useSettingsContext} from "../../components/settings";
 
 // ----------------------------------------------------------------------
 
@@ -34,8 +35,9 @@ type Props = {
   children: React.ReactNode;
 };
 
-export default function AuthClassicLayout({ children, image }: Props) {
+export default function AuthClassicLayout({ children }: Props) {
   const { method } = useAuthContext();
+  const settings = useSettingsContext();
 
   const theme = useTheme();
 
@@ -88,7 +90,7 @@ export default function AuthClassicLayout({ children, image }: Props) {
       <Box
         component="img"
         alt="auth"
-        src={image || '/assets/illustrations/illustration_dashboard.png'}
+        src={settings.themeMode === 'dark' ? '/logo/logo_light.svg' : '/logo/logo_dark.svg'}
         sx={{ maxWidth: 720 }}
       />
 

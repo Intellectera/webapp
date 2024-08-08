@@ -87,12 +87,16 @@
     }
   }
 
-* {
+*:not (".MuiFormControl-root ") {
   overflow: hidden;
 }
 
 .overflow-visible-children * {
   overflow: visible;
+}
+
+.overflow-visible-children-i * {
+  overflow: visible!important;
 }
 
 textarea:focus {

@@ -32,7 +32,7 @@ export default function SettingsSidebar({ currentNav, setCurrentNav}: Props) {
     const settings = useSettingsContext();
     const navigation = [
         {id: settingsNavIds.newAgent, name: t('titles.new_agent'), href: '#' },
-        {id: settingsNavIds.editAgent, name: t('titles.edit_agent'), href: '#' },
+        {id: settingsNavIds.editAgent, name: t('titles.manage_agents'), href: '#' },
         {id: settingsNavIds.users, name: t('titles.users'), href: '#' },
         {id: settingsNavIds.knowledge, name: t('titles.knowledge'), href: '#' },
     ]
