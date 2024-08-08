@@ -5,7 +5,7 @@ import {useState} from "react";
 import EditAgentView from "./edit-agent.tsx";
 import NewAgentView from "./new-agent/new-agent.tsx";
 import {useSelectedWorkspaceContext} from "../../layouts/dashboard/context/workspace-context.tsx";
-import UsersView from "./users.tsx";
+import UsersView from "./users/users.tsx";
 
 
 // ----------------------------------------------------------------------
