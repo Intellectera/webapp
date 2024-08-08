@@ -29,7 +29,7 @@ type FormValuesProps = {
     predefinedQuestion2: string;
 };
 
-export default function EditAgentSettings() {
+export default function EditAgentView() {
     const {t} = useTranslation();
     const workspaceContext = useSelectedWorkspaceContext();
     const [agents, setAgents] = React.useState<Array<Agent>>([]);
@@ -198,22 +198,22 @@ export default function EditAgentSettings() {
                 </Typography>
             </div>
             <div
-                className={'h-[67vh] sm:h-[63vh] sm:mb-5 px-10 overflow-y-scroll scrollbar scrollbar-thumb-gray-500 scrollbar-track-transparent'}>
+                className={'h-[65vh] sm:mb-5 px-10 overflow-y-scroll scrollbar scrollbar-thumb-gray-500 scrollbar-track-transparent'}>
                 <div ref={formStartRef}></div>
 
                 {showSuccess && (<Alert sx={{marginY: '2rem'}} severity="success">{successMsg}</Alert>)}
                 {!!errorMsg && (<Alert sx={{marginY: '2rem'}} severity="error">{errorMsg}</Alert>)}
 
                 <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-                    <Stack className={'px-8'}>
+                    <Stack className={'sm:px-10'}>
                         <div className={'w-full flex my-8'}>
                             <FormControl className={'flex-1'}>
-                                <InputLabel id="simple-select-label">Selected Agent</InputLabel>
+                                <InputLabel id="simple-select-label">{t('labels.selected_agent')}</InputLabel>
                                 <Select
                                     labelId="simple-select-label"
                                     id="simple-select"
                                     value={(selectedAgent === undefined || agents.length === 0) ? '' : selectedAgent!.id!}
-                                    label="Selected Agent"
+                                    label={t('labels.selected_agent')}
                                     onChange={handleChange}
                                 >
                                     {agents.map(agent => (
@@ -268,12 +268,12 @@ export default function EditAgentSettings() {
                             {t('buttons.update_agent')}
                         </LoadingButton>
 
-                        <div className={'my-6 w-full border-[1px] border-dashed border-gray-500'}/>
+                        <div className={'my-12 w-full border-[1px] border-dashed border-gray-500'}/>
 
                     </Stack>
                 </FormProvider>
 
-                <div className={'px-8'}>
+                <div className={'sm:px-20'}>
                     <div className={'w-full flex flex-col items-center justify-center mb-3'}>
                         <Typography className={'text-center'} variant={'h5'}>
                             {t('labels.delete_selected_agent')}: {selectedAgent && (`( ${selectedAgent.name} )`)}

@@ -2,9 +2,10 @@ import {Backdrop, Grow, Modal} from "@mui/material";
 import SettingsSidebar, {settingsNavIds} from "./sidebar.tsx";
 import {useSettingsContext} from "../../components/settings";
 import {useState} from "react";
-import EditAgentSettings from "./edit-agent.tsx";
-import NewAgentSettings from "./new-agent/new-agent.tsx";
+import EditAgentView from "./edit-agent.tsx";
+import NewAgentView from "./new-agent/new-agent.tsx";
 import {useSelectedWorkspaceContext} from "../../layouts/dashboard/context/workspace-context.tsx";
+import UsersView from "./users.tsx";
 
 
 // ----------------------------------------------------------------------
@@ -49,10 +50,13 @@ export const SettingsView = ({handleClose, open}: {handleClose: any, open: boole
                             'absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-xl md:w-4/6 w-5/6 h-5/6')}>
                             <SettingsSidebar currentNav={currentNav} setCurrentNav={setCurrentNav}></SettingsSidebar>
                             {currentNav === settingsNavIds.editAgent && (
-                                <EditAgentSettings></EditAgentSettings>
+                                <EditAgentView></EditAgentView>
                             )}
                             {currentNav === settingsNavIds.newAgent && (
-                                <NewAgentSettings setNewAgentCreated={setNewAgentCreated}></NewAgentSettings>
+                                <NewAgentView setNewAgentCreated={setNewAgentCreated}></NewAgentView>
+                            )}
+                            {currentNav === settingsNavIds.users && (
+                                <UsersView></UsersView>
                             )}
                         </div>
                     </div>

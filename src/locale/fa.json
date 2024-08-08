@@ -41,7 +41,10 @@
         "agent_created": "ایجنت با موفقیت ایجاد شد",
         "agent_created_desc": "ایجنت ایجاد شده به لیست ایجنت های در دسترس اضافه شد",
         "manage_available_agents": "مدیریت ایجنت های در دسترس",
-        "manage_agents": "مدیریت ایجنت ها"
+        "manage_agents": "مدیریت ایجنت ها",
+        "manage_users": "مدیریت کاربران",
+        "invite_user": "دعوت کاربر جدید",
+        "delete_user": "حذف کاربر"
       },
       "labels": {
         "selected_agent": "ایجنت انتخاب شده",
@@ -60,7 +63,19 @@
         "pre_def_question1": "سوال از پیش تعیین شده اول",
         "pre_def_question2": "سوال از پیش تعیین شده دوم",
         "words": "کلمه",
-        "delete_selected_agent": "حذف ایجنت انتخاب شده"
+        "delete_selected_agent": "حذف ایجنت انتخاب شده",
+        "role": "نقش",
+        "user": "کاربر",
+        "status": "وضعیت",
+        "roles": {
+          "admin": "ادمین",
+          "user": "کاربر عادی",
+          "unknown": "نا‌مشخص"
+        },
+        "statuses": {
+          "pending": "در انتظار تایید",
+          "approved": "تایید شده"
+        }
       },
       "buttons": {
         "close": "بستن",
@@ -71,15 +86,23 @@
         "back": "بازگشت",
         "cancel": "لفو",
         "finish": "اتمام",
+        "delete": "حذف",
+        "edit": "ویرایش",
         "ok_thanks": "باشه! ممنون",
         "update_agent": "ذخیره تغییرات",
         "delete_agent": "حذف ایجنت",
-        "delete_agent_confirm": "حذف ایجنت"
+        "delete_agent_confirm": "حذف ایجنت",
+        "invite_user": "دعوت کاربر",
+        "invite_new_user": "دعوت کاربر جدید",
+        "delete_user": "حذف کاربر"
       },
       "messages": {
         "agent_update": "ایجنت با موفقیت آپدیت شد",
         "agent_delete_confirmation" : "تمام سابقه چت و داده های موجود این ایجنت به طور دائم حذف خواهد شد",
-        "agent_deleted": "ایجنت با موفقیت حذف شد"
+        "user_delete_confirmation" : "این عمل تمام دسترسی های کاربر به این فضای کاری را برای همیشه حذف خواهد کرد",
+        "agent_deleted": "ایجنت با موفقیت حذف شد",
+        "user_invited": "کاربر با موفقیت دعوت شد",
+        "user_deleted": "کاربر با موفقیت حذف شد"
       },
       "placeholders": {
         "db_name": "اسم دیتابیسی که میخواهید متصل شوید."

@@ -2,7 +2,7 @@ import * as React from "react";
 import {useSelectedSessionContext} from "../../layouts/dashboard/context/session-context.tsx";
 import {SelectedSessionContextValue} from "../../layouts/dashboard/context/session-provider.tsx";
 import {useEffect, useRef, useState} from "react";
-import loadChat from "../../utils/calls/chat/load-chat.tsx";
+import loadChat from "../../utils/calls/chat/load-chat.ts";
 import {Conversation} from "../../utils/dto/Conversation.ts";
 import {useSelectedAgentContext} from "../../layouts/dashboard/context/agent-context.tsx";
 import {useSelectedWorkspaceContext} from "../../layouts/dashboard/context/workspace-context.tsx";

@@ -26,7 +26,7 @@ type Props = {
     setNewAgentCreated: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export default function NewAgentSettings({setNewAgentCreated}: Props) {
+export default function NewAgentView({setNewAgentCreated}: Props) {
     const {t} = useTranslation();
     const settings = useSettingsContext();
 
@@ -79,7 +79,7 @@ export default function NewAgentSettings({setNewAgentCreated}: Props) {
 
     return (
         <div className={'w-full h-full flex flex-col'}>
-            <Stepper className={'sm:px-10 mt-5  overflow-visible-children'} alternativeLabel={true}
+            <Stepper className={'sm:px-10 mt-5 overflow-visible-children'} alternativeLabel={true}
                      activeStep={activeStep} connector={<CustomConnector/>}>
                 {stepsArray.map((label) => {
                     return (

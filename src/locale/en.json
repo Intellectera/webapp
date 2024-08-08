@@ -41,7 +41,10 @@
         "agent_created": "Agent Created Successfully",
         "agent_created_desc": "The created Agent has been added to the list of available Agents",
         "manage_available_agents": "Manage Available Agents",
-        "manage_agents": "Manage Agents"
+        "manage_agents": "Manage Agents",
+        "manage_users": "Manage Users",
+        "invite_user": "New User Invitation",
+        "delete_user": "Delete User"
       },
       "labels": {
         "selected_agent": "Selected Agent",
@@ -60,7 +63,19 @@
         "pre_def_question1": "First Predefined Question",
         "pre_def_question2": "Second Predefined Question",
         "words": "Words",
-        "delete_selected_agent": "Delete Selected Agent"
+        "delete_selected_agent": "Delete Selected Agent",
+        "role": "Role",
+        "user": "User",
+        "status": "Status",
+        "roles": {
+          "admin": "Admin",
+          "user": "User",
+          "unknown": "Unknown"
+        },
+        "statuses": {
+          "pending": "Pending",
+          "approved": "Approved"
+        }
       },
       "buttons": {
         "close": "Close",
@@ -71,15 +86,23 @@
         "back": "Back",
         "cancel": "Cancel",
         "finish": "Finish",
+        "delete": "Delete",
+        "edit": "Edit",
         "ok_thanks": "Ok! Thanks",
         "update_agent": "Update Agent",
         "delete_agent": "Delete Agent",
-        "delete_agent_confirm": "Yes, Delete Agent"
+        "delete_agent_confirm": "Yes, Delete Agent",
+        "invite_user": "Invite User",
+        "invite_new_user": "Invite New User",
+        "delete_user": "Delete User"
       },
       "messages": {
         "agent_update": "Agent updated successfully",
         "agent_delete_confirmation" : "All the chat history and available data of this Agent will be deleted permanently",
-        "agent_deleted": "Agent deleted successfully"
+        "user_delete_confirmation" : "This action will remove all accesses of the user to this workspace permanently",
+        "agent_deleted": "Agent deleted successfully",
+        "user_invited": "User invited successfully",
+        "user_deleted": "User deleted successfully"
       },
       "placeholders": {
         "db_name": "The name of the Database you want to connect."
