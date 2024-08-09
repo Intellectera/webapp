@@ -1,7 +1,10 @@
-import {Backdrop, Modal} from "@mui/material";
-import {useSettingsContext} from "../../components/settings";
-import Typography from "@mui/material/Typography";
-import Iconify from "../../components/iconify";
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+
 import loadWorkspaces from "../../utils/calls/workspace/load-workspaces.ts";
 import {useContext, useEffect, useState} from "react";
 import {Workspace} from "../../utils/dto/Workspace.ts";
@@ -11,18 +14,18 @@ import {
 } from "../../layouts/dashboard/context/workspace-provider.tsx";
 import {localStorageSetItem} from "../../utils/storage-available.ts";
 import {useTranslation} from "react-i18next";
+import FormControl from "@mui/material/FormControl";
+import InputLabel from "@mui/material/InputLabel";
+import Select, {SelectChangeEvent} from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
+import * as React from "react";
 
 // ----------------------------------------------------------------------
-function classNames(...classes: any) {
-    return classes.filter(Boolean).join(' ')
-}
 
 export const ChangeWorkspaceView = ({handleClose, open}: { handleClose: any, open: boolean }) => {
-    const settings = useSettingsContext();
     const [workspaces, setWorkspaces] = useState<Array<Workspace>>([]);
-    const value: SelectedWorkspaceContextValue = useContext(SelectedWorkspaceContext);
+    const workspaceContextValue: SelectedWorkspaceContextValue = useContext(SelectedWorkspaceContext);
     const {t } = useTranslation();
-
 
     useEffect(() => {
         let ignore = false;
@@ -34,58 +37,52 @@ export const ChangeWorkspaceView = ({handleClose, open}: { handleClose: any, ope
         return () => {
             ignore = true;
         };
-    }, [value.selectedWorkspace])
+    }, [workspaceContextValue.selectedWorkspace])
 
-    const handleSelectWorkspace = (workspace: Workspace) => {
+    const handleSelectWorkspace = (workspaceId: string) => {
+        const workspace = workspaces.find(value => value.id === workspaceId)!;
         localStorageSetItem(WORKSPACE_STORAGE_KEY, JSON.stringify(workspace));
-        value.setSelectedWorkspace(workspace);
+        workspaceContextValue.setSelectedWorkspace(workspace);
         window.location.reload();
     }
 
     return (
         <div>
-            <Modal
+            <Dialog
                 open={open}
                 onClose={handleClose}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
-                closeAfterTransition
-                slots={{backdrop: Backdrop}}
-                slotProps={{
-                    backdrop: {
-                        timeout: 200,
-                    },
-                }}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
             >
-                <div className={'h-screen w-screen transition-all ease-in '}>
-                    <div className={classNames(settings.themeMode === 'light' ? 'bg-white' : 'bg-gray-800',
-                        'absolute overflow-scroll top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-xl w-5/6 h-5/6  md:w-5/6 md:h-5/6 lg:w-2/6 lg:h-4/6')}>
-                        <div onClick={handleClose}
-                             className={'w-100 hover:cursor-pointer relative flex items-center justify-end m-5'}>
-                            <Iconify icon="gridicons:cross" width={24}/>
-                        </div>
-
-                        <div className={'w-100 flex justify-center items-center'}>
-                            <Typography className={'text-center w-100'} variant="h6" gutterBottom>
-                                {t('titles.change_workspace')}
-                            </Typography>
-                        </div>
-
-                        {workspaces.map((workspace: Workspace, index: number) => (
-                            <div className={'w-100 grid grid-cols-2 gap-5 m-8 overflow-scroll'} key={index}>
-                                <div key={index} onClick={() => handleSelectWorkspace(workspace)}
-                                     className={'aspect-square flex items-center justify-center p-1 rounded-lg  border-2 cursor-pointer transition-colors ease-in delay-25 border-gray-200 hover:bg-gray-300'}>
-                                    <Typography key={index} fontWeight={'bold'} className={'text-center'}
-                                                variant="body2"
-                                                gutterBottom>
-                                        {workspace.name}
-                                    </Typography>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </Modal>
+                <DialogTitle id="alert-dialog-title">
+                    {t('titles.change_workspace')}
+                </DialogTitle>
+                <DialogContent>
+                    <DialogContentText sx={{marginBottom: '2rem'}} id="alert-dialog-description">
+                        {t('messages.change_workspace_desc')}
+                    </DialogContentText>
+                    <FormControl fullWidth={true} className={''}>
+                        <InputLabel id="simple-select-label">{t('labels.selected_workspace')}</InputLabel>
+                        <Select
+                            labelId="simple-select-label"
+                            id="simple-select"
+                            value={(workspaceContextValue.selectedWorkspace === undefined || workspaces.length === 0) ? '' : workspaceContextValue.selectedWorkspace!.id!}
+                            label={t('labels.selected_agent')}
+                            onChange={(event: SelectChangeEvent) => handleSelectWorkspace(event.target.value)}
+                        >
+                            {workspaces.map(workspace => (
+                                <MenuItem key={workspace.id} value={workspace.id}>{workspace.name}</MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleClose}>{t('buttons.cancel')}</Button>
+                    <Button onClick={handleClose} autoFocus>
+                        {t('buttons.ok')}
+                    </Button>
+                </DialogActions>
+            </Dialog>
         </div>
     );
 }

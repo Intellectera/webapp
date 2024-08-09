@@ -21,6 +21,7 @@ export default function SessionsList() {
     useEffect(() => {
         let selectedAgent = selectedAgentContextValue.selectedAgent;
         if (selectedAgent){
+            console.log('updating agent list')
             loadSessions(selectedAgent.id!).then((result: Array<Session>) => {
                 setSessions(result)
                 if (result.length > 0){
@@ -48,7 +49,7 @@ export default function SessionsList() {
     let BGClass = settings.themeMode === 'light' ? 'bg-gray-200' : 'bg-gray-700';
 
     return (
-            <List className={'overflow-y-scroll h-[85vh] border-b-[1px] border-dashed'} sx={{ width: '100%', maxWidth: 360 , borderColor: (theme) => theme.palette.divider}}>
+            <List className={'overflow-y-scroll h-[77vh] border-b-[1px] border-dashed'} sx={{ width: '100%', maxWidth: 360 , borderColor: (theme) => theme.palette.divider}}>
                 {sessions.map((session: Session) => (
                     <div key={session.id} className={classNames(' w-100 py-2 px-3 my-1 mx-2 hover:rounded-lg group flex justify-between',
                         hoverBGClass,

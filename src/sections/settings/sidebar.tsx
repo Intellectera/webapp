@@ -34,7 +34,7 @@ export default function SettingsSidebar({ currentNav, setCurrentNav}: Props) {
         {id: settingsNavIds.newAgent, name: t('titles.new_agent'), href: '#' },
         {id: settingsNavIds.editAgent, name: t('titles.manage_agents'), href: '#' },
         {id: settingsNavIds.users, name: t('titles.users'), href: '#' },
-        {id: settingsNavIds.knowledge, name: t('titles.knowledge'), href: '#' },
+        // {id: settingsNavIds.knowledge, name: t('titles.knowledge'), href: '#' },
     ]
 
     return (

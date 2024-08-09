@@ -22,6 +22,7 @@ import {useSelectedAgentContext} from "./context/agent-context.tsx";
 import loadAgents from "../../utils/calls/agent/load-agents.ts";
 import {useSelectedWorkspaceContext} from "./context/workspace-context.tsx";
 import {useSelectedSessionContext} from "./context/session-context.tsx";
+import SessionDeleteAllDialog from "./session-delete-all-dialog.tsx";
 
 // ----------------------------------------------------------------------
 
@@ -86,7 +87,10 @@ export default function NavVertical({openNav, onCloseNav}: Props) {
             <div className={classNames("p-1 mx-2 flex-1 flex items-start flex-col justify-center")}>
                 <FormControl className={'w-[100%]'} size="medium">
                     {agents.length > 0 && (
-                        <Select defaultValue="" value={selectedAgentContextValue.selectedAgent?.id ?? ''} onChange={(value) => {handleSelectAgent(value.target.value as string)}}>
+                        <Select defaultValue="" value={selectedAgentContextValue.selectedAgent?.id ?? ''}
+                                onChange={(value) => {
+                                    handleSelectAgent(value.target.value as string)
+                                }}>
                             {agents.map(agent => (
                                 <MenuItem key={agent.id} value={agent.id}>{agent.name}</MenuItem>
                             ))}
@@ -97,7 +101,7 @@ export default function NavVertical({openNav, onCloseNav}: Props) {
 
             <div className="mx-3 my-4">
                 <button onClick={handleNewChat}
-                    className={classNames('flex w-full gap-x-4 rounded-lg border border-slate-300 p-2 text-sm font-medium transition-colors duration-200 hover:bg-slate-200 focus:outline-none', settings.themeMode === 'dark' ? 'border-slate-700 text-slate-200 hover:bg-slate-800' : '')}>
+                        className={classNames('flex w-full gap-x-4 rounded-lg border border-slate-300 p-2 text-sm font-medium transition-colors duration-200 hover:bg-slate-200 focus:outline-none', settings.themeMode === 'dark' ? 'border-slate-700 text-slate-200 hover:bg-slate-800' : '')}>
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         className="h-5 w-5"
@@ -118,6 +122,7 @@ export default function NavVertical({openNav, onCloseNav}: Props) {
 
             <SessionsList/>
 
+            <SessionDeleteAllDialog></SessionDeleteAllDialog>
 
         </Scrollbar>
     );

@@ -83,8 +83,7 @@ export default function ChatView() {
         }
     }
 
-    const handleSendMessage = () => {
-        const inputValue: string = inputMessage.trim();
+    const handleSendMessage = (inputValue: string = inputMessage.trim()) => {
         setShowTable(false);
         textAreaRef.current!.style.height = 'auto'; // Reset height
         setInputMessage('')
@@ -143,7 +142,7 @@ export default function ChatView() {
 
     return (
         <div className={' w-[100%] h-[90vh] overflow-y-scroll flex flex-col items-center justify-evenly'}>
-            <ChatBody showTable={showTable} setShowTable={setShowTable} messagesEndRef={messagesEndRef} chat={chat} tableHeaders={tableHeaders} tableRows={tableRows}></ChatBody>
+            <ChatBody handleSendMessage={handleSendMessage} showTable={showTable} setShowTable={setShowTable} messagesEndRef={messagesEndRef} chat={chat} tableHeaders={tableHeaders} tableRows={tableRows}></ChatBody>
 
             {/*Loading three dots*/}
             {isLoading && (

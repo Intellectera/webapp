@@ -43,6 +43,7 @@ export const API_ENDPOINTS = {
     },
     session: {
       load: '/api/v1/session/load',
+      delete: '/api/v1/session/remove'
     },
     chat: {
       send: '/api/v1/conversation/send',

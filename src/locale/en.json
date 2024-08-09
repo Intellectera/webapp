@@ -44,10 +44,13 @@
         "manage_agents": "Manage Agents",
         "manage_users": "Manage Users",
         "invite_user": "New User Invitation",
-        "delete_user": "Delete User"
+        "delete_user": "Delete User",
+        "general_settings": "General Settings",
+        "delete_all_sessions": "Delete All Chats"
       },
       "labels": {
         "selected_agent": "Selected Agent",
+        "selected_workspace": "Selected Workspace",
         "agents": "Agents",
         "new_chat": "New Chat",
         "show_sql": "Show SQL",
@@ -75,7 +78,8 @@
         "statuses": {
           "pending": "Pending",
           "approved": "Approved"
-        }
+        },
+        "delete_all_sessions": "Delete All Chats"
       },
       "buttons": {
         "close": "Close",
@@ -94,12 +98,16 @@
         "delete_agent_confirm": "Yes, Delete Agent",
         "invite_user": "Invite User",
         "invite_new_user": "Invite New User",
-        "delete_user": "Delete User"
+        "delete_user": "Delete User",
+        "remove_sessions": "Delete Chats",
+        "ok": "OK"
       },
       "messages": {
         "agent_update": "Agent updated successfully",
         "agent_delete_confirmation" : "All the chat history and available data of this Agent will be deleted permanently",
         "user_delete_confirmation" : "This action will remove all accesses of the user to this workspace permanently",
+        "delete_all_sessions_confirmation": "This action will remove all chat history of selected Agent",
+        "change_workspace_desc": "The selected Workspace will be affected by all actions and changes will be available for all Users",
         "agent_deleted": "Agent deleted successfully",
         "user_invited": "User invited successfully",
         "user_deleted": "User deleted successfully"

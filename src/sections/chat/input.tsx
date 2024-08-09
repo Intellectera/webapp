@@ -11,6 +11,10 @@ type Props = {
     handleSendMessage: any
 }
 
+function classNames(...classes: any) {
+    return classes.filter(Boolean).join(' ')
+}
+
 export default function ChatInput({inputMessage, setInputMessage, textAreaRef, handleSendMessage}: Props) {
     const settings = useSettingsContext();
 
@@ -28,7 +32,8 @@ export default function ChatInput({inputMessage, setInputMessage, textAreaRef, h
 
     return (
         <Box sx={{bgcolor: (theme) => alpha(theme.palette.grey[600], 0.1)}}
-             className="flex items-center justify-center gap-1.5 md:gap-2 w-[90%] md:w-[80%] lg:w-[70%] mb-2 mr-2 ml-2 rounded-3xl">
+             className={classNames("flex items-center justify-center gap-1.5 md:gap-2 w-[90%] md:w-[80%] lg:w-[70%] mb-2 rounded-3xl",
+                 settings.themeDirection === 'rtl' ? 'mr-1 ml-5' : 'mr-5 ml-1')}>
             <div
                 className="flex flex-col justify-center cursor-pointer items-center rtl:ml-2 rtl:mr-4 ltr:ml-4 ltr:mr-2">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5}

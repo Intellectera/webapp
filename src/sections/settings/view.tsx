@@ -6,6 +6,7 @@ import EditAgentView from "./edit-agent.tsx";
 import NewAgentView from "./new-agent/new-agent.tsx";
 import {useSelectedWorkspaceContext} from "../../layouts/dashboard/context/workspace-context.tsx";
 import UsersView from "./users/users.tsx";
+import GeneralView from "./GeneralView.tsx";
 
 
 // ----------------------------------------------------------------------
@@ -57,6 +58,9 @@ export const SettingsView = ({handleClose, open}: {handleClose: any, open: boole
                             )}
                             {currentNav === settingsNavIds.users && (
                                 <UsersView></UsersView>
+                            )}
+                            {currentNav === settingsNavIds.general && (
+                                <GeneralView></GeneralView>
                             )}
                         </div>
                     </div>
