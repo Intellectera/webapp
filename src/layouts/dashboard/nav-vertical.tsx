@@ -34,9 +34,10 @@ type Props = {
 function classNames(...classes: any) {
     return classes.filter(Boolean).join(' ')
 }
+
 export default function NavVertical({openNav, onCloseNav}: Props) {
     const settings = useSettingsContext();
-    const {t } = useTranslation();
+    const {t} = useTranslation();
     const pathname = usePathname();
     const lgUp = useResponsive('up', 'lg');
     const selectedAgentContextValue = useSelectedAgentContext();
@@ -46,7 +47,7 @@ export default function NavVertical({openNav, onCloseNav}: Props) {
     const [agents, setAgents] = useState<Array<Agent>>([]);
 
     useEffect(() => {
-        if (selectedWorkspace.selectedWorkspace){
+        if (selectedWorkspace.selectedWorkspace) {
             loadAgents(selectedWorkspace.selectedWorkspace.id!).then((result) => {
                 setAgents(result);
             })
@@ -61,7 +62,7 @@ export default function NavVertical({openNav, onCloseNav}: Props) {
     }
 
     const handleNewChat = () => {
-        if (selectedSessionContextValue){
+        if (selectedSessionContextValue) {
             selectedSessionContextValue.setSelectedSession(undefined);
         }
     }
@@ -86,16 +87,15 @@ export default function NavVertical({openNav, onCloseNav}: Props) {
         >
             <div className={classNames("p-1 mx-2 flex-1 flex items-start flex-col justify-center")}>
                 <FormControl className={'w-[100%]'} size="medium">
-                    {agents.length > 0 && (
-                        <Select defaultValue="" value={selectedAgentContextValue.selectedAgent?.id ?? ''}
-                                onChange={(value) => {
-                                    handleSelectAgent(value.target.value as string)
-                                }}>
-                            {agents.map(agent => (
-                                <MenuItem key={agent.id} value={agent.id}>{agent.name}</MenuItem>
-                            ))}
-                        </Select>
-                    )}
+                    <Select value={agents.length === 0 ? '' : selectedAgentContextValue.selectedAgent?.id ?? ''}
+                            onChange={(value) => {
+                                handleSelectAgent(value.target.value as string)
+                            }}>
+                        {agents.map(agent => (
+                            <MenuItem key={agent.id} value={agent.id}>{agent.name}</MenuItem>
+                        ))}
+                    </Select>
+
                 </FormControl>
             </div>
 

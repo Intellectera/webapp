@@ -165,7 +165,7 @@ export default function ChatBody({showTable, setShowTable, chat, tableHeaders, t
                             settings.themeMode === 'dark' ? 'bg-slate-800 hover:bg-blue-900' : 'bg-slate-200 hover:bg-blue-200')}>
                             <a onClick={() => handleSendMessage(agent.selectedAgent!.configuration.suggestions![0])} className={classNames("flex cursor-pointer items-center justify-between truncate p-4",
                             settings.themeDirection === 'ltr' ? 'space-x-6' : '')}
-                               href="">
+                               href="#">
                                 <div className="flex flex-col items-center gap-y-1 rounded-lg text-xs">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                          strokeWidth="1.5"
@@ -195,7 +195,7 @@ export default function ChatBody({showTable, setShowTable, chat, tableHeaders, t
                             settings.themeMode === 'dark' ? 'bg-slate-800 hover:bg-blue-900' : 'bg-slate-200 hover:bg-blue-200')}>
                             <a onClick={() => handleSendMessage(agent.selectedAgent!.configuration.suggestions![1])} className={classNames("flex cursor-pointer items-center justify-between truncate p-4",
                                 settings.themeDirection === 'ltr' ? 'space-x-6' : '')}
-                               href="">
+                               href="#">
                                 <div className="flex flex-col items-center gap-y-1 rounded-lg text-xs">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                          strokeWidth="1.5"

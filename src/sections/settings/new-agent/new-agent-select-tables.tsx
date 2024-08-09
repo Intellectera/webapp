@@ -96,7 +96,7 @@ export default function NewAgentSelectTable({databaseTables, setDatabaseTables, 
                             />
                         </div>
                         <div className={'flex-1 flex justify-start items-center'}>
-                            <Typography>
+                            <Typography sx={{fontWeight: 'bolder'}}>
                                 {t('labels.table_name')}
                             </Typography>
                         </div>

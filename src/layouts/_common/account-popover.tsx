@@ -25,6 +25,7 @@ import {useState} from "react";
 import {WORKSPACE_STORAGE_KEY} from "../dashboard/context/workspace-provider.tsx";
 import {ChangeWorkspaceView} from "../../sections/workspace/view.tsx";
 import {useTranslation} from "react-i18next";
+import {AGENT_STORAGE_KEY} from "../dashboard/context/agent-provider.tsx";
 
 // ----------------------------------------------------------------------
 
@@ -64,6 +65,7 @@ export default function AccountPopover() {
             settings.onChangeDirectionByLang('en')
             popover.onClose();
             localStorageRemoveItem(WORKSPACE_STORAGE_KEY)
+            localStorageRemoveItem(AGENT_STORAGE_KEY)
             router.replace('/');
         } catch (error) {
             console.error(error);
