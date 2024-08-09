@@ -1,4 +1,4 @@
-import {useSettingsContext} from "../../components/settings";
+import {useSettingsContext} from "../../../components/settings";
 import {useTranslation} from "react-i18next";
 import {Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle} from "@mui/material";
 import Alert from "@mui/material/Alert";
@@ -6,9 +6,9 @@ import Button from "@mui/material/Button";
 import LoadingButton from "@mui/lab/LoadingButton";
 import * as React from "react";
 import {useState} from "react";
-import {CustomError} from "../../utils/types.ts";
-import deleteSession from "../../utils/calls/session/delete-session.ts";
-import {useSelectedAgentContext} from "./context/agent-context.tsx";
+import {CustomError} from "../../../utils/types.ts";
+import deleteSession from "../../../utils/calls/session/delete-session.ts";
+import {useSelectedAgentContext} from "../context/agent-context.tsx";
 
 function classNames(...classes: any) {
     return classes.filter(Boolean).join(' ')

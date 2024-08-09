@@ -79,7 +79,8 @@
           "pending": "در انتظار تایید",
           "approved": "تایید شده"
         },
-        "delete_all_sessions": "حذف همه چت ها"
+        "delete_all_sessions": "حذف همه چت ها",
+        "delete_session": "حذف چت"
       },
       "buttons": {
         "close": "بستن",
@@ -100,6 +101,7 @@
         "invite_new_user": "دعوت کاربر جدید",
         "delete_user": "حذف کاربر",
         "remove_sessions": "حذف چت ها",
+        "delete_session": "حذف چت",
         "ok": "باشه"
       },
       "messages": {
@@ -107,6 +109,7 @@
         "agent_delete_confirmation" : "تمام سابقه چت و داده های موجود این ایجنت به طور دائم حذف خواهد شد",
         "user_delete_confirmation" : "این عمل تمام دسترسی های کاربر به این فضای کاری را برای همیشه حذف خواهد کرد",
         "delete_all_sessions_confirmation": "این عمل تمام سابقه چت ایجنت انتخاب شده را حذف خواهد کرد",
+        "delete_session_confirmation": "با حذف این چت، همه مکالمات و گزارش های ایجاد شده برای همیشه حذف خواهند شد",
         "change_workspace_desc": "فضای کاری انتخاب شده تحت تأثیر همه اقدامات قرار می گیرد و تغییرات برای همه کاربران در دسترس خواهد بود",
         "agent_deleted": "ایجنت با موفقیت حذف شد",
         "user_invited": "کاربر با موفقیت دعوت شد",

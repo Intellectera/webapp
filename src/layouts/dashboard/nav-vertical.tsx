@@ -10,7 +10,7 @@ import Scrollbar from './../../components/scrollbar';
 import {usePathname} from '../../routes/hook';
 //
 import {NAV} from './../config-layout';
-import SessionsList from "./sessions-list.tsx";
+import SessionsList from "./sessions/sessions-list.tsx";
 import {useSettingsContext} from "../../components/settings";
 import {useTranslation} from "react-i18next";
 import {FormControl, Select} from "@mui/material";
@@ -22,7 +22,7 @@ import {useSelectedAgentContext} from "./context/agent-context.tsx";
 import loadAgents from "../../utils/calls/agent/load-agents.ts";
 import {useSelectedWorkspaceContext} from "./context/workspace-context.tsx";
 import {useSelectedSessionContext} from "./context/session-context.tsx";
-import SessionDeleteAllDialog from "./session-delete-all-dialog.tsx";
+import SessionDeleteAllDialog from "./sessions/session-delete-all-dialog.tsx";
 
 // ----------------------------------------------------------------------
 

@@ -79,7 +79,8 @@
           "pending": "Pending",
           "approved": "Approved"
         },
-        "delete_all_sessions": "Delete All Chats"
+        "delete_all_sessions": "Delete All Chats",
+        "delete_session": "Delete Chat"
       },
       "buttons": {
         "close": "Close",
@@ -100,6 +101,7 @@
         "invite_new_user": "Invite New User",
         "delete_user": "Delete User",
         "remove_sessions": "Delete Chats",
+        "delete_session": "Delete Chat",
         "ok": "OK"
       },
       "messages": {
@@ -107,6 +109,7 @@
         "agent_delete_confirmation" : "All the chat history and available data of this Agent will be deleted permanently",
         "user_delete_confirmation" : "This action will remove all accesses of the user to this workspace permanently",
         "delete_all_sessions_confirmation": "This action will remove all chat history of selected Agent",
+        "delete_session_confirmation": "By deleting this chat all conversations and generated reports will be removed permanently",
         "change_workspace_desc": "The selected Workspace will be affected by all actions and changes will be available for all Users",
         "agent_deleted": "Agent deleted successfully",
         "user_invited": "User invited successfully",
