@@ -17,6 +17,9 @@ import Typography from "@mui/material/Typography";
 import {useSettingsContext} from "../../../components/settings";
 import DeleteAgentView from "./delete-agent.tsx";
 import {getLogoByDatasourceType} from "../new-agent/new-agent-select-datasource.tsx";
+import {useSelectedAgentContext} from "../../../layouts/dashboard/context/agent-context.tsx";
+import {localStorageRemoveItem} from "../../../utils/storage-available.ts";
+import {AGENT_STORAGE_KEY} from "../../../layouts/dashboard/context/agent-provider.tsx";
 
 const tableSortDefault = {
     name: {
@@ -34,6 +37,7 @@ export default function AgentListView() {
     const {t} = useTranslation();
     const workspaceContext = useSelectedWorkspaceContext();
     const settings = useSettingsContext();
+    const agentContext = useSelectedAgentContext();
     const [tableSortValues, setTableSortValues] = useState<TableSortValues>(tableSortDefault);
     const [agents, setAgents] = React.useState<Array<Agent>>([]);
     const [selectedAgent, setSelectedAgent] = React.useState<Agent | undefined>();
@@ -62,6 +66,11 @@ export default function AgentListView() {
                 prevState = prevState.filter(agent => agent.id !== deletedAgent.id);
                 return prevState;
             });
+            if (agentContext.selectedAgent && agentContext.selectedAgent.id === deletedAgent.id){
+                localStorageRemoveItem(AGENT_STORAGE_KEY);
+                agentContext.setSelectedAgent(undefined);
+            }
+            workspaceContext.setSelectedWorkspace(prevState => {return {...prevState!}});
         }
     }, [deletedAgent])
 

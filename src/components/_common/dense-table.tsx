@@ -7,11 +7,15 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
-
-export default function DenseTable({headers, rows}: {headers: string[], rows: any}) {
+type Props = {
+    headers: string[];
+    rows: any;
+    tableRef: any;
+};
+export default function DenseTable({headers, rows, tableRef}: Props) {
     return (
         <TableContainer className={'w-[100%] h-[100%]'} component={Paper}>
-            <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
+            <Table ref={tableRef} sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
                 <TableHead>
                     <TableRow>
                         {headers.map((header, index: number) => (

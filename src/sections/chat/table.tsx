@@ -1,10 +1,12 @@
 import Button from "@mui/material/Button";
 import DenseTable from "../../components/_common/dense-table.tsx";
 import * as React from "react";
-import {SetStateAction} from "react";
+import {SetStateAction, useRef} from "react";
 import {useSettingsContext} from "../../components/settings";
 import {Conversation} from "../../utils/dto/Conversation.ts";
 import {useTranslation} from "react-i18next";
+import {utils, write} from 'xlsx';
+import {saveAs} from "file-saver";
 
 type Props = {
     showTable: boolean,
@@ -21,7 +23,17 @@ function classNames(...classes: any) {
 
 export default function ChatTable({showTable, setShowTable, index, chat, tableHeaders, tableRows}: Props) {
     const settings = useSettingsContext();
-    const {t } = useTranslation();
+    const {t} = useTranslation();
+    const tableRef = useRef<HTMLTableElement>();
+
+    const onDownloadClick = () => {
+        const worksheet = utils.table_to_sheet(tableRef.current!);
+        const workbook = utils.book_new();
+        utils.book_append_sheet(workbook, worksheet, 'Sheet1');
+        const excelBuffer = write(workbook, { bookType: 'xlsx', type: 'array' });
+        const blob = new Blob([excelBuffer], {type: 'application/octet-stream'});
+        saveAs(blob, `data.xlsx`);
+    };
 
     return (
         <div>
@@ -33,13 +45,13 @@ export default function ChatTable({showTable, setShowTable, index, chat, tableHe
                             <Button onClick={() => setShowTable(false)} variant="outlined" color="error">
                                 {t('buttons.close')}
                             </Button>
-                            <Button variant="outlined" color="primary">
+                            <Button onClick={() => onDownloadClick()} variant="outlined" color="primary">
                                 {t('buttons.download')}
                             </Button>
                         </div>
                     ) : (
                         <div className={'flex gap-3 justify-between'}>
-                            <Button variant="outlined" color="primary">
+                            <Button onClick={() => onDownloadClick()} variant="outlined" color="primary">
                                 {t('buttons.download')}
                             </Button>
                             <Button onClick={() => setShowTable(false)} variant="outlined" color="error">
@@ -53,7 +65,7 @@ export default function ChatTable({showTable, setShowTable, index, chat, tableHe
                 <div
                     className={classNames('flex w-[100%] min-h-[150px] max-h-[250px] overflow-y-scroll scrollbar scrollbar-thumb-gray-600 scrollbar-track-transparent', settings.themeDirection === 'rtl' ? 'flex-row-reverse' : 'flex-row')}>
                     <div className={'w-[100%] h-[100%]'}>
-                        <DenseTable headers={tableHeaders} rows={tableRows}></DenseTable>
+                        <DenseTable tableRef={tableRef} headers={tableHeaders} rows={tableRows}></DenseTable>
                     </div>
                 </div>
             )}
