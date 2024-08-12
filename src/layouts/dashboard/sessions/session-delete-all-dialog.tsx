@@ -53,7 +53,7 @@ export default function SessionDeleteAllDialog() {
     return (
         <>
             <div className="mx-3 my-4">
-                <button onClick={() => setIsDialogOpen(true)}
+                <button disabled={agentContext.selectedAgent === undefined} onClick={() => setIsDialogOpen(true)}
                         className={classNames('flex w-full gap-x-4 rounded-lg border border-slate-300 p-2 text-sm font-medium transition-colors duration-200 hover:bg-slate-200 focus:outline-none', settings.themeMode === 'dark' ? 'border-slate-700 text-slate-200 hover:bg-slate-800' : '')}>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5}
                          stroke="currentColor" className="size-6">

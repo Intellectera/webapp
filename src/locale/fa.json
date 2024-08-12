@@ -80,7 +80,9 @@
           "approved": "تایید شده"
         },
         "delete_all_sessions": "حذف همه چت ها",
-        "delete_session": "حذف چت"
+        "delete_session": "حذف چت",
+        "type": "نوع",
+        "actions": "اقدامات"
       },
       "buttons": {
         "close": "بستن",

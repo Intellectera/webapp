@@ -9,7 +9,7 @@ import Typography from "@mui/material/Typography";
 import Alert from "@mui/material/Alert";
 import FormProvider, {RHFTextField} from "../../../components/hook-form";
 import {useSettingsContext} from "../../../components/settings";
-import {dataSourceTypes} from "./new-agent-select-datasource.tsx";
+import {getLogoByDatasourceType} from "./new-agent-select-datasource.tsx";
 import {FormControlLabel, Switch} from "@mui/material";
 import loadTablesList from "../../../utils/calls/db/load-tables-list.tsx";
 import {CustomError} from "../../../utils/types.ts";
@@ -107,22 +107,9 @@ export default function NewAgentDatabaseForm({submitRef, selectedDatasource, set
                 <Typography className={'text-center mb-3'} variant={'h5'}>
                     {t('titles.new_agents_steps.step_2')}
                 </Typography>
-                {selectedDatasource === dataSourceTypes.postgresql && (
-                    <img className={'mt-5 mx-3'} width={35} height={35}
-                         src={settings.themeMode === 'light' ? '/assets/icons/app/postgres.png' : '/assets/icons/app/postgres-light.png'}
-                         alt={'Postgresql icon'}/>
-                )}
-                {selectedDatasource === dataSourceTypes.mysql && (
-                    <img className={'mt-5 mx-3'} width={35} height={35}
-                         src={settings.themeMode === 'light' ? '/assets/icons/app/mysql.png' : '/assets/icons/app/mysql-light.png'}
-                         alt={'Mysql icon'}/>
-                )}
-                {selectedDatasource === dataSourceTypes.sqlserver && (
-                    <img className={'mt-5 mx-3'} width={35} height={35}
-                         src={settings.themeMode === 'light' ? '/assets/icons/app/sql-server.png' : '/assets/icons/app/sql-server-light.png'}
-                         alt={'SQL Server icon'}/>
-                )}
-
+                <img className={'mt-5 mx-3'} width={35} height={35}
+                     src={getLogoByDatasourceType(selectedDatasource, settings.themeMode)}
+                     alt={'Datasource icon'}/>
             </div>
 
             <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>

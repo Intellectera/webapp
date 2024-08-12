@@ -25,6 +25,9 @@ import Iconify from './../../../components/iconify';
 import FormProvider, {RHFTextField} from './../../../components/hook-form';
 import {CustomError} from "../../../utils/types.ts";
 import {useTranslation} from "react-i18next";
+import {localStorageRemoveItem} from "../../../utils/storage-available.ts";
+import {WORKSPACE_STORAGE_KEY} from "../../../layouts/dashboard/context/workspace-provider.tsx";
+import {AGENT_STORAGE_KEY} from "../../../layouts/dashboard/context/agent-provider.tsx";
 
 // ----------------------------------------------------------------------
 
@@ -72,6 +75,8 @@ export default function JwtLoginView() {
         async (data: FormValuesProps) => {
             try {
                 await login?.(data.email, data.password);
+                localStorageRemoveItem(WORKSPACE_STORAGE_KEY);
+                localStorageRemoveItem(AGENT_STORAGE_KEY);
                 window.location.href = returnTo || PATH_AFTER_LOGIN;
             } catch (error) {
                 if (!IS_PRODUCTION) {

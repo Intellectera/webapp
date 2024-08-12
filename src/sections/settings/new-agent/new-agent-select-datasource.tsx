@@ -21,9 +21,21 @@ export const dataSourceTypes = {
     ecommerce: 5
 }
 
+export const getLogoByDatasourceType = (type: number, themeMode: 'light' | 'dark'): string => {
+    if (type == dataSourceTypes.postgresql){
+        return themeMode === 'light' ? '/assets/icons/app/postgres.png' : '/assets/icons/app/postgres-light.png';
+    } else if (type == dataSourceTypes.mysql) {
+        return themeMode === 'light' ? '/assets/icons/app/mysql.png' : '/assets/icons/app/mysql-light.png';
+    } else if (type == dataSourceTypes.sqlserver) {
+        return themeMode === 'light' ? '/assets/icons/app/sql-server.png' : '/assets/icons/app/sql-server-light.png';
+    } else {
+        return '';
+    }
+}
+
 export default function NewAgentSelectDatasource({setSelectedDatasource}: Props) {
     const settings = useSettingsContext();
-    const {t } = useTranslation();
+    const {t} = useTranslation();
 
 
     return (
@@ -38,7 +50,8 @@ export default function NewAgentSelectDatasource({setSelectedDatasource}: Props)
                 <div onClick={() => setSelectedDatasource(dataSourceTypes.postgresql)}
                      className={classNames('h-[60px] md:w-3/4 cursor-pointer border-[1px] rounded-lg flex justify-start items-center px-1',
                          settings.themeMode === 'light' ? 'bg-white hover:border-gray-400' : 'bg-gray-800 border-gray-500 hover:border-gray-300')}>
-                    <img className={'mx-3'} width={35} height={35} src={settings.themeMode === 'light' ? '/assets/icons/app/postgres.png' : '/assets/icons/app/postgres-light.png'}
+                    <img className={'mx-3'} width={35} height={35}
+                         src={getLogoByDatasourceType(dataSourceTypes.postgresql, settings.themeMode)}
                          alt={'Postgresql icon'}/>
                     <Typography variant={'body1'}>
                         Postgresql
@@ -47,7 +60,8 @@ export default function NewAgentSelectDatasource({setSelectedDatasource}: Props)
                 <div onClick={() => setSelectedDatasource(dataSourceTypes.sqlserver)}
                      className={classNames('h-[60px] md:w-3/4 cursor-pointer border-[1px] rounded-lg flex justify-start items-center px-1',
                          settings.themeMode === 'light' ? 'bg-white hover:border-gray-400' : 'bg-gray-800 border-gray-500 hover:border-gray-300')}>
-                    <img className={'mx-3'} width={35} height={35} src={settings.themeMode === 'light' ? '/assets/icons/app/sql-server.png' : '/assets/icons/app/sql-server-light.png'}
+                    <img className={'mx-3'} width={35} height={35}
+                         src={getLogoByDatasourceType(dataSourceTypes.sqlserver, settings.themeMode)}
                          alt={'SQL Server icon'}/>
                     <Typography variant={'body1'}>
                         SQL Server
@@ -56,7 +70,8 @@ export default function NewAgentSelectDatasource({setSelectedDatasource}: Props)
                 <div onClick={() => setSelectedDatasource(dataSourceTypes.mysql)}
                      className={classNames('h-[60px] md:w-3/4 cursor-pointer border-[1px] rounded-lg flex justify-start items-center px-1',
                          settings.themeMode === 'light' ? 'bg-white hover:border-gray-400' : 'bg-gray-800 border-gray-500 hover:border-gray-300')}>
-                    <img className={'mx-3'} width={35} height={35} src={settings.themeMode === 'light' ? '/assets/icons/app/mysql.png' : '/assets/icons/app/mysql-light.png'}
+                    <img className={'mx-3'} width={35} height={35}
+                         src={getLogoByDatasourceType(dataSourceTypes.mysql, settings.themeMode)}
                          alt={'Mysql icon'}/>
                     <Typography variant={'body1'}>
                         Mysql

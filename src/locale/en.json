@@ -80,7 +80,9 @@
           "approved": "Approved"
         },
         "delete_all_sessions": "Delete All Chats",
-        "delete_session": "Delete Chat"
+        "delete_session": "Delete Chat",
+        "type": "Type",
+        "actions": "Actions"
       },
       "buttons": {
         "close": "Close",
