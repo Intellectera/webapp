@@ -3,7 +3,7 @@ import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import NewAgentSelectDatasource, {dataSourceTypes} from "./new-agent-select-datasource.tsx";
-import {useEffect, useRef} from "react";
+import {useEffect, useRef, useState} from "react";
 import NewAgentDatabaseForm, {DataSourceFormValuesProps} from "./new-agent-database-form.tsx";
 import NewAgentForm from "./new-agent-form.tsx";
 import NewAgentSelectTable from "./new-agent-select-tables.tsx";
@@ -13,6 +13,7 @@ import {useTranslation} from "react-i18next";
 import {TableName} from "../../../utils/dto/TableName.ts";
 import {CustomConnector, CustomStepIcon} from "./custom-stepper.tsx";
 import NewAgentSuccess from "./new-agent-success.tsx";
+import ExcelUploadFileView from "./excel/excel-upload-file.tsx";
 
 const steps = {
     selectDataSource: 0,
@@ -30,6 +31,7 @@ export default function NewAgentView({setNewAgentCreated}: Props) {
     const {t} = useTranslation();
     const settings = useSettingsContext();
 
+    const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
     const [activeStep, setActiveStep] = React.useState(0);
     const [selectedDatasource, setSelectedDatasource] = React.useState<number>(0);
     const [isLoading, setIsLoading] = React.useState(false);
@@ -40,8 +42,10 @@ export default function NewAgentView({setNewAgentCreated}: Props) {
     const agentFormRef = useRef<HTMLButtonElement>(null);
 
     const handleNext = () => {
-        if (activeStep === steps.fillForm) {
+        if (activeStep === steps.fillForm && selectedDatasource !== dataSourceTypes.excel) {
             dataSourceFormRef.current!.click();
+        } else if(activeStep === steps.fillForm){
+            setActiveStep(prevState => prevState + 2)
         } else if (activeStep === steps.fillAgentForm) {
             agentFormRef.current!.click();
         } else if (activeStep === steps.selectTables) {
@@ -65,7 +69,11 @@ export default function NewAgentView({setNewAgentCreated}: Props) {
             if (prevActiveStep === steps.fillForm) {
                 setSelectedDatasource(0);
             }
-            return prevActiveStep - 1;
+            if (selectedDatasource === dataSourceTypes.excel){
+                return prevActiveStep - 2;
+            } else {
+                return prevActiveStep - 1;
+            }
         });
     };
 
@@ -73,7 +81,9 @@ export default function NewAgentView({setNewAgentCreated}: Props) {
     useEffect(() => {
         if (selectedDatasource === dataSourceTypes.mysql || selectedDatasource === dataSourceTypes.postgresql ||
             selectedDatasource === dataSourceTypes.sqlserver || selectedDatasource === dataSourceTypes.oracle) {
-            setActiveStep(activeStep + 1);
+            setActiveStep(prevState => prevState + 1);
+        } else if (selectedDatasource === dataSourceTypes.excel){
+            setActiveStep(prevState => prevState + 1);
         }
     }, [selectedDatasource])
 
@@ -101,11 +111,14 @@ export default function NewAgentView({setNewAgentCreated}: Props) {
                         <NewAgentSelectDatasource
                             setSelectedDatasource={setSelectedDatasource}></NewAgentSelectDatasource>
                     )}
-                    {activeStep === steps.fillForm && (
+                    {(activeStep === steps.fillForm && selectedDatasource !== dataSourceTypes.excel) && (
                         <NewAgentDatabaseForm setDatabaseTables={setDatabaseTables} setIsLoading={setIsLoading}
                                               setActiveStep={setActiveStep} selectedDatasource={selectedDatasource}
                                               submitRef={dataSourceFormRef}
                                               setDatasourceFormValues={setDatasourceFormValues}></NewAgentDatabaseForm>
+                    )}
+                    {(activeStep === steps.fillForm && selectedDatasource === dataSourceTypes.excel) && (
+                        <ExcelUploadFileView></ExcelUploadFileView>
                     )}
                     {activeStep === steps.selectTables && (
                         <NewAgentSelectTable showCheckboxError={showCheckboxError}

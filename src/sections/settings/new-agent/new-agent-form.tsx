@@ -15,6 +15,7 @@ import {Agent} from "../../../utils/dto/Agent.ts";
 import {useSelectedWorkspaceContext} from "../../../layouts/dashboard/context/workspace-context.tsx";
 import {TableName} from "../../../utils/dto/TableName.ts";
 import {DataSourceFormValuesProps} from "./new-agent-database-form.tsx";
+import { dataSourceTypes } from "./new-agent-select-datasource.tsx";
 
 type FormValuesProps = {
     name: string;
@@ -128,7 +129,7 @@ export default function NewAgentForm({submitRef, setActiveStep, setIsLoading, se
         <>
             <div className={'w-full flex flex-col items-center justify-center my-6'}>
                 <Typography className={'text-center mb-3'} variant={'h5'}>
-                    {t('titles.new_agents_steps.step_4')}
+                    {selectedDatasource === dataSourceTypes.excel ? t('titles.new_agents_steps.step_4_excel') : t('titles.new_agents_steps.step_4')}
                 </Typography>
             </div>
 

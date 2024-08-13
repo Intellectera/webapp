@@ -18,7 +18,8 @@ export const dataSourceTypes = {
     postgresql: 2,
     oracle: 3,
     sqlserver: 4,
-    ecommerce: 5
+    excel: 5,
+    ecommerce: 6
 }
 
 export const getLogoByDatasourceType = (type: number, themeMode: 'light' | 'dark'): string => {
@@ -28,6 +29,8 @@ export const getLogoByDatasourceType = (type: number, themeMode: 'light' | 'dark
         return themeMode === 'light' ? '/assets/icons/app/mysql.png' : '/assets/icons/app/mysql-light.png';
     } else if (type == dataSourceTypes.sqlserver) {
         return themeMode === 'light' ? '/assets/icons/app/sql-server.png' : '/assets/icons/app/sql-server-light.png';
+    } else if (type == dataSourceTypes.excel) {
+        return themeMode === 'light' ? '/assets/icons/app/excel.png' : '/assets/icons/app/excel-light.png';
     } else {
         return '';
     }
@@ -47,6 +50,16 @@ export default function NewAgentSelectDatasource({setSelectedDatasource}: Props)
             </div>
 
             <div className={'grid grid-cols-1 gap-3 my-5 md:flex md:flex-col md:items-center'}>
+                <div onClick={() => setSelectedDatasource(dataSourceTypes.excel)}
+                     className={classNames('h-[60px] md:w-3/4 cursor-pointer border-[1px] rounded-lg flex justify-start items-center px-1',
+                         settings.themeMode === 'light' ? 'bg-white hover:border-gray-400' : 'bg-gray-800 border-gray-500 hover:border-gray-300')}>
+                    <img className={'mx-3'} width={35} height={35}
+                         src={getLogoByDatasourceType(dataSourceTypes.excel, settings.themeMode)}
+                         alt={'Excel icon'}/>
+                    <Typography variant={'body1'}>
+                        Excel
+                    </Typography>
+                </div>
                 <div onClick={() => setSelectedDatasource(dataSourceTypes.postgresql)}
                      className={classNames('h-[60px] md:w-3/4 cursor-pointer border-[1px] rounded-lg flex justify-start items-center px-1',
                          settings.themeMode === 'light' ? 'bg-white hover:border-gray-400' : 'bg-gray-800 border-gray-500 hover:border-gray-300')}>
@@ -77,7 +90,6 @@ export default function NewAgentSelectDatasource({setSelectedDatasource}: Props)
                         Mysql
                     </Typography>
                 </div>
-
 
                 <div className={'w-full justify-center mb-3 mt-10'}>
                     <Typography className={'text-center'} variant={'h5'}>

@@ -34,8 +34,10 @@
         "new_agents_steps": {
           "step_1": "Step 1: Select a Datasource",
           "step_2": "Step 2: Connect to Datasource",
+          "step_2_excel": "Step 2: Upload Files",
           "step_3": "Step 3: Select Tables",
           "step_4": "Step 4: Complete Setup",
+          "step_4_excel": "Step 3: Complete Setup",
           "sample_data": "or play around with Sample Data"
         },
         "agent_created": "Agent Created Successfully",
@@ -82,7 +84,9 @@
         "delete_all_sessions": "Delete All Chats",
         "delete_session": "Delete Chat",
         "type": "Type",
-        "actions": "Actions"
+        "actions": "Actions",
+        "click_to_upload": "Click to Upload",
+        "selected_files": "Selected Files"
       },
       "buttons": {
         "close": "Close",
