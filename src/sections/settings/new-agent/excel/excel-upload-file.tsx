@@ -47,7 +47,7 @@ export default function ExcelUploadFileView({selectedFiles, setSelectedFiles}: P
 
             {showList && (
                 <div
-                    className={'w-full h-[50vh] overflow-y-scroll scrollbar scrollbar-thumb-gray-500 scrollbar-track-transparent'}>
+                    className={'w-full h-[50vh] px-10 sm:px-20 overflow-y-scroll scrollbar scrollbar-thumb-gray-500 scrollbar-track-transparent'}>
                     <List
                         sx={{width: '100%', bgcolor: 'background.paper'}}
                         subheader={<ListSubheader>{t('labels.selected_files')}</ListSubheader>}
@@ -74,7 +74,7 @@ export default function ExcelUploadFileView({selectedFiles, setSelectedFiles}: P
             )}
 
             {!showList && (
-                <div className="flex items-center justify-center w-full">
+                <div className="flex items-center justify-center w-full px-10 sm:px-20">
                     <label htmlFor="dropzone-file"
                            className={classNames("flex flex-col items-center justify-center w-full h-64 border-2 border-dashed rounded-lg cursor-pointer", settings.themeMode === 'light' ? " border-gray-300 bg-gray-50  hover:bg-gray-200"
                                : " bg-gray-700 border-gray-600 hover:border-gray-500 hover:bg-gray-800")}>

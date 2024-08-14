@@ -1,12 +1,12 @@
 import Box from "@mui/material/Box";
-import {alpha} from "@mui/material/styles";
+import { alpha } from "@mui/material/styles";
 import * as React from "react";
-import {SetStateAction} from "react";
-import {useSettingsContext} from "../../components/settings";
+import { SetStateAction } from "react";
+import { useSettingsContext } from "../../components/settings";
 
 type Props = {
     inputMessage: string,
-    setInputMessage : React.Dispatch<SetStateAction<string>>,
+    setInputMessage: React.Dispatch<SetStateAction<string>>,
     textAreaRef: React.RefObject<HTMLTextAreaElement>,
     handleSendMessage: any
 }
@@ -15,7 +15,7 @@ function classNames(...classes: any) {
     return classes.filter(Boolean).join(' ')
 }
 
-export default function ChatInput({inputMessage, setInputMessage, textAreaRef, handleSendMessage}: Props) {
+export default function ChatInput({ inputMessage, setInputMessage, textAreaRef, handleSendMessage }: Props) {
     const settings = useSettingsContext();
 
     const handleOnInput = () => {
@@ -31,9 +31,9 @@ export default function ChatInput({inputMessage, setInputMessage, textAreaRef, h
     }
 
     return (
-        <Box sx={{bgcolor: (theme) => alpha(theme.palette.grey[600], 0.1)}}
-             className={classNames("flex items-center justify-center gap-1.5 md:gap-2 w-[90%] md:w-[80%] lg:w-[70%] mb-2 rounded-3xl",
-                 settings.themeDirection === 'rtl' ? 'mr-1 ml-5' : 'mr-5 ml-1')}>
+        <Box sx={{ bgcolor: (theme) => alpha(theme.palette.grey[600], 0.1) }}
+            className={classNames("flex items-center justify-center gap-1.5 md:gap-2 w-[90%] md:w-[80%] lg:w-[70%] mb-2 rounded-3xl",
+                settings.themeDirection === 'rtl' ? 'mr-1 ml-5' : 'mr-5 ml-1')}>
             <div
                 className="flex flex-col justify-center cursor-pointer items-center rtl:ml-2 rtl:mr-4 ltr:ml-4 ltr:mr-2">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5}
@@ -43,25 +43,25 @@ export default function ChatInput({inputMessage, setInputMessage, textAreaRef, h
                 </svg>
             </div>
             <div className="flex min-w-0 flex-1 flex-col items-start justify-end">
-                    <textarea onInput={handleOnInput} ref={textAreaRef} rows={1}
-                              onKeyDown={(event) => handleInputKeyDown(event)}
-                              onChange={(event) => setInputMessage(event.target.value)} value={inputMessage} dir="auto"
-                              placeholder={'Message Intellectera'}
-                              className="overflow-y-scroll scrollbar scrollbar-thumb-gray-500m-0 w-[100%] min-h-[50px] max-h-[130px] place-content-center text-lg resize-none border-0 bg-transparent px-0 text-token-text-primary focus:ring-0 focus-visible:ring-0 "
-                    ></textarea>
+                <textarea onInput={handleOnInput} ref={textAreaRef} rows={1}
+                    onKeyDown={(event) => handleInputKeyDown(event)}
+                    onChange={(event) => setInputMessage(event.target.value)} value={inputMessage} dir="auto"
+                    placeholder={'Message Intellectera'}
+                    className="overflow-y-scroll scrollbar scrollbar-thumb-gray-500m-0 w-[100%] min-h-[50px] max-h-[130px] place-content-center text-lg resize-none border-0 bg-transparent px-0 text-token-text-primary focus:ring-0 focus-visible:ring-0 "
+                ></textarea>
             </div>
             <button onClick={handleSendMessage}
-                    className={'flex flex-col justify-center items-center cursor-pointer ltr:ml-2 ltr:mr-4 rtl:ml-4 rtl:mr-2'}>
+                className={'flex flex-col justify-center items-center cursor-pointer ltr:ml-2 ltr:mr-4 rtl:ml-4 rtl:mr-2'}>
                 {settings.themeDirection === 'ltr' ? (
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5"
-                         stroke="currentColor" className="size-8">
+                        stroke="currentColor" className="size-8">
                         <path strokeLinecap="round" strokeLinejoin="round"
-                              d="m12.75 15 3-3m0 0-3-3m3 3h-7.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                            d="m12.75 15 3-3m0 0-3-3m3 3h-7.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                     </svg>
                 ) : (<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5}
-                          stroke="currentColor" className="size-8">
+                    stroke="currentColor" className="size-8">
                     <path strokeLinecap="round" strokeLinejoin="round"
-                          d="m11.25 9-3 3m0 0 3 3m-3-3h7.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                        d="m11.25 9-3 3m0 0 3 3m-3-3h7.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                 </svg>)}
             </button>
         </Box>

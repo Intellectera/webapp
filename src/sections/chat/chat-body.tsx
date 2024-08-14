@@ -50,7 +50,7 @@ export default function ChatBody({ showTable, setShowTable, chat, tableHeaders, 
 
     return (
         <div
-            className={'relative w-[90%] md:w-[80%] lg:w-[70%] h-[75vh] overflow-y-scroll rounded-lg scrollbar scrollbar-track-transparent'}>
+            className={'relative w-[90%] md:w-[80%] lg:w-[70%] h-[75vh] overflow-x-hidden overflow-y-scroll rounded-lg scrollbar scrollbar-track-transparent'}>
             {chat.map((conversation, index: number) => (
                 <div key={conversation.id} className={'transition-all ease-in'}>
                     <Grow style={{ transformOrigin: '0 0 0' }} {...({ timeout: 500 })} in={conversation.message !== undefined}>
@@ -81,9 +81,9 @@ export default function ChatBody({ showTable, setShowTable, chat, tableHeaders, 
                                     className={classNames('w-[100%] h-[100%] prose', settings.themeMode === 'dark' ? 'prose-invert' : '')}
                                     dir={'auto'}>
                                     <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                                        {(showSQL && index === chat.length - 1) ? '``` ' + conversation.agentResponseParam.sql : conversation.response}
+                                        {(showSQL) ? `\`\`\`${conversation.agentResponseParam.sql}\`\`\`` : conversation.response}
                                     </ReactMarkdown>
-                                    {(index === chat.length - 1 && conversation.agentResponseParam && conversation.agentResponseParam.sql) && (
+                                    {(conversation.agentResponseParam && conversation.agentResponseParam.sql) && (
                                         <div>
                                             <Button onClick={() => setShowSQL(!showSQL)} variant={'outlined'}
                                                 color={'info'}>{
@@ -156,11 +156,11 @@ export default function ChatBody({ showTable, setShowTable, chat, tableHeaders, 
             {(agent.selectedAgent === undefined && chat.length === 0) && (
                 <div className="w-full h-full flex flex-col justify-center items-center p-5">
                     <Typography sx={{ marginY: '1rem',
-                        color: settings.themeMode === 'dark' ? 'rgba(255, 255, 255, 0.7)' : 'rgba(0, 0, 0, 0.7)'
+                        color: settings.themeMode === 'dark' ? 'rgba(255, 255, 255, 0.6)' : 'rgba(0, 0, 0, 0.6)'
                      }} variant="h4">
-                        You don't have any Agent yet
+                        {t('messages.you_dont_have_agent')}
                     </Typography>
-                    <Button onClick={() => settings.onOpen()} variant="outlined" color="primary" size="large">Let's Create One</Button>
+                    <Button onClick={() => settings.onOpen()} variant="outlined" color="primary" size="large">{t('buttons.create_agent')}</Button>
                 </div>
             )}
 

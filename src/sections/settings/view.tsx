@@ -14,7 +14,7 @@ function classNames(...classes: any) {
     return classes.filter(Boolean).join(' ')
 }
 
-export const SettingsView = ({handleClose, open}: {handleClose: any, open: boolean}) => {
+export const SettingsView = ({handleClose}: {handleClose: any}) => {
     const settings = useSettingsContext();
     const workspace = useSelectedWorkspaceContext();
     const [currentNav, setCurrentNav] = useState<string>(settingsNavIds.newAgent);
@@ -30,7 +30,7 @@ export const SettingsView = ({handleClose, open}: {handleClose: any, open: boole
     return (
         <div>
             <Modal
-                open={open}
+                open={settings.open}
                 onClose={menuBasedHandleClose}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
@@ -44,8 +44,8 @@ export const SettingsView = ({handleClose, open}: {handleClose: any, open: boole
             >
                 <Grow
                     style={{transformOrigin: '0 0 0'}}
-                    {...((open) ? {timeout: 300} : {})}
-                    in={open} >
+                    {...((settings.open) ? {timeout: 300} : {})}
+                    in={settings.open} >
                     <div className={'h-screen w-screen transition-all ease-in '}>
                         <div className={classNames(settings.themeMode === 'light' ? 'bg-white' : 'bg-gray-800',
                             'absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-xl md:w-4/6 w-5/6 h-5/6')}>

@@ -88,7 +88,7 @@ export default function AccountPopover() {
 
     return (
         <>
-            <SettingsView open={settings.open} handleClose={handleClose}></SettingsView>
+            <SettingsView handleClose={handleClose}></SettingsView>
             <ChangeWorkspaceView handleClose={handleChangeWorkspaceClose} open={openChangeWorkspace}></ChangeWorkspaceView>
             <IconButton
                 component={m.button}

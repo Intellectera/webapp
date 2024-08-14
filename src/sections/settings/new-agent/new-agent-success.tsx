@@ -1,13 +1,20 @@
-import * as React from "react";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import {useSettingsContext} from "../../../components/settings";
 import {useTranslation} from "react-i18next";
-import {RouterLink} from "../../../routes/components";
+import { useSelectedWorkspaceContext } from "../../../layouts/dashboard/context/workspace-context";
 
 export default function NewAgentSuccess() {
     const settings = useSettingsContext();
+    const workspaceContext = useSelectedWorkspaceContext();
     const {t } = useTranslation();
+
+    const hanldeClose = () => {
+        settings.onClose();
+        workspaceContext.setSelectedWorkspace(previousValue => {
+            return {...previousValue!};
+        })
+    }
 
     return (
         <div className={'w-full flex justify-start items-center flex-col px-2 py-4 my-4 mx-2'}>
@@ -21,7 +28,7 @@ export default function NewAgentSuccess() {
             color: settings.themeMode === 'dark' ? 'rgba(255, 255, 255, 0.7)' : 'rgba(0, 0, 0, 0.7)'}}>
                 {t('titles.agent_created_desc')}
             </Typography>
-            <Button component={RouterLink} href="/" color={'success'} size="large" variant="contained">
+            <Button onClick={hanldeClose} color={'success'} size="large" variant="contained">
                 {t('buttons.ok_thanks')}
             </Button>
         </div>

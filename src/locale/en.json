@@ -108,6 +108,7 @@
         "delete_user": "Delete User",
         "remove_sessions": "Delete Chats",
         "delete_session": "Delete Chat",
+        "create_agent": "Create Agent",
         "ok": "OK"
       },
       "messages": {
@@ -119,7 +120,8 @@
         "change_workspace_desc": "The selected Workspace will be affected by all actions and changes will be available for all Users",
         "agent_deleted": "Agent deleted successfully",
         "user_invited": "User invited successfully",
-        "user_deleted": "User deleted successfully"
+        "user_deleted": "User deleted successfully",
+        "you_dont_have_agent": "You don't have any Agent yet"
       },
       "placeholders": {
         "db_name": "The name of the Database you want to connect."
