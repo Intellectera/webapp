@@ -80,18 +80,18 @@ pipeline {
                 }
             }
         }
-        stage("Build Application") {
-            steps {
-                sh 'npm run build'
-            }
-            post {
-                always { echo "========Build Application========" }
-                success { echo "========Build Application executed successfully========" }
-                failure { 
-                    slackSend botUser: true, channel: '#monitoring', color: 'danger', message: "Build failed at `Build Application` stage Url:${JOB_URL}", teamDomain: 'intellectera', tokenCredentialId: 'slackBotToken'
-                }
-            }
-        }
+        //stage("Build Application") {
+        //    steps {
+        //        sh 'npm run build'
+        //    }
+        //    post {
+        //        always { echo "========Build Application========" }
+        //        success { echo "========Build Application executed successfully========" }
+        //        failure { 
+        //            slackSend botUser: true, channel: '#monitoring', color: 'danger', message: "Build failed at `Build Application` stage Url:${JOB_URL}", teamDomain: 'intellectera', tokenCredentialId: 'slackBotToken'
+        //        }
+        //    }
+        //}
         stage("SonarQube Analysis") {
             steps {
                 script {
