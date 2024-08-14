@@ -36,6 +36,7 @@ export default function ChatBody({ showTable, setShowTable, chat, tableHeaders, 
 
     const [showCopied, setShowCopied] = useState<boolean>(false);
     const [showSQL, setShowSQL] = useState<boolean>(false);
+    const [showSQLIndex, setShowSQLIndex] = useState<number>(0);
     const [copiedIndex, setCopiedIndex] = useState<number>(0);
 
     const handleCopy = async (conversation: Conversation, index: number) => {
@@ -46,6 +47,15 @@ export default function ChatBody({ showTable, setShowTable, chat, tableHeaders, 
         setTimeout(() => {
             setShowCopied(false);
         }, 1000)
+    }
+
+    const handleShowSQL = (index:number) => {
+        if (index === showSQLIndex){
+            setShowSQL(!showSQL);
+        } else {
+            setShowSQL(true);
+        }
+        setShowSQLIndex(index);
     }
 
     return (
@@ -81,13 +91,13 @@ export default function ChatBody({ showTable, setShowTable, chat, tableHeaders, 
                                     className={classNames('w-[100%] h-[100%] prose', settings.themeMode === 'dark' ? 'prose-invert' : '')}
                                     dir={'auto'}>
                                     <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                                        {(showSQL) ? `\`\`\`${conversation.agentResponseParam.sql}\`\`\`` : conversation.response}
+                                        {(showSQL && showSQLIndex === index) ? `\`\`\`${conversation.agentResponseParam.sql}\`\`\`` : conversation.response}
                                     </ReactMarkdown>
                                     {(conversation.agentResponseParam && conversation.agentResponseParam.sql) && (
                                         <div>
-                                            <Button onClick={() => setShowSQL(!showSQL)} variant={'outlined'}
+                                            <Button onClick={() => handleShowSQL(index)} variant={'outlined'}
                                                 color={'info'}>{
-                                                    showSQL ? t('labels.show_message') : t('labels.show_sql')
+                                                    (showSQL && showSQLIndex === index) ? t('labels.show_message') : t('labels.show_sql')
                                                 }</Button>
                                         </div>
                                     )}
