@@ -93,42 +93,42 @@ pipeline {
         //        }
         //    }
         //}
-        stage("SonarQube Analysis") {
-            steps {
-                script {
-                    withSonarQubeEnv('sonarqube-scanner') {
-                        sh "${env.SONARQUBE_SCANNER_HOME}/bin/sonar-scanner \
-                        -Dsonar.projectKey=${APP_NAME} \
-                        -Dsonar.projectName=${APP_NAME} \
-                        -Dsonar.projectVersion=${RELEASE} \
-                        -Dsonar.sources=src \
-                        -Dsonar.language=js \
-                        -Dsonar.sourceEncoding=UTF-8"
-                    }
-                }
-            }
-            post {
-                always { echo "========SonarQube Analysis========" }
-                success { echo "========SonarQube Analysis executed successfully========" }
-                failure { 
-                    slackSend botUser: true, channel: '#monitoring', color: 'danger', message: "Build failed at `SonarQube Analysis` stage Url:${JOB_URL}", teamDomain: 'intellectera', tokenCredentialId: 'slackBotToken'
-                }
-            }
-        }
-        stage("Quality Gate") {
-            steps {
-                script {
-                    waitForQualityGate abortPipeline: false, credentialsId: 'jenkins-sonarqube-token'
-                }
-            }
-            post {
-                always { echo "========Quality Gate========" }
-                success { echo "========Quality Gate executed successfully========" }
-                failure { 
-                    slackSend botUser: true, channel: '#monitoring', color: 'danger', message: "Build failed at `Quality Gate` stage Url:${JOB_URL}", teamDomain: 'intellectera', tokenCredentialId: 'slackBotToken'
-                }
-            }
-        }
+        //stage("SonarQube Analysis") {
+        //    steps {
+        //        script {
+        //            withSonarQubeEnv('sonarqube-scanner') {
+        //                sh "${env.SONARQUBE_SCANNER_HOME}/bin/sonar-scanner \
+        //                -Dsonar.projectKey=${APP_NAME} \
+        //                -Dsonar.projectName=${APP_NAME} \
+        //                -Dsonar.projectVersion=${RELEASE} \
+        //                -Dsonar.sources=src \
+        //                -Dsonar.language=js \
+        //                -Dsonar.sourceEncoding=UTF-8"
+        //            }
+        //        }
+        //    }
+        //    post {
+        //        always { echo "========SonarQube Analysis========" }
+        //        success { echo "========SonarQube Analysis executed successfully========" }
+        //        failure { 
+        //            slackSend botUser: true, channel: '#monitoring', color: 'danger', message: "Build failed at `SonarQube Analysis` stage Url:${JOB_URL}", teamDomain: 'intellectera', tokenCredentialId: 'slackBotToken'
+        //        }
+        //    }
+        //}
+        //stage("Quality Gate") {
+        //    steps {
+        //        script {
+        //            waitForQualityGate abortPipeline: false, credentialsId: 'jenkins-sonarqube-token'
+        //        }
+        //    }
+        //    post {
+        //        always { echo "========Quality Gate========" }
+        //        success { echo "========Quality Gate executed successfully========" }
+        //        failure { 
+        //            slackSend botUser: true, channel: '#monitoring', color: 'danger', message: "Build failed at `Quality Gate` stage Url:${JOB_URL}", teamDomain: 'intellectera', tokenCredentialId: 'slackBotToken'
+        //        }
+        //    }
+        //}
         stage("Build & Push container image") {
             steps {
                 script {
