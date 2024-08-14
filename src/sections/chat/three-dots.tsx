@@ -1,5 +1,3 @@
-import * as React from "react";
-
 export default function ThreeDotsLoading() {
     return (
         <div className='flex justify-center items-center h-8 mx-auto'>

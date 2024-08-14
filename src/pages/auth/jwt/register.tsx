@@ -8,7 +8,7 @@ export default function RegisterPage() {
   return (
     <>
       <Helmet>
-        <title> Jwt: Register</title>
+        <title> Intellectera: Register</title>
       </Helmet>
 
       <JwtRegisterView />
