@@ -34,10 +34,10 @@ const OPTIONS: Array<{ label: string, linkTo: string }> = [];
 // ----------------------------------------------------------------------
 
 export default function AccountPopover() {
+    const settings = useSettingsContext();
 
-    const [openSettings, setOpenSettings] = useState(false);
     const handleClose = () => {
-        setOpenSettings(false);
+        settings.onClose();
     }
 
     const {t } = useTranslation();
@@ -56,7 +56,6 @@ export default function AccountPopover() {
 
     const popover = usePopover();
 
-    const settings = useSettingsContext();
 
     const handleLogout = async () => {
         try {
@@ -73,7 +72,7 @@ export default function AccountPopover() {
     };
 
     const handleOpenSettings = () => {
-        setOpenSettings(true);
+        settings.onOpen();
         popover.onClose();
     }
 
@@ -89,7 +88,7 @@ export default function AccountPopover() {
 
     return (
         <>
-            <SettingsView open={openSettings} handleClose={handleClose}></SettingsView>
+            <SettingsView open={settings.open} handleClose={handleClose}></SettingsView>
             <ChangeWorkspaceView handleClose={handleChangeWorkspaceClose} open={openChangeWorkspace}></ChangeWorkspaceView>
             <IconButton
                 component={m.button}

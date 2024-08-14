@@ -17,7 +17,6 @@ import { useSettingsContext } from './../../components/settings';
 import { HEADER, NAV } from './../config-layout';
 import {
   AccountPopover,
-  SettingsButton,
   LanguagePopover,
 } from './../_common';
 import ModeToggle from '../_common/mode-toggle';

@@ -19,6 +19,6 @@ export type SettingsContextProps = SettingsValueProps & {
   onReset: VoidFunction;
   // Drawer
   open: boolean;
-  onToggle: VoidFunction;
+  onOpen: VoidFunction;
   onClose: VoidFunction;
 };

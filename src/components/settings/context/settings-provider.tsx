@@ -17,7 +17,7 @@ type SettingsProviderProps = {
 };
 
 export function SettingsProvider({ children, defaultSettings }: SettingsProviderProps) {
-  const [openDrawer, setOpenDrawer] = useState(false);
+  const [openSettings, setOpenSettings] = useState(false);
 
   const [settings, setSettings] = useLocalStorage('settings', defaultSettings);
 
@@ -54,12 +54,12 @@ export function SettingsProvider({ children, defaultSettings }: SettingsProvider
   }, [defaultSettings, setSettings]);
 
   // Drawer
-  const onToggleDrawer = useCallback(() => {
-    setOpenDrawer((prev) => !prev);
+  const onOpenSettings = useCallback(() => {
+    setOpenSettings(true);
   }, []);
 
-  const onCloseDrawer = useCallback(() => {
-    setOpenDrawer(false);
+  const onCloseSettings = useCallback(() => {
+    setOpenSettings(false);
   }, []);
 
   const canReset = !isEqual(settings, defaultSettings);
@@ -74,18 +74,18 @@ export function SettingsProvider({ children, defaultSettings }: SettingsProvider
       canReset,
       onReset,
       // Drawer
-      open: openDrawer,
-      onToggle: onToggleDrawer,
-      onClose: onCloseDrawer,
+      open: openSettings,
+      onOpen: onOpenSettings,
+      onClose: onCloseSettings,
     }),
     [
       onReset,
       onUpdate,
       settings,
       canReset,
-      openDrawer,
-      onCloseDrawer,
-      onToggleDrawer,
+      onOpenSettings,
+      onCloseSettings,
+      onOpenSettings,
       onChangeDirectionByLang,
     ]
   );

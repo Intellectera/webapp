@@ -15,7 +15,6 @@ import { RouterLink } from './../../routes/components';
 //
 import { HEADER } from './../config-layout';
 import HeaderShadow from './header-shadow';
-import SettingsButton from './settings-button';
 
 // ----------------------------------------------------------------------
 
@@ -50,8 +49,6 @@ export default function HeaderSimple() {
         <Logo />
 
         <Stack direction="row" alignItems="center" spacing={1}>
-          <SettingsButton />
-
           <Link href="/" component={RouterLink} color="inherit" sx={{ typography: 'subtitle2' }}>
             Need help?
           </Link>
