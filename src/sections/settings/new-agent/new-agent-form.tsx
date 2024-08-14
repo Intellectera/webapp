@@ -16,6 +16,7 @@ import {useSelectedWorkspaceContext} from "../../../layouts/dashboard/context/wo
 import {TableName} from "../../../utils/dto/TableName.ts";
 import {DataSourceFormValuesProps} from "./new-agent-database-form.tsx";
 import { dataSourceTypes } from "./new-agent-select-datasource.tsx";
+import createExcelAgent from "../../../utils/calls/agent/create-agent-excel.tsx";
 
 type FormValuesProps = {
     name: string;
@@ -33,10 +34,13 @@ type Props = {
     selectedDatasource: number;
     databaseTables: TableName[];
     datasourceFormValues: DataSourceFormValuesProps | undefined;
+    selectedFiles: File[];
 }
 
 
-export default function NewAgentForm({submitRef, setActiveStep, setIsLoading, selectedDatasource, databaseTables, datasourceFormValues, setNewAgentCreated}: Props) {
+export default function NewAgentForm({submitRef, setActiveStep, setIsLoading,
+    selectedDatasource, databaseTables, datasourceFormValues, setNewAgentCreated, selectedFiles}: Props) {
+
     const {t} = useTranslation();
     const [maxResponse, setMaxResponse] = useState<number>(200);
     const [textareaValue, setTextareaValue] = useState('');
@@ -76,15 +80,66 @@ export default function NewAgentForm({submitRef, setActiveStep, setIsLoading, se
 
     const getConnectionString = (values: DataSourceFormValuesProps): string => {
         // user:password@host/database
-        return `${values.username}:${values.password}@${values.host}/${values.databaseName}`;
+        return `${values.username}:${values.password}@${values.host}:${values.port}/${values.databaseName}`;
+    }
+
+    const isDatasourceExcel = () => {
+        return selectedDatasource === dataSourceTypes.excel
+    }
+
+    const submitDatasource = (body: any) => {
+        createAgent(body).then((data: Agent) => {
+            setIsLoading(false);
+            if (data.id){
+                setActiveStep(prevState => prevState + 1);
+                setNewAgentCreated(true);
+            } else {
+                setErrorMsg('Something went wrong.')
+            }
+        }).catch((error: any) => {
+            let err = error as CustomError;
+            if (!IS_PRODUCTION){
+                console.log(err);
+            }
+            if (err.error && err.error.message && err.error.message.length > 0) {
+                setErrorMsg(err.error.message)
+            }
+            setIsLoading(false);
+        });
+    }
+
+    const submitExcelDatasource = (body: any) => {
+        const formData: FormData = new FormData();
+        // Append the JSON body with explicit Content-Type
+        const jsonBlob = new Blob([JSON.stringify(body)], { type: 'application/json' });
+        formData.append("body", jsonBlob);
+        selectedFiles.forEach(file => formData.append("files", file));
+        createExcelAgent(formData).then((data: Agent) => {
+            setIsLoading(false);
+            if (data.id){
+                setActiveStep(prevState => prevState + 1);
+                setNewAgentCreated(true);
+            } else {
+                setErrorMsg('Something went wrong.')
+            }
+        }).catch((error: any) => {
+            let err = error as CustomError;
+            if (!IS_PRODUCTION){
+                console.log(err);
+            }
+            if (err.error && err.error.message && err.error.message.length > 0) {
+                setErrorMsg(err.error.message)
+            }
+            setIsLoading(false);
+        });
     }
 
     const onSubmit = useCallback(
-        async (data: FormValuesProps) => {
+        async (formValue: FormValuesProps) => {
             setErrorMsg('');
             setIsLoading(true);
             const body = {
-                name: data.name,
+                name: formValue.name,
                 workspace: workspace.selectedWorkspace!,
                 configuration: {
                     maxTokens: maxResponse,
@@ -95,32 +150,19 @@ export default function NewAgentForm({submitRef, setActiveStep, setIsLoading, se
                         /*1 -> Direct && 2 -> API (For future implementation)*/
                         connectionType: 1,
                         // user:password@host/database
-                        connectionString: getConnectionString(datasourceFormValues!),
+                        connectionString: isDatasourceExcel() ? '' : getConnectionString(datasourceFormValues!),
                         /*1 -> Simple && 2 -> Bearer (For future implementation)*/
                         authorizationType: 1,
-                        tables: databaseTables.filter(table => table.selected).map(table => table.name.split('.')[1])
+                        tables: isDatasourceExcel() ? [] : databaseTables.filter(table => table.selected).map(table => table.name.split('.')[1])
                     },
-                    suggestions: [data.predefinedQuestion1, data.predefinedQuestion2]
+                    suggestions: [formValue.predefinedQuestion1, formValue.predefinedQuestion2]
                 }
             };
-            createAgent(body).then((data: Agent) => {
-                setIsLoading(false);
-                if (data.id){
-                    setActiveStep(prevState => prevState + 1);
-                    setNewAgentCreated(true);
-                } else {
-                    setErrorMsg('Something went wrong.')
-                }
-            }).catch((error: any) => {
-                let err = error as CustomError;
-                if (!IS_PRODUCTION){
-                    console.log(err);
-                }
-                if (err.error && err.error.message && err.error.message.length > 0) {
-                    setErrorMsg(err.error.message)
-                }
-                setIsLoading(false);
-            });
+            if(isDatasourceExcel()){
+                submitExcelDatasource(body)
+            } else {
+                submitDatasource(body)
+            }
         },
         [reset]
     );

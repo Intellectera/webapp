@@ -69,7 +69,7 @@ export default function NewAgentView({setNewAgentCreated}: Props) {
             if (prevActiveStep === steps.fillForm) {
                 setSelectedDatasource(0);
             }
-            if (selectedDatasource === dataSourceTypes.excel){
+            if (selectedDatasource === dataSourceTypes.excel && prevActiveStep != steps.fillForm){
                 return prevActiveStep - 2;
             } else {
                 return prevActiveStep - 1;
@@ -118,7 +118,7 @@ export default function NewAgentView({setNewAgentCreated}: Props) {
                                               setDatasourceFormValues={setDatasourceFormValues}></NewAgentDatabaseForm>
                     )}
                     {(activeStep === steps.fillForm && selectedDatasource === dataSourceTypes.excel) && (
-                        <ExcelUploadFileView></ExcelUploadFileView>
+                        <ExcelUploadFileView selectedFiles={selectedFiles} setSelectedFiles={setSelectedFiles}></ExcelUploadFileView>
                     )}
                     {activeStep === steps.selectTables && (
                         <NewAgentSelectTable showCheckboxError={showCheckboxError}
@@ -129,6 +129,7 @@ export default function NewAgentView({setNewAgentCreated}: Props) {
                         <NewAgentForm submitRef={agentFormRef} setActiveStep={setActiveStep} setIsLoading={setIsLoading}
                                       selectedDatasource={selectedDatasource} databaseTables={databaseTables}
                                       datasourceFormValues={datasourceFormValues}
+                                      selectedFiles={selectedFiles}
                                       setNewAgentCreated={setNewAgentCreated}></NewAgentForm>
                     )}
                 </div>
@@ -148,8 +149,7 @@ export default function NewAgentView({setNewAgentCreated}: Props) {
                             size="large"
                             type="submit"
                             variant="contained"
-                            loading={isLoading}
-                            disabled={activeStep === 0}
+                            disabled={activeStep === 0 || isLoading}
                             onClick={handleBack}
                         >
                             {t('buttons.back')}

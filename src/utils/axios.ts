@@ -30,6 +30,7 @@ export const API_ENDPOINTS = {
     },
     agent: {
       create: '/api/v1/agent/create',
+      createExcel: '/api/v1/agent/create-excel',
       update: '/api/v1/agent/update',
       delete: '/api/v1/agent/remove',
       load: '/api/v1/agent/load'

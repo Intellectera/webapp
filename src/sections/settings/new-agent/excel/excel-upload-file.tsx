@@ -23,7 +23,6 @@ type Props = {
 export default function ExcelUploadFileView({selectedFiles, setSelectedFiles}: Props) {
     const settings = useSettingsContext();
     const [showList, setShowList] = useState(false);
-    const [progress, setProgress] = React.useState(0);
     const {t} = useTranslation();
 
     useEffect(() => {
@@ -37,17 +36,6 @@ export default function ExcelUploadFileView({selectedFiles, setSelectedFiles}: P
     const handleDelete = (name: string) => {
         setSelectedFiles(prevState => prevState.filter(file => file.name !== name));
     }
-
-    useEffect(() => {
-        const interval = setInterval(() => {
-            setProgress(prevState => prevState + 5);
-        }, 1000);
-
-        if (progress >= 100){
-            clearInterval(interval)
-        }
-
-    }, []);
 
     return (
         <>
@@ -106,14 +94,6 @@ export default function ExcelUploadFileView({selectedFiles, setSelectedFiles}: P
                     </label>
                 </div>
             )}
-
-            <div className="w-full bg-neutral-200 mt-7 rounded-xl">
-                <div
-                    className="bg-green-400 p-0.5 text-center font-bold rounded-xl text-sm leading-none text-white transition-[width] duration-500"
-                    style={{width : `${progress}%`, maxWidth: '100%'}}>
-                    {`${progress}%`}
-                </div>
-            </div>
         </>
     );
 }
