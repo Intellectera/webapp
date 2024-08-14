@@ -14,6 +14,7 @@ pipeline {
         IMAGE_NAME = "${REGISTERY_NAME}/${PROJECT}/${APP_NAME}"
         IMAGE_TAG = "${RELEASE}-${BUILD_NUMBER}"
         HARBOR_PASS = 'harbortoken'
+        SONARQUBE_ENV = "sonarqube-scanner"
     }
     stages {
         stage("Clean workspace") {
@@ -95,7 +96,7 @@ pipeline {
         stage("SonarQube Analysis") {
             steps {
                 script {
-                    withSonarQubeEnv(credentialsId: 'jenkins-sonarqube-token') {
+                    withSonarQubeEnv('sonarqube-scanner') {
                         sh "${env.SONARQUBE_SCANNER_HOME}/bin/sonar-scanner \
                         -Dsonar.projectKey=${APP_NAME} \
                         -Dsonar.projectName=${APP_NAME} \
