@@ -52,6 +52,8 @@ export const API_ENDPOINTS = {
     chat: {
       send: '/api/v1/conversation/send',
       load: '/api/v1/conversation/load',
+      stt: '/api/v1/conversation/stt',
+      tts: '/api/v1/conversation/tts',
     },
     db: {
       loadTablesList: '/api/v1/conversation/list-tables'

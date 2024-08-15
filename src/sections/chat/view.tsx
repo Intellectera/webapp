@@ -86,7 +86,7 @@ export default function ChatView() {
     const handleSendMessage = (inputValue: string = inputMessage.trim()) => {
         setShowTable(false);
         textAreaRef.current!.style.height = 'auto'; // Reset height
-        setInputMessage('')
+        setInputMessage('');
         let agent = selectedAgentContextValue.selectedAgent;
         let workspace = selectedWorkspaceContextValue.selectedWorkspace;
         let session = selectedSessionContextValue.selectedSession;
@@ -161,7 +161,7 @@ export default function ChatView() {
                 </div>
             )}
 
-            <ChatInput inputMessage={inputMessage} setInputMessage={setInputMessage} textAreaRef={textAreaRef} handleSendMessage={handleSendMessage}></ChatInput>
+            <ChatInput setIsLoading={setIsLoading} inputMessage={inputMessage} setInputMessage={setInputMessage} textAreaRef={textAreaRef} handleSendMessage={handleSendMessage}></ChatInput>
         </div>
     );
 }

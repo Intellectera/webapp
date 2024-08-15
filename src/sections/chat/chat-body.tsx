@@ -12,6 +12,9 @@ import { Grow, Typography } from "@mui/material";
 import Button from "@mui/material/Button";
 import { useTranslation } from "react-i18next";
 import { useSelectedAgentContext } from "../../layouts/dashboard/context/agent-context.tsx";
+import getTTS from "../../utils/calls/chat/get-tts.ts";
+import { log } from "console";
+import { PulseAnimationDiv } from "./input.tsx";
 
 
 type Props = {
@@ -38,6 +41,8 @@ export default function ChatBody({ showTable, setShowTable, chat, tableHeaders, 
     const [showSQL, setShowSQL] = useState<boolean>(false);
     const [showSQLIndex, setShowSQLIndex] = useState<number>(0);
     const [copiedIndex, setCopiedIndex] = useState<number>(0);
+    const [isTTSPlaying, setIsTTSPlaying] = useState<boolean>(false);
+    const [ttsAudio, setTTSAudio] = useState<HTMLAudioElement | undefined>();
 
     const handleCopy = async (conversation: Conversation, index: number) => {
         let text = (conversation.agentResponseParam && showSQL) ? conversation.agentResponseParam.sql : conversation.response;
@@ -49,13 +54,36 @@ export default function ChatBody({ showTable, setShowTable, chat, tableHeaders, 
         }, 1000)
     }
 
-    const handleShowSQL = (index:number) => {
-        if (index === showSQLIndex){
+    const handleShowSQL = (index: number) => {
+        if (index === showSQLIndex) {
             setShowSQL(!showSQL);
         } else {
             setShowSQL(true);
         }
         setShowSQLIndex(index);
+    }
+
+    const handleTTS = (message: string) => {
+        if (isTTSPlaying) {
+            ttsAudio?.pause();
+            setIsTTSPlaying(false);
+        } else {
+            setIsTTSPlaying(true);
+            getTTS({ text: message }).then(response => {
+                const audio = new Audio();
+                audio.src = URL.createObjectURL(response);
+                audio.load();
+                audio.play().then(() => { })
+                    .catch((error) => {
+                        console.error('Error playing audio', error);
+                    });
+                setTTSAudio(audio);
+                audio.onended = () => {
+                    setIsTTSPlaying(false);
+                    setTTSAudio(undefined);
+                }
+            });
+        }
     }
 
     return (
@@ -112,14 +140,29 @@ export default function ChatBody({ showTable, setShowTable, chat, tableHeaders, 
                         in={(conversation.response !== undefined && conversation.response.trim().length > 0)}>
                         <div id={'icons'}
                             className={classNames('w-[100%] ml-14 rtl:pl-14 flex', settings.themeDirection === 'rtl' ? 'flex-row-reverse' : 'flex-row')}>
-                            <div className={'cursor-pointer'}>
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                    strokeWidth={1.5}
-                                    stroke="currentColor" className="size-5">
-                                    <path strokeLinecap="round" strokeLinejoin="round"
-                                        d="M19.114 5.636a9 9 0 0 1 0 12.728M16.463 8.288a5.25 5.25 0 0 1 0 7.424M6.75 8.25l4.72-4.72a.75.75 0 0 1 1.28.53v15.88a.75.75 0 0 1-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.009 9.009 0 0 1 2.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75Z" />
-                                </svg>
-                            </div>
+                            {isTTSPlaying ? (
+                                <PulseAnimationDiv onClick={() => handleTTS(conversation.response)} className={classNames("flex flex-col justify-center cursor-pointer items-center rounded-full",
+                                    settings.themeMode === 'light' ? 'bg-gray-200' : 'bg-gray-600'
+                                )}>
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                        strokeWidth={1.5}
+                                        stroke="currentColor" className="size-5">
+                                        <path strokeLinecap="round" strokeLinejoin="round"
+                                            d="M19.114 5.636a9 9 0 0 1 0 12.728M16.463 8.288a5.25 5.25 0 0 1 0 7.424M6.75 8.25l4.72-4.72a.75.75 0 0 1 1.28.53v15.88a.75.75 0 0 1-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.009 9.009 0 0 1 2.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75Z" />
+                                    </svg>
+                                </PulseAnimationDiv>
+                            ) : (
+                                <div onClick={() => handleTTS(conversation.response)} className={'cursor-pointer'}>
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                        strokeWidth={1.5}
+                                        stroke="currentColor" className="size-5">
+                                        <path strokeLinecap="round" strokeLinejoin="round"
+                                            d="M19.114 5.636a9 9 0 0 1 0 12.728M16.463 8.288a5.25 5.25 0 0 1 0 7.424M6.75 8.25l4.72-4.72a.75.75 0 0 1 1.28.53v15.88a.75.75 0 0 1-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.009 9.009 0 0 1 2.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75Z" />
+                                    </svg>
+                                </div>
+                            )}
+
+
                             <div onClick={() => {
                                 handleCopy(conversation, index).then()
                             }} className={'ml-3 cursor-pointer'}>
@@ -165,9 +208,10 @@ export default function ChatBody({ showTable, setShowTable, chat, tableHeaders, 
 
             {(agent.selectedAgent === undefined && chat.length === 0) && (
                 <div className="w-full h-full flex flex-col justify-center items-center p-5">
-                    <Typography sx={{ marginY: '1rem',
+                    <Typography sx={{
+                        marginY: '1rem',
                         color: settings.themeMode === 'dark' ? 'rgba(255, 255, 255, 0.6)' : 'rgba(0, 0, 0, 0.6)'
-                     }} variant="h4">
+                    }} variant="h4">
                         {t('messages.you_dont_have_agent')}
                     </Typography>
                     <Button onClick={() => settings.onOpen()} variant="outlined" color="primary" size="large">{t('buttons.create_agent')}</Button>

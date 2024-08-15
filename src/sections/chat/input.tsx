@@ -3,20 +3,80 @@ import { alpha } from "@mui/material/styles";
 import * as React from "react";
 import { SetStateAction } from "react";
 import { useSettingsContext } from "../../components/settings";
+import styled, { keyframes } from 'styled-components';
+import RecordRTC, { Options, StereoAudioRecorder } from "recordrtc";
+import getSTT from "../../utils/calls/chat/get-stt";
 
 type Props = {
     inputMessage: string,
     setInputMessage: React.Dispatch<SetStateAction<string>>,
     textAreaRef: React.RefObject<HTMLTextAreaElement>,
     handleSendMessage: any
+    setIsLoading: React.Dispatch<SetStateAction<boolean>>,
 }
 
 function classNames(...classes: any) {
     return classes.filter(Boolean).join(' ')
 }
 
-export default function ChatInput({ inputMessage, setInputMessage, textAreaRef, handleSendMessage }: Props) {
+const pulse = keyframes`
+  0% {
+    transform: scale(0.8);
+    box-shadow: 0 0 0 0 rgba(92, 109, 115, 1);
+  }
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 25px rgba(92, 109, 115, 0);
+  }
+  100% {
+    transform: scale(0.8);
+  }
+`;
+
+// Create the styled component
+export const PulseAnimationDiv = styled.div`
+  animation: ${pulse} 1s infinite;
+`;
+
+export default function ChatInput({ inputMessage, setInputMessage, textAreaRef, handleSendMessage , setIsLoading }: Props) {
     const settings = useSettingsContext();
+    const [isRecording, setIsRecording] = React.useState(false);
+    const [record, setRecord] = React.useState<StereoAudioRecorder | undefined>(undefined);
+
+    const successCallback = (stream: any): void => {
+        let options: Options = {
+            mimeType: "audio/wav",
+            numberOfAudioChannels: 1,
+            sampleRate: 16000,
+        };
+        let StereoAudioRecorder = RecordRTC.StereoAudioRecorder;
+        const recorder = new StereoAudioRecorder(stream, options);
+        setRecord(recorder);
+        recorder.record();
+    }
+
+    const processRecording = (blob: any): void => {
+        const formData: FormData = new FormData();
+        formData.append("voice", blob);
+        getSTT(formData).then((data: {text: string}) => {
+            handleSendMessage(data.text);
+        })
+    }
+
+    const startRecording = () => {
+        setIsRecording(true);
+        let mediaConstraints: { video: boolean, audio: boolean } = {
+            video: false,
+            audio: true
+        };
+        navigator.mediaDevices.getUserMedia(mediaConstraints).then((stream: any) => successCallback(stream), (_: any) => { });
+    }
+
+    const stopRecording = () => {
+        setIsRecording(false);
+        setIsLoading(true);
+        record!.stop(processRecording)
+    }
 
     const handleOnInput = () => {
         textAreaRef.current!.style.height = 'auto'; // Reset height
@@ -34,14 +94,26 @@ export default function ChatInput({ inputMessage, setInputMessage, textAreaRef, 
         <Box sx={{ bgcolor: (theme) => alpha(theme.palette.grey[600], 0.1) }}
             className={classNames("flex items-center justify-center gap-1.5 md:gap-2 w-[90%] md:w-[80%] lg:w-[70%] mb-2 rounded-3xl",
                 settings.themeDirection === 'rtl' ? 'mr-1 ml-5' : 'mr-5 ml-1')}>
-            <div
-                className="flex flex-col justify-center cursor-pointer items-center rtl:ml-2 rtl:mr-4 ltr:ml-4 ltr:mr-2">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5}
-                     stroke="currentColor" className="size-7">
-                    <path strokeLinecap="round" strokeLinejoin="round"
-                          d="M12 18.75a6 6 0 0 0 6-6v-1.5m-6 7.5a6 6 0 0 1-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 0 1-3-3V4.5a3 3 0 1 1 6 0v8.25a3 3 0 0 1-3 3Z"/>
-                </svg>
-            </div>
+            {isRecording ? (
+                <PulseAnimationDiv onClick={() => stopRecording()} className={classNames("flex flex-col justify-center cursor-pointer items-center rtl:ml-2 rtl:mr-4 ltr:ml-4 ltr:mr-2 h-10 w-10 rounded-full",
+                    settings.themeMode === 'light' ? 'bg-gray-200' : 'bg-gray-600'
+                )}>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5}
+                        stroke="currentColor" className="size-7">
+                        <path strokeLinecap="round" strokeLinejoin="round"
+                            d="M12 18.75a6 6 0 0 0 6-6v-1.5m-6 7.5a6 6 0 0 1-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 0 1-3-3V4.5a3 3 0 1 1 6 0v8.25a3 3 0 0 1-3 3Z" />
+                    </svg>
+                </PulseAnimationDiv>
+            ) : (
+                <div onClick={() => startRecording()} className={classNames("flex flex-col justify-center cursor-pointer items-center rtl:ml-2 rtl:mr-4 ltr:ml-4 ltr:mr-2 h-10 w-10 rounded-full")}>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5}
+                        stroke="currentColor" className="size-7">
+                        <path strokeLinecap="round" strokeLinejoin="round"
+                            d="M12 18.75a6 6 0 0 0 6-6v-1.5m-6 7.5a6 6 0 0 1-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 0 1-3-3V4.5a3 3 0 1 1 6 0v8.25a3 3 0 0 1-3 3Z" />
+                    </svg>
+                </div>
+            )}
+
             <div className="flex min-w-0 flex-1 flex-col items-start justify-end">
                 <textarea onInput={handleOnInput} ref={textAreaRef} rows={1}
                     onKeyDown={(event) => handleInputKeyDown(event)}
