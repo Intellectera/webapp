@@ -17,6 +17,8 @@ import {TableName} from "../../../utils/dto/TableName.ts";
 import {DataSourceFormValuesProps} from "./new-agent-database-form.tsx";
 import { dataSourceTypes } from "./new-agent-select-datasource.tsx";
 import createExcelAgent from "../../../utils/calls/agent/create-agent-excel.tsx";
+import { Box } from "@mui/material";
+import PrettoSlider from "../../../components/_common/pretto-slider.tsx";
 
 type FormValuesProps = {
     name: string;
@@ -42,7 +44,7 @@ export default function NewAgentForm({submitRef, setActiveStep, setIsLoading,
     selectedDatasource, databaseTables, datasourceFormValues, setNewAgentCreated, selectedFiles}: Props) {
 
     const {t} = useTranslation();
-    const [maxResponse, setMaxResponse] = useState<number>(200);
+    const [maxResponse, setMaxResponse] = useState<number>(16000);
     const [textareaValue, setTextareaValue] = useState('');
     const workspace = useSelectedWorkspaceContext();
 
@@ -86,6 +88,12 @@ export default function NewAgentForm({submitRef, setActiveStep, setIsLoading,
     const isDatasourceExcel = () => {
         return selectedDatasource === dataSourceTypes.excel
     }
+
+    const handleSliderChange = (_: Event, newValue: number | number[]) => {
+        if (typeof newValue === 'number') {
+            setMaxResponse(newValue);
+        }
+    };
 
     const submitDatasource = (body: any) => {
         createAgent(body).then((data: Agent) => {
@@ -185,21 +193,18 @@ export default function NewAgentForm({submitRef, setActiveStep, setIsLoading,
                     <label className="block text-sm  mt-5 mb-2 ml-1 leading-6">
                         {t('labels.max_response')} ({maxResponse} {t('labels.words')})
                     </label>
-                    <div style={{overflow: "visible"}} className="relative mb-6 overflow-visible-children">
-                        <label htmlFor="labels-range-input" className="sr-only">Labels range</label>
-                        <input onChange={(event) => {
-                            setMaxResponse(Number(event.target.value))
-                        }} value={maxResponse} id="labels-range-input" type="range" min="200" max="16000" step={100}
-                               className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"/>
-                        <span
-                            className="text-sm text-gray-500 dark:text-gray-400 absolute start-0 -bottom-6">200</span>
-                        <span
-                            className="text-sm text-gray-500 dark:text-gray-400 absolute start-1/3 -translate-x-1/2 rtl:translate-x-1/2 -bottom-6">5000</span>
-                        <span
-                            className="text-sm text-gray-500 dark:text-gray-400 absolute start-2/3 -translate-x-1/2 rtl:translate-x-1/2 -bottom-6">10000</span>
-                        <span
-                            className="text-sm text-gray-500 dark:text-gray-400 absolute end-0 -bottom-6">16000</span>
-                    </div>
+                    <Box sx={{ width: '100%', marginBottom: '1rem' }}>
+                        <PrettoSlider
+                            aria-label={'pretto slider'}
+                            min={500}
+                            max={16000}
+                            step={200}
+                            value={maxResponse}
+                            onChange={handleSliderChange}
+                            getAriaValueText={(value: any) => `${value}`}
+                            valueLabelDisplay="auto"
+                        ></PrettoSlider>
+                    </Box>  
 
                     <label className="block text-sm mt-5 mb-2 ml-1 leading-6">
                         {t('labels.agent_instructions')}
