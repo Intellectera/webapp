@@ -14,7 +14,12 @@ export type ActionMapType<M extends { [index: string]: any }> = {
       };
 };
 
-export type AuthUserType = null | Record<string, any>;
+export type AuthUserType = {
+  firstName: string;
+  lastName: string;
+  email: string;
+  profile: string;
+} | null;
 
 export type AuthStateType = {
   status?: string;

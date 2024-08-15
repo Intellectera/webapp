@@ -10,8 +10,6 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 // routes
 import {useRouter} from '../../routes/hook';
-// hooks
-import {useMockedUser} from './../../hooks/use-mocked-user';
 // auth
 import {useAuthContext} from '../../auth/hooks';
 // components
@@ -35,6 +33,7 @@ const OPTIONS: Array<{ label: string, linkTo: string }> = [];
 
 export default function AccountPopover() {
     const settings = useSettingsContext();
+    const authContext = useAuthContext();
 
     const handleClose = () => {
         settings.onClose();
@@ -49,8 +48,6 @@ export default function AccountPopover() {
     }
 
     const router = useRouter();
-
-    const {user} = useMockedUser();
 
     const {logout} = useAuthContext();
 
@@ -118,11 +115,11 @@ export default function AccountPopover() {
             <CustomPopover open={popover.open} onClose={popover.onClose} sx={{width: 200, p: 0}}>
                 <Box sx={{p: 2, pb: 1.5}}>
                     <Typography variant="subtitle2" noWrap>
-                        {user?.displayName}
+                        {authContext.user?.firstName + ' ' + authContext.user?.lastName}
                     </Typography>
 
                     <Typography variant="body2" sx={{color: 'text.secondary'}} noWrap>
-                        {user?.email}
+                        {authContext.user?.email}
                     </Typography>
                 </Box>
 

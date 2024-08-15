@@ -3,19 +3,23 @@ import {useCallback, useEffect, useMemo, useReducer} from 'react';
 import axios, {API_ENDPOINTS} from './../../../utils/axios';
 //
 import {AuthContext} from './auth-context';
-import {setSession} from './utils';
+import {isValidToken, setSession} from './utils';
 import {ActionMapType, AuthStateType, AuthUserType} from './../../types';
 import {localStorageGetItem} from "../../../utils/storage-available.ts";
 import {localStorageLngKey} from "../../../layouts/_common/language-popover.tsx";
 import {useTranslation} from "react-i18next";
 
 enum Types {
+  INITIAL = 'INITIAL',
   LOGIN = 'LOGIN',
   REGISTER = 'REGISTER',
   LOGOUT = 'LOGOUT',
 }
 
 type Payload = {
+  [Types.INITIAL]: {
+    user: AuthUserType;
+  };
   [Types.LOGIN]: {
     user: AuthUserType;
   };
@@ -35,6 +39,12 @@ const initialState: AuthStateType = {
 };
 
 const reducer = (state: AuthStateType, action: ActionsType) => {
+  if (action.type === Types.INITIAL) {
+    return {
+      ...state,
+      user: action.payload.user,
+    };
+  }
   if (action.type === Types.LOGIN) {
     return {
       ...state,
@@ -72,6 +82,43 @@ export function AuthProvider({ children }: Props) {
   }, [])
 
   const [state, dispatch] = useReducer(reducer, initialState);
+
+  // INITIAL
+  const initialize = useCallback(async () => {
+    try {
+      if (isValidToken()) {
+        const response = await axios.get(API_ENDPOINTS.v1.auth.me);
+
+        const user = response.data;
+
+        dispatch({
+          type: Types.INITIAL,
+          payload: {
+            user,
+          },
+        });
+      } else {
+        dispatch({
+          type: Types.INITIAL,
+          payload: {
+            user: null,
+          },
+        });
+      }
+    } catch (error) {
+      console.error(error);
+      dispatch({
+        type: Types.INITIAL,
+        payload: {
+          user: null,
+        },
+      });
+    }
+  }, []);
+
+  useEffect(() => {
+    initialize();
+  }, [initialize]);
 
   // LOGIN
   const login = useCallback(async (email: string, password: string) => {

@@ -94,7 +94,7 @@ export default function NewAgentForm({submitRef, setActiveStep, setIsLoading,
                 setActiveStep(prevState => prevState + 1);
                 setNewAgentCreated(true);
             } else {
-                setErrorMsg('Something went wrong.')
+                setErrorMsg(t('errors.something_went_wrong'))
             }
         }).catch((error: any) => {
             let err = error as CustomError;
@@ -120,7 +120,7 @@ export default function NewAgentForm({submitRef, setActiveStep, setIsLoading,
                 setActiveStep(prevState => prevState + 1);
                 setNewAgentCreated(true);
             } else {
-                setErrorMsg('Something went wrong.')
+                setErrorMsg(t('errors.something_went_wrong'))
             }
         }).catch((error: any) => {
             let err = error as CustomError;

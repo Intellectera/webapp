@@ -2,6 +2,7 @@ import axios from 'axios';
 // config
 import {BACKEND_URL} from './../config-global';
 import {TOKEN_STORAGE_KEY} from "../auth/context/jwt/auth-provider.tsx";
+import { CustomError } from './types.ts';
 
 // ----------------------------------------------------------------------
 
@@ -15,7 +16,8 @@ axiosInstance.interceptors.response.use(
       delete axios.defaults.headers.common.Authorization;
       window.location.href = '/';
     }
-    return Promise.reject((error.response && error.response.data) || 'Something went wrong');
+    const customError : CustomError = error.response.data as CustomError;
+    return Promise.reject(customError);
   }
 );
 
