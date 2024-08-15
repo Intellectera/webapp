@@ -91,7 +91,7 @@ export default function ChatBody({ showTable, setShowTable, chat, tableHeaders, 
                                     className={classNames('w-[100%] h-[100%] prose', settings.themeMode === 'dark' ? 'prose-invert' : '')}
                                     dir={'auto'}>
                                     <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                                        {(showSQL && showSQLIndex === index) ? `\`\`\`${conversation.agentResponseParam.sql}\`\`\`` : conversation.response}
+                                        {(showSQL && showSQLIndex === index) ? `\`\`\`${conversation.agentResponseParam ? conversation.agentResponseParam.sql : ''}\`\`\`` : conversation.response}
                                     </ReactMarkdown>
                                     {(conversation.agentResponseParam && conversation.agentResponseParam.sql) && (
                                         <div>

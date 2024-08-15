@@ -6,7 +6,7 @@ import { CustomError } from './types.ts';
 
 // ----------------------------------------------------------------------
 
-const axiosInstance = axios.create({ baseURL: BACKEND_URL , withCredentials: true});
+const axiosInstance = axios.create({ baseURL: BACKEND_URL , withCredentials: true, timeout: 1000 * 60 * 5});
 
 axiosInstance.interceptors.response.use(
   (response) => response,
