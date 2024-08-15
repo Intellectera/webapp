@@ -87,10 +87,6 @@
     }
   }
 
-*:not (".MuiFormControl-root ") {
-  overflow: hidden;
-}
-
 .overflow-visible-children * {
   overflow: visible;
 }
