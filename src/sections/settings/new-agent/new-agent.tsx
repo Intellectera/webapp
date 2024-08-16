@@ -106,7 +106,7 @@ export default function NewAgentView({setNewAgentCreated}: Props) {
                 <NewAgentSuccess></NewAgentSuccess>
             ) : (
                 <div
-                    className={'h-[67vh] sm:h-[63vh] sm:mb-5 px-10 overflow-y-scroll scrollbar scrollbar-thumb-gray-500 scrollbar-track-transparent '}>
+                    className={'h-[60vh] sm:h-[58vh] sm:mb-5 px-10 overflow-y-scroll scrollbar scrollbar-thumb-gray-500 scrollbar-track-transparent '}>
                     {activeStep === steps.selectDataSource && (
                         <NewAgentSelectDatasource
                             setSelectedDatasource={setSelectedDatasource}></NewAgentSelectDatasource>

@@ -42,6 +42,7 @@ export default function ChatBody({ showTable, setShowTable, chat, tableHeaders, 
     const [showSQLIndex, setShowSQLIndex] = useState<number>(0);
     const [copiedIndex, setCopiedIndex] = useState<number>(0);
     const [isTTSPlaying, setIsTTSPlaying] = useState<boolean>(false);
+    const [ttsIndex, setTTSIndex] = useState<number>(0);
     const [ttsAudio, setTTSAudio] = useState<HTMLAudioElement | undefined>();
 
     const handleCopy = async (conversation: Conversation, index: number) => {
@@ -63,11 +64,12 @@ export default function ChatBody({ showTable, setShowTable, chat, tableHeaders, 
         setShowSQLIndex(index);
     }
 
-    const handleTTS = (message: string) => {
+    const handleTTS = (message: string, index: number) => {
         if (isTTSPlaying) {
             ttsAudio?.pause();
             setIsTTSPlaying(false);
         } else {
+            setTTSIndex(index);
             setIsTTSPlaying(true);
             getTTS({ text: message }).then(response => {
                 const audio = new Audio();
@@ -140,8 +142,8 @@ export default function ChatBody({ showTable, setShowTable, chat, tableHeaders, 
                         in={(conversation.response !== undefined && conversation.response.trim().length > 0)}>
                         <div id={'icons'}
                             className={classNames('w-[100%] ml-14 rtl:pl-14 flex', settings.themeDirection === 'rtl' ? 'flex-row-reverse' : 'flex-row')}>
-                            {isTTSPlaying ? (
-                                <PulseAnimationDiv onClick={() => handleTTS(conversation.response)} className={classNames("flex flex-col justify-center cursor-pointer items-center rounded-full",
+                            {(isTTSPlaying && ttsIndex === index) ? (
+                                <PulseAnimationDiv onClick={() => handleTTS(conversation.response, index)} className={classNames("flex flex-col justify-center cursor-pointer items-center rounded-full",
                                     settings.themeMode === 'light' ? 'bg-gray-200' : 'bg-gray-600'
                                 )}>
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -152,7 +154,7 @@ export default function ChatBody({ showTable, setShowTable, chat, tableHeaders, 
                                     </svg>
                                 </PulseAnimationDiv>
                             ) : (
-                                <div onClick={() => handleTTS(conversation.response)} className={'cursor-pointer'}>
+                                <div onClick={() => handleTTS(conversation.response, index)} className={'cursor-pointer'}>
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                         strokeWidth={1.5}
                                         stroke="currentColor" className="size-5">
