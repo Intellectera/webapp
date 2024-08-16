@@ -7,7 +7,7 @@ pipeline {
     }
     environment {
         APP_NAME = "webapp"
-        RELEASE = "1.0.2"
+        RELEASE = "1.0.3"
         REGISTERY = "https://hub.reznetdevops.com"
         REGISTERY_NAME = "hub.reznetdevops.com"
         PROJECT = "intelprod"
