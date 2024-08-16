@@ -12,6 +12,8 @@
     "continue": "ادامه",
     "errors": {
       "email_required": "ایمیل ضروری است",
+      "first_name_required": "نام ضروری است",
+      "last_name_required": "نام خانوادگی ضروری است",
       "password_required": "رمز عبور ضروری است",
       "email_valid": "ایمیل باید معتبر باشد",
       "username_required": "نام کاربری ضروری است",
@@ -49,7 +51,9 @@
       "delete_user": "حذف کاربر",
       "general_settings": "تنظیمات عمومی",
       "delete_all_sessions": "حذف همه چت ها",
-      "page_not_found": "صفحه یافت نشد!"
+      "page_not_found": "صفحه یافت نشد!",
+      "get_started_free": "کاملا رایگان شروع کنید",
+      "already_have_account": "از قبل حساب کاربری دارید؟"
     },
     "labels": {
       "selected_agent": "ایجنت انتخاب شده",
@@ -91,7 +95,10 @@
       "dashboard": "داشبورد",
       "usage": "گزارش استفاده",
       "total": "مجموع",
-      "tokens": "توکن"
+      "tokens": "توکن",
+      "sign_in": "وارد شوید",
+      "first_name": "نام",
+      "last_name": "نام خانوادگی"
     },
     "buttons": {
       "close": "بستن",

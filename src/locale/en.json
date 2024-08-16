@@ -12,6 +12,8 @@
     "continue": "Continue",
     "errors": {
       "email_required": "Email is Required",
+      "first_name_required": "First Name is Required",
+      "last_name_required": "Last Name is Required",
       "password_required": "Password is Required",
       "email_valid": "Email must be valid",
       "username_required": "Username is Required",
@@ -49,7 +51,9 @@
       "delete_user": "Delete User",
       "general_settings": "General Settings",
       "delete_all_sessions": "Delete All Chats",
-      "page_not_found": "Sorry, Page Not Found!"
+      "page_not_found": "Sorry, Page Not Found!",
+      "get_started_free": "Get started absolutely free",
+      "already_have_account": "Already have an account?"
     },
     "labels": {
       "selected_agent": "Selected Agent",
@@ -91,7 +95,10 @@
       "dashboard": "Dashboard",
       "usage": "Usage",
       "total": "Total",
-      "tokens": "Tokens"
+      "tokens": "Tokens",
+      "sign_in": "Sign in",
+      "first_name": "First Name",
+      "last_name": "Last Name"
     },
     "buttons": {
       "close": "Close",

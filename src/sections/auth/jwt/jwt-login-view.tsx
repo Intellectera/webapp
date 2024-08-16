@@ -1,7 +1,7 @@
 import * as Yup from 'yup';
-import {useForm} from 'react-hook-form';
-import {useCallback, useState} from 'react';
-import {yupResolver} from '@hookform/resolvers/yup';
+import { useForm } from 'react-hook-form';
+import { useCallback, useState } from 'react';
+import { yupResolver } from '@hookform/resolvers/yup';
 // @mui
 import LoadingButton from '@mui/lab/LoadingButton';
 import Link from '@mui/material/Link';
@@ -11,23 +11,24 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import InputAdornment from '@mui/material/InputAdornment';
 // routes
-import {paths} from './../../../routes/paths';
-import {useSearchParams} from '../../../routes/hook';
-import {RouterLink} from './../../../routes/components';
+import { paths } from './../../../routes/paths';
+import { useSearchParams } from '../../../routes/hook';
+import { RouterLink } from './../../../routes/components';
 // config
-import {IS_PRODUCTION, PATH_AFTER_LOGIN} from './../../../config-global';
+import { CAPTCHA_SITE_KEY, IS_PRODUCTION, PATH_AFTER_LOGIN } from './../../../config-global';
 // hooks
-import {useBoolean} from './../../../hooks/use-boolean';
+import { useBoolean } from './../../../hooks/use-boolean';
 // auth
-import {useAuthContext} from '../../../auth/hooks';
+import { useAuthContext } from '../../../auth/hooks';
 // components
 import Iconify from './../../../components/iconify';
-import FormProvider, {RHFTextField} from './../../../components/hook-form';
-import {CustomError} from "../../../utils/types.ts";
-import {useTranslation} from "react-i18next";
-import {localStorageRemoveItem} from "../../../utils/storage-available.ts";
-import {WORKSPACE_STORAGE_KEY} from "../../../layouts/dashboard/context/workspace-provider.tsx";
-import {AGENT_STORAGE_KEY} from "../../../layouts/dashboard/context/agent-provider.tsx";
+import FormProvider, { RHFTextField } from './../../../components/hook-form';
+import { CustomError } from "../../../utils/types.ts";
+import { useTranslation } from "react-i18next";
+import { localStorageRemoveItem } from "../../../utils/storage-available.ts";
+import { WORKSPACE_STORAGE_KEY } from "../../../layouts/dashboard/context/workspace-provider.tsx";
+import { AGENT_STORAGE_KEY } from "../../../layouts/dashboard/context/agent-provider.tsx";
+import ReCAPTCHA from "react-google-recaptcha";
 
 // ----------------------------------------------------------------------
 
@@ -37,12 +38,13 @@ type FormValuesProps = {
 };
 
 export default function JwtLoginView() {
-    const {t } = useTranslation();
+    const { t } = useTranslation();
 
 
-    const {login} = useAuthContext();
+    const { login } = useAuthContext();
 
     const [errorMsg, setErrorMsg] = useState('');
+    const [captcha, setCaptcha] = useState<string | null>(null);
 
     const searchParams = useSearchParams();
 
@@ -68,7 +70,7 @@ export default function JwtLoginView() {
     const {
         reset,
         handleSubmit,
-        formState: {isSubmitting},
+        formState: { isSubmitting },
     } = methods;
 
     const onSubmit = useCallback(
@@ -92,7 +94,7 @@ export default function JwtLoginView() {
     );
 
     const renderHead = (
-        <Stack spacing={2} sx={{mb: 5}}>
+        <Stack spacing={2} sx={{ mb: 5 }}>
             <Typography variant="h4">{t('login')}</Typography>
 
             <Stack direction="row" spacing={0.5}>
@@ -109,7 +111,7 @@ export default function JwtLoginView() {
         <Stack spacing={2.5}>
             {!!errorMsg && <Alert severity="error">{errorMsg}</Alert>}
 
-            <RHFTextField className={'overflow-visible-children-i'} name="email" label={t('email')}/>
+            <RHFTextField className={'overflow-visible-children-i'} name="email" label={t('email')} />
 
             <RHFTextField
                 name="password"
@@ -119,19 +121,25 @@ export default function JwtLoginView() {
                     endAdornment: (
                         <InputAdornment position="end">
                             <IconButton onClick={password.onToggle} edge="end">
-                                <Iconify icon={password.value ? 'solar:eye-bold' : 'solar:eye-closed-bold'}/>
+                                <Iconify icon={password.value ? 'solar:eye-bold' : 'solar:eye-closed-bold'} />
                             </IconButton>
                         </InputAdornment>
                     ),
                 }}
             />
 
-            <Link variant="body2" color="inherit" underline="always" sx={{alignSelf: 'flex-end'}}>
+            <Link variant="body2" color="inherit" underline="always" sx={{ alignSelf: 'flex-end' }}>
                 {t('forgot_password')}
             </Link>
 
+            <ReCAPTCHA
+                sitekey={CAPTCHA_SITE_KEY}
+                onChange={(value) => setCaptcha(value)}
+            />
+
             <LoadingButton
                 fullWidth
+                disabled={captcha === null}
                 color="inherit"
                 size="large"
                 type="submit"
