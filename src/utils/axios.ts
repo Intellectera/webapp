@@ -57,6 +57,9 @@ export const API_ENDPOINTS = {
     },
     db: {
       loadTablesList: '/api/v1/conversation/list-tables'
+    },
+    license: {
+      loadUsage: '/api/v1/license/load-usage'
     }
   },
 };

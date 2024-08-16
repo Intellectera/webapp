@@ -87,6 +87,10 @@
     }
   }
 
+#root > div {
+  overflow: hidden;
+}
+
 .overflow-visible-children * {
   overflow: visible;
 }

@@ -24,6 +24,7 @@ import {WORKSPACE_STORAGE_KEY} from "../dashboard/context/workspace-provider.tsx
 import {ChangeWorkspaceView} from "../../sections/workspace/view.tsx";
 import {useTranslation} from "react-i18next";
 import {AGENT_STORAGE_KEY} from "../dashboard/context/agent-provider.tsx";
+import UsageView from '../../sections/usage/view.tsx';
 
 // ----------------------------------------------------------------------
 
@@ -42,6 +43,7 @@ export default function AccountPopover() {
     const {t } = useTranslation();
 
     const [openChangeWorkspace, setOpenChangeWorkspace] = useState(false);
+    const [openUsage, setOpenUsage] = useState(false);
 
     const handleChangeWorkspaceClose = () => {
         setOpenChangeWorkspace(false)
@@ -78,6 +80,11 @@ export default function AccountPopover() {
         popover.onClose();
     }
 
+    const handleOpenUsage = () => {
+        setOpenUsage(true);
+        popover.onClose();
+    }
+
     const handleClickItem = (path: string) => {
         popover.onClose();
         router.push(path);
@@ -87,6 +94,7 @@ export default function AccountPopover() {
         <>
             <SettingsView handleClose={handleClose}></SettingsView>
             <ChangeWorkspaceView handleClose={handleChangeWorkspaceClose} open={openChangeWorkspace}></ChangeWorkspaceView>
+            <UsageView openUsage={openUsage} setOpenUsage={setOpenUsage}></UsageView>
             <IconButton
                 component={m.button}
                 whileTap="tap"
@@ -134,11 +142,19 @@ export default function AccountPopover() {
                 </Stack>
 
                 {/* <Divider sx={{ borderStyle: 'dashed' }} /> */}
+
                 <MenuItem
                     onClick={handleOpenSettings}
                     sx={{m: 1, fontWeight: 'fontWeightBold'}}
                 >
                     {t('settings')}
+                </MenuItem>
+
+                <MenuItem
+                    onClick={handleOpenUsage}
+                    sx={{m: 1, fontWeight: 'fontWeightBold'}}
+                >
+                    {t('labels.usage')}
                 </MenuItem>
 
                 <MenuItem

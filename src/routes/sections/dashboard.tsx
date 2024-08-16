@@ -18,7 +18,7 @@ const IndexPage = lazy(() => import('./../../pages/dashboard/chat'));
 
 export const dashboardRoutes = [
     {
-        path: 'dashboard',
+        path: 'chat',
         element: (
             <AuthGuard>
                 <SelectedWorkspaceProvider>
