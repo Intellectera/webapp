@@ -88,7 +88,7 @@ export default function ExcelUploadFileView({selectedFiles, setSelectedFiles}: P
                                 className="font-semibold">{t('labels.click_to_upload')}</span></p>
                             <p className="text-xs text-gray-500 dark:text-gray-400">XLSX, XLS, ODF (MAX. 30MB)</p>
                         </div>
-                        <input multiple={false} onChange={(event) => {
+                        <input multiple={true} onChange={(event) => {
                             setSelectedFiles([...event.target.files ?? []])
                         }} accept=".xlsx,.xls,.odf" id="dropzone-file" type="file" className="hidden"/>
                     </label>
