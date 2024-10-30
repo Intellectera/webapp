@@ -13,9 +13,8 @@ import Button from "@mui/material/Button";
 import { useTranslation } from "react-i18next";
 import { useSelectedAgentContext } from "../../layouts/dashboard/context/agent-context.tsx";
 import getTTS from "../../utils/calls/chat/get-tts.ts";
-import { log } from "console";
 import { PulseAnimationDiv } from "./input.tsx";
-
+import Plot from 'react-plotly.js';
 
 type Props = {
     showTable: boolean,
@@ -121,7 +120,7 @@ export default function ChatBody({ showTable, setShowTable, chat, tableHeaders, 
                                     className={classNames('w-[100%] h-[100%] prose', settings.themeMode === 'dark' ? 'prose-invert' : '')}
                                     dir={'auto'}>
                                     <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                                        {(showSQL && showSQLIndex === index) ? `\`\`\`${conversation.agentResponseParam ? conversation.agentResponseParam.sql : ''}\`\`\`` : conversation.response}
+                                        {(showSQL && showSQLIndex === index) ? `\`\`\`\n${conversation.agentResponseParam ? conversation.agentResponseParam.sql : ''} \n \`\`\`` : conversation.response}
                                     </ReactMarkdown>
                                     {(conversation.agentResponseParam && conversation.agentResponseParam.sql) && (
                                         <div>
@@ -204,6 +203,20 @@ export default function ChatBody({ showTable, setShowTable, chat, tableHeaders, 
                         </div>
                     </Grow>
 
+                    <Grow
+                        style={{ transformOrigin: '0 0 0' }}
+                        {...((conversation.response !== undefined && conversation.response.trim().length > 0) ? { timeout: 1500 } : {})}
+                        in={(conversation.response !== undefined && conversation.response.trim().length > 0)}>
+                        <div className="mt-8 w-full">
+                            {(conversation.agentResponseParam && conversation.agentResponseParam.plotly && index == chat.length - 1) && (
+                                <Plot
+                                    data={JSON.parse(conversation.agentResponseParam.plotly).data}
+                                    layout={{ autosize: true, title: '' }}
+                                />
+                            )}
+                        </div>
+                    </Grow>
+
 
                 </div>
             ))}
@@ -257,7 +270,7 @@ export default function ChatBody({ showTable, setShowTable, chat, tableHeaders, 
                         </li>
                     )}
 
-                    {(agent.selectedAgent.configuration.suggestions[0] && agent.selectedAgent.configuration.suggestions[1].trim().length > 0) && (
+                    {(agent.selectedAgent.configuration.suggestions[1] && agent.selectedAgent.configuration.suggestions[1].trim().length > 0) && (
                         <li className={classNames("group w-full my-2 sm:my-0 sm:w-[48%] col-span-1 rounded-lg shadow transition-colors duration-300",
                             settings.themeMode === 'dark' ? 'bg-slate-800 hover:bg-blue-900' : 'bg-slate-200 hover:bg-blue-200')}>
                             <a onClick={() => handleSendMessage(agent.selectedAgent!.configuration.suggestions![1])} className={classNames("flex cursor-pointer items-center justify-between truncate p-4",

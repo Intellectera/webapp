@@ -81,6 +81,12 @@ export default function ChatView() {
             setTableRows(conversation.agentResponseParam.data)
             setShowTable(true);
         }
+
+        // if (conversation.agentResponseParam.suggestions && conversation.agentResponseParam.suggestions.length > 0){
+        //     selectedAgentContextValue.setSelectedAgent((prev) => {
+        //         return {...prev!, configuration: {...prev!.configuration, suggestions: conversation.agentResponseParam.suggestions}}
+        //     });
+        // }
     }
 
     const handleSendMessage = (inputValue: string = inputMessage.trim()) => {

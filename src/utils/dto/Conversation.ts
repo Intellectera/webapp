@@ -15,4 +15,5 @@ export class AgentResponseParam {
   response: string;
   columnNames: string[];
   suggestions: string[];
+  plotly: string;
 }
