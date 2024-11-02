@@ -248,10 +248,10 @@ export default function NewAgentForm({ submitRef, setActiveStep, setIsLoading,
                     <label className="block text-sm mt-5 mb-2 ml-1 leading-6">
                         {t('labels.agent_instructions')}
                     </label>
-                    <RHFTextField value={textareaValue} onChange={(event) => setTextareaValue(event.target.value)} inputProps={{ maxLength: 600 }} multiline={true}
+                    <RHFTextField value={textareaValue} onChange={(event) => setTextareaValue(event.target.value)} inputProps={{ maxLength: 5000 }} multiline={true}
                         minRows={5} maxRows={6} type={'text'} name="agentInstructions" />
                     <label className="block text-[0.7rem] font-bold mt-1 mb-2 ml-1 leading-6">
-                        {textareaValue.length + '/600'}
+                        {textareaValue.length + '/5000'}
                     </label>
 
                     <label className="block text-sm  mt-5 mb-2 ml-1 leading-6">

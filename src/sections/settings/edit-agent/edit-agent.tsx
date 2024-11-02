@@ -168,10 +168,10 @@ export default function EditAgentView({ selectedAgent, setSelectedAgent, setShow
 
                     <RHFTextField label={t('labels.agent_instructions')} value={textareaValue}
                         onChange={(event) => setTextareaValue(event.target.value)}
-                        inputProps={{ maxLength: 600 }} multiline={true}
+                        inputProps={{ maxLength: 5000 }} multiline={true}
                         minRows={5} maxRows={6} type={'text'} name="agentInstructions" />
                     <label className="block text-[0.7rem] font-bold mt-1 ml-1 leading-6">
-                        {textareaValue.length + '/600'}
+                        {textareaValue.length + '/5000'}
                     </label>
 
                     <div className={'mb-4'}></div>
