@@ -20,7 +20,7 @@ function classNames(...classes: any) {
     return classes.filter(Boolean).join(' ')
 }
 
-export default function NewAgentSelectTable({databaseTables, setDatabaseTables, showCheckboxError, setShowCheckboxError, selectedTables, setSelectedTables}: Props) {
+export default function NewAgentSelectTable({databaseTables, showCheckboxError, setShowCheckboxError, selectedTables, setSelectedTables}: Props) {
     const {t } = useTranslation();
     const settings = useSettingsContext();
     const [databaseTablesCopy, setDatabaseTablesCopy] = useState<TableName[]>([]);
