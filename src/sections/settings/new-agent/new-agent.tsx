@@ -36,6 +36,7 @@ export default function NewAgentView({setNewAgentCreated}: Props) {
     const [selectedDatasource, setSelectedDatasource] = React.useState<number>(0);
     const [isLoading, setIsLoading] = React.useState(false);
     const [databaseTables, setDatabaseTables] = React.useState<Array<TableName>>([]);
+    const [selectedTables, setSelectedTables] = React.useState<Array<number>>([]);
     const [datasourceFormValues, setDatasourceFormValues] = React.useState<DataSourceFormValuesProps | undefined>(undefined);
     const [showCheckboxError, setShowCheckboxError] = React.useState<boolean>(false);
     const dataSourceFormRef = useRef<HTMLButtonElement>(null);
@@ -49,7 +50,13 @@ export default function NewAgentView({setNewAgentCreated}: Props) {
         } else if (activeStep === steps.fillAgentForm) {
             agentFormRef.current!.click();
         } else if (activeStep === steps.selectTables) {
-            if (databaseTables.find((item) => item.selected)) {
+            if (selectedTables.length > 0) {
+                setDatabaseTables(prev => {
+                    selectedTables.forEach(id => {
+                        prev[prev.findIndex(item => item.id === id)].selected = true;
+                    })
+                    return prev;
+                })
                 setActiveStep((prevActiveStep) => prevActiveStep + 1);
             } else {
                 setShowCheckboxError(true);
@@ -123,7 +130,10 @@ export default function NewAgentView({setNewAgentCreated}: Props) {
                     {activeStep === steps.selectTables && (
                         <NewAgentSelectTable showCheckboxError={showCheckboxError}
                                              setShowCheckboxError={setShowCheckboxError} databaseTables={databaseTables}
-                                             setDatabaseTables={setDatabaseTables}></NewAgentSelectTable>
+                                             setDatabaseTables={setDatabaseTables}
+                                             selectedTables={selectedTables}
+                                             setSelectedTables={setSelectedTables}
+                                             ></NewAgentSelectTable>
                     )}
                     {activeStep === steps.fillAgentForm && (
                         <NewAgentForm submitRef={agentFormRef} setActiveStep={setActiveStep} setIsLoading={setIsLoading}

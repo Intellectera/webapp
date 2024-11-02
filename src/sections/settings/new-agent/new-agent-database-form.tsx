@@ -82,8 +82,8 @@ export default function NewAgentDatabaseForm({submitRef, selectedDatasource, set
             loadTablesList(body).then((data: any) => {
                 const tables: string[] = data.tables;
                 setIsLoading(false);
-                setDatabaseTables(tables.map(table => {
-                    return {name: table, selected: false};
+                setDatabaseTables(tables.map((table, index: number) => {
+                    return {id: index, name: table, selected: false};
                 }));
                 setDatasourceFormValues(dataSourceFormValuesProps);
                 setActiveStep(prevState => prevState + 1);

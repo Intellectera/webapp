@@ -10,6 +10,8 @@ import {useTranslation} from "react-i18next";
 type Props = {
     databaseTables: TableName[];
     setDatabaseTables: React.Dispatch<React.SetStateAction<TableName[]>>;
+    selectedTables: number[];
+    setSelectedTables: React.Dispatch<React.SetStateAction<number[]>>;
     showCheckboxError: boolean;
     setShowCheckboxError: React.Dispatch<React.SetStateAction<boolean>>;
 }
@@ -18,7 +20,7 @@ function classNames(...classes: any) {
     return classes.filter(Boolean).join(' ')
 }
 
-export default function NewAgentSelectTable({databaseTables, setDatabaseTables, showCheckboxError, setShowCheckboxError}: Props) {
+export default function NewAgentSelectTable({databaseTables, setDatabaseTables, showCheckboxError, setShowCheckboxError, selectedTables, setSelectedTables}: Props) {
     const {t } = useTranslation();
     const settings = useSettingsContext();
     const [databaseTablesCopy, setDatabaseTablesCopy] = useState<TableName[]>([]);
@@ -27,24 +29,28 @@ export default function NewAgentSelectTable({databaseTables, setDatabaseTables, 
         setDatabaseTablesCopy(databaseTables);
     }, [databaseTables])
 
-    const onCheckboxChange = (index: number, checked: boolean) => {
+    const onCheckboxChange = (id: number, checked: boolean) => {
         setShowCheckboxError(false);
-        setDatabaseTables(items => {
-            const newItems: TableName[] = [...items];
-            newItems[index].selected = checked;
-            return newItems;
-        });
+        setSelectedTables(prev => {
+            if (checked){
+                return [...prev, id]
+            } else {
+                return prev.filter(tableId => tableId !== id);
+            }
+        })
     }
 
     const handleCheckAll = (checked: boolean) => {
         setShowCheckboxError(false);
-        setDatabaseTables(items => {
-            const newItems: TableName[] = items.map(item => {
-                item.selected = checked;
-                return item;
-            });
-            return newItems;
-        });
+        if (checked){
+            const ids: number[] = []
+            databaseTables.forEach(item => {
+                ids.push(item.id)
+            })
+            setSelectedTables(ids);
+        } else {
+            setSelectedTables([]);
+        }
     }
 
     const handleOnSearch = (value: string) => {
@@ -105,13 +111,13 @@ export default function NewAgentSelectTable({databaseTables, setDatabaseTables, 
                     <div id={'table'}
                          className={'w-full flex-1 !overflow-y-scroll scrollbar scrollbar-thumb-gray-500 scrollbar-track-transparent'}>
 
-                        {databaseTablesCopy.map((table, index) => (
-                            <div key={index} className={classNames('w-full flex border-b-[1px]',
+                        {databaseTablesCopy.map((table) => (
+                            <div key={table.id} className={classNames('w-full flex border-b-[1px]',
                                 settings.themeMode === 'dark' ? 'border-gray-700' : 'border-gray-300')}>
                                 <div className={'p-1 flex justify-start items-center'}>
                                     <Checkbox
-                                        onChange={(_, checked) => onCheckboxChange(index, checked)}
-                                        checked={table.selected}
+                                        onChange={(_, checked) => onCheckboxChange(table.id, checked)}
+                                        checked={selectedTables.includes(table.id)}
                                         sx={{'& .MuiSvgIcon-root': {fontSize: 24}}}
                                     />
                                 </div>
