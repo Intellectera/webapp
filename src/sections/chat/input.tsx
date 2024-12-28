@@ -46,8 +46,6 @@ export default function ChatInput({ inputMessage, setInputMessage, textAreaRef, 
     const successCallback = (stream: any): void => {
         let options: Options = {
             mimeType: "audio/wav",
-            numberOfAudioChannels: 1,
-            sampleRate: 16000,
         };
         let StereoAudioRecorder = RecordRTC.StereoAudioRecorder;
         const recorder = new StereoAudioRecorder(stream, options);
@@ -56,7 +54,6 @@ export default function ChatInput({ inputMessage, setInputMessage, textAreaRef, 
     }
 
     const processRecording = (blob: any): void => {
-        
         const formData: FormData = new FormData();
         formData.append("voice", blob);
         getSTT(formData).then((data: {text: string}) => {
@@ -123,8 +120,7 @@ export default function ChatInput({ inputMessage, setInputMessage, textAreaRef, 
                     className="overflow-y-scroll scrollbar scrollbar-thumb-gray-500m-0 w-[100%] min-h-[50px] max-h-[130px] place-content-center text-lg resize-none border-0 bg-transparent px-0 text-token-text-primary focus:ring-0 focus-visible:ring-0 "
                 ></textarea>
             </div>
-            <button onClick={handleSendMessage}
-                className={'flex flex-col justify-center items-center cursor-pointer ltr:ml-2 ltr:mr-4 rtl:ml-4 rtl:mr-2'}>
+            <button onClick={() => handleSendMessage()} className={'flex flex-col justify-center items-center cursor-pointer ltr:ml-2 ltr:mr-4 rtl:ml-4 rtl:mr-2'}>
                 {settings.themeDirection === 'ltr' ? (
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5"
                         stroke="currentColor" className="size-8">

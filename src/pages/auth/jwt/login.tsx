@@ -8,7 +8,7 @@ export default function LoginPage() {
   return (
     <>
       <Helmet>
-        <title> Intellectera: Login</title>
+        <title>Intellectera</title>
       </Helmet>
 
       <JwtLoginView />

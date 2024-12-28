@@ -8,7 +8,7 @@ export default function ChatPage() {
     return (
         <>
             <Helmet>
-                <title>Intellectera: Chat</title>
+                <title>Intellectera</title>
             </Helmet>
 
             <ChatView />
