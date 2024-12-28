@@ -56,6 +56,7 @@ export default function ChatInput({ inputMessage, setInputMessage, textAreaRef, 
     }
 
     const processRecording = (blob: any): void => {
+        
         const formData: FormData = new FormData();
         formData.append("voice", blob);
         getSTT(formData).then((data: {text: string}) => {
