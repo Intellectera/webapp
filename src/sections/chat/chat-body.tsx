@@ -7,7 +7,7 @@ import ChatTable from "./table.tsx";
 import * as React from "react";
 import { useSettingsContext } from "../../components/settings";
 import { Conversation } from "../../utils/dto/Conversation.ts";
-import { SetStateAction, useState } from "react";
+import { SetStateAction, useRef, useState } from "react";
 import { Grow, Typography } from "@mui/material";
 import Button from "@mui/material/Button";
 import { useTranslation } from "react-i18next";
@@ -15,6 +15,9 @@ import { useSelectedAgentContext } from "../../layouts/dashboard/context/agent-c
 import getTTS from "../../utils/calls/chat/get-tts.ts";
 import { PulseAnimationDiv } from "./input.tsx";
 import Plot from 'react-plotly.js';
+import screenfull from "screenfull";
+import { Minimize } from 'lucide-react';
+import { Maximize } from 'lucide-react';
 
 type Props = {
     showTable: boolean,
@@ -35,6 +38,7 @@ export default function ChatBody({ showTable, setShowTable, chat, tableHeaders, 
     const settings = useSettingsContext();
     const { t } = useTranslation();
     const agent = useSelectedAgentContext();
+    const chartRef = useRef(null);
 
     const [showCopied, setShowCopied] = useState<boolean>(false);
     const [showSQL, setShowSQL] = useState<boolean>(false);
@@ -43,6 +47,14 @@ export default function ChatBody({ showTable, setShowTable, chat, tableHeaders, 
     const [isTTSPlaying, setIsTTSPlaying] = useState<boolean>(false);
     const [ttsIndex, setTTSIndex] = useState<number>(0);
     const [ttsAudio, setTTSAudio] = useState<HTMLAudioElement | undefined>();
+    const [isFullScreen, setIsFullScreen] = useState(false);
+
+    const toggleFullScreen = () => {
+        if (screenfull.isEnabled) {
+            screenfull.toggle(chartRef?.current!);
+            setIsFullScreen(prev => !prev);
+        }
+    };
 
     const handleCopy = async (conversation: Conversation, index: number) => {
         let text = (conversation.agentResponseParam && showSQL) ? conversation.agentResponseParam.sql : conversation.response;
@@ -207,12 +219,26 @@ export default function ChatBody({ showTable, setShowTable, chat, tableHeaders, 
                         style={{ transformOrigin: '0 0 0' }}
                         {...((conversation.response !== undefined && conversation.response.trim().length > 0) ? { timeout: 1500 } : {})}
                         in={(conversation.response !== undefined && conversation.response.trim().length > 0)}>
-                        <div className="mt-8 w-full">
+                        <div ref={chartRef} className="mt-8 w-full">
                             {(conversation.agentResponseParam && conversation.agentResponseParam.plotly && index == chat.length - 1) && (
-                                <Plot
-                                    data={JSON.parse(conversation.agentResponseParam.plotly).data}
-                                    layout={{ autosize: true, title: '' }}
-                                />
+                                <>
+                                    <Button style={{marginBottom: '1rem'}} onClick={toggleFullScreen} variant={'outlined'} color={'info'}>
+                                        {isFullScreen ? (
+                                            <Minimize />
+                                        ) : (
+                                            <Maximize />
+                                        )}
+                                    </Button>
+                                    <Plot
+                                        data={JSON.parse(conversation.agentResponseParam.plotly).data}
+                                        layout={{
+                                            autosize: true,
+                                            title: "",
+                                        }}
+                                        style={isFullScreen ? { width: '100%', height: '100%' } : { width: '100%' }}
+                                        useResizeHandler={true} // Adjusts size dynamically
+                                    />
+                                </>
                             )}
                         </div>
                     </Grow>
