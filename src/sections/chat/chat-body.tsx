@@ -27,6 +27,8 @@ type Props = {
     tableHeaders: string[],
     tableRows: any[],
     handleSendMessage: any;
+    suggestions: string[];
+    isLoading: boolean;
 }
 
 
@@ -34,7 +36,7 @@ function classNames(...classes: any) {
     return classes.filter(Boolean).join(' ')
 }
 
-export default function ChatBody({ showTable, setShowTable, chat, tableHeaders, tableRows, messagesEndRef, handleSendMessage }: Props) {
+export default function ChatBody({ showTable, isLoading, suggestions, setShowTable, chat, tableHeaders, tableRows, messagesEndRef, handleSendMessage }: Props) {
     const settings = useSettingsContext();
     const { t } = useTranslation();
     const agent = useSelectedAgentContext();
@@ -222,7 +224,7 @@ export default function ChatBody({ showTable, setShowTable, chat, tableHeaders, 
                         <div ref={chartRef} className="mt-8 w-full">
                             {(conversation.agentResponseParam && conversation.agentResponseParam.plotly && index == chat.length - 1) && (
                                 <>
-                                    <Button style={{marginBottom: '1rem'}} onClick={toggleFullScreen} variant={'outlined'} color={'info'}>
+                                    <Button style={{ marginBottom: '1rem' }} onClick={toggleFullScreen} variant={'outlined'} color={'info'}>
                                         {isFullScreen ? (
                                             <Minimize />
                                         ) : (
@@ -259,17 +261,14 @@ export default function ChatBody({ showTable, setShowTable, chat, tableHeaders, 
                 </div>
             )}
 
-            {/*Dummy div for scrolling*/}
-            <div ref={messagesEndRef}></div>
-
-            {(chat.length === 0 && agent.selectedAgent && agent.selectedAgent.configuration && agent.selectedAgent.configuration.suggestions) && (
+            {(!isLoading && suggestions.length > 0) && (
                 <ul role="list"
-                    className={classNames("absolute flex flex-col w-full sm:flex-row sm:justify-evenly bottom-0 mx-auto",
-                        settings.themeMode === 'dark' ? 'text-slate-200' : '')}>
-                    {(agent.selectedAgent.configuration.suggestions[0] && agent.selectedAgent.configuration.suggestions[0].trim().length > 0) && (
+                    className={classNames("mt-5 flex flex-col w-full sm:flex-row sm:justify-evenly bottom-0 mx-auto",
+                        settings.themeMode === 'dark' ? 'text-slate-200' : '', chat.length == 0 ? 'absolute' : '')}>
+                    {(suggestions[0] && suggestions[0].trim().length > 0) && (
                         <li className={classNames("group w-full my-2 sm:my-0 sm:w-[48%] col-span-1 rounded-lg shadow transition-colors duration-300",
                             settings.themeMode === 'dark' ? 'bg-slate-800 hover:bg-blue-900' : 'bg-slate-200 hover:bg-blue-200')}>
-                            <a onClick={() => handleSendMessage(agent.selectedAgent!.configuration.suggestions![0])} className={classNames("flex cursor-pointer items-center justify-between truncate p-4",
+                            <a onClick={() => handleSendMessage(suggestions[0])} className={classNames("flex cursor-pointer items-center justify-between truncate p-4",
                                 settings.themeDirection === 'ltr' ? 'space-x-6' : '')}
                                 href="#">
                                 <div className="flex flex-col items-center gap-y-1 rounded-lg text-xs">
@@ -282,24 +281,20 @@ export default function ChatBody({ showTable, setShowTable, chat, tableHeaders, 
                                 </div>
                                 <div className={classNames("flex-1 truncate", settings.themeDirection === 'rtl' ? 'mr-4' : '')}>
                                     <div className="flex items-center space-x-3">
-                                        <h3 className={classNames("text-sm font-bold transition-colors duration-300",
+                                        <h3 className={classNames("text-sm text-wrap font-bold transition-colors duration-300",
                                             settings.themeMode === 'dark' ? 'text-slate-200  group-hover:text-slate-50' : 'text-slate-900  group-hover:text-black')}>
-                                            {t('labels.pre_def_question1')}
+                                            {suggestions[0]}
                                         </h3>
                                     </div>
-                                    <p className={classNames("mt-1 truncate text-sm transition-colors duration-300",
-                                        settings.themeMode === 'dark' ? 'text-slate-500 group-hover:text-slate-200' : ' text-slate-500 group-hover:text-slate-900')}>
-                                        {agent.selectedAgent.configuration.suggestions[0]}
-                                    </p>
                                 </div>
                             </a>
                         </li>
                     )}
 
-                    {(agent.selectedAgent.configuration.suggestions[1] && agent.selectedAgent.configuration.suggestions[1].trim().length > 0) && (
+                    {(suggestions[1] && suggestions[1].trim().length > 0) && (
                         <li className={classNames("group w-full my-2 sm:my-0 sm:w-[48%] col-span-1 rounded-lg shadow transition-colors duration-300",
                             settings.themeMode === 'dark' ? 'bg-slate-800 hover:bg-blue-900' : 'bg-slate-200 hover:bg-blue-200')}>
-                            <a onClick={() => handleSendMessage(agent.selectedAgent!.configuration.suggestions![1])} className={classNames("flex cursor-pointer items-center justify-between truncate p-4",
+                            <a onClick={() => handleSendMessage(suggestions[1])} className={classNames("flex cursor-pointer items-center justify-between truncate p-4",
                                 settings.themeDirection === 'ltr' ? 'space-x-6' : '')}
                                 href="#">
                                 <div className="flex flex-col items-center gap-y-1 rounded-lg text-xs">
@@ -311,22 +306,22 @@ export default function ChatBody({ showTable, setShowTable, chat, tableHeaders, 
                                     </svg>
                                 </div>
                                 <div className={classNames("flex-1 truncate", settings.themeDirection === 'rtl' ? 'mr-4' : '')}>
-                                    <div className="flex items-center space-x-3">
-                                        <h3 className={classNames("text-sm font-bold transition-colors duration-300",
+                                    <div className="flex items-center justify-center space-x-3">
+                                        <h3 className={classNames("text-sm text-wrap font-bold transition-colors duration-300",
                                             settings.themeMode === 'dark' ? 'text-slate-200  group-hover:text-slate-50' : 'text-slate-900  group-hover:text-black')}>
-                                            {t('labels.pre_def_question2')}
+                                            {suggestions[1]}
                                         </h3>
                                     </div>
-                                    <p className={classNames("mt-1 truncate text-sm transition-colors duration-300",
-                                        settings.themeMode === 'dark' ? 'text-slate-500 group-hover:text-slate-200' : ' text-slate-500 group-hover:text-slate-900')}>
-                                        {agent.selectedAgent.configuration.suggestions[1]}
-                                    </p>
                                 </div>
                             </a>
                         </li>
                     )}
                 </ul>
             )}
+
+
+            {/*Dummy div for scrolling*/}
+            <div ref={messagesEndRef}></div>
         </div>
 
     );

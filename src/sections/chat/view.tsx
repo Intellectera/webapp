@@ -1,18 +1,18 @@
 import * as React from "react";
-import {useSelectedSessionContext} from "../../layouts/dashboard/context/session-context.tsx";
-import {SelectedSessionContextValue} from "../../layouts/dashboard/context/session-provider.tsx";
-import {useEffect, useRef, useState} from "react";
+import { useSelectedSessionContext } from "../../layouts/dashboard/context/session-context.tsx";
+import { SelectedSessionContextValue } from "../../layouts/dashboard/context/session-provider.tsx";
+import { useEffect, useRef, useState } from "react";
 import loadChat from "../../utils/calls/chat/load-chat.ts";
-import {Conversation} from "../../utils/dto/Conversation.ts";
-import {useSelectedAgentContext} from "../../layouts/dashboard/context/agent-context.tsx";
-import {useSelectedWorkspaceContext} from "../../layouts/dashboard/context/workspace-context.tsx";
+import { Conversation } from "../../utils/dto/Conversation.ts";
+import { useSelectedAgentContext } from "../../layouts/dashboard/context/agent-context.tsx";
+import { useSelectedWorkspaceContext } from "../../layouts/dashboard/context/workspace-context.tsx";
 import sendMessage from "../../utils/calls/chat/send-message.tsx";
-import {CustomError} from "../../utils/types.ts";
+import { CustomError } from "../../utils/types.ts";
 import Alert from "@mui/material/Alert";
 import ChatInput from "./input.tsx";
 import ThreeDotsLoading from "./three-dots.tsx";
 import ChatBody from "./chat-body.tsx";
-import {useTranslation} from "react-i18next";
+import { useTranslation } from "react-i18next";
 
 function classNames(...classes: any) {
     return classes.filter(Boolean).join(' ')
@@ -24,7 +24,7 @@ export default function ChatView() {
     const selectedWorkspaceContextValue = useSelectedWorkspaceContext();
     const messagesEndRef = useRef<null | HTMLDivElement>(null);
     const textAreaRef = useRef<HTMLTextAreaElement>(null);
-    const {t} = useTranslation();
+    const { t } = useTranslation();
 
     const [chat, setChat] = useState<Array<Conversation>>([]);
     const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -34,10 +34,11 @@ export default function ChatView() {
     const [tableHeaders, setTableHeaders] = useState<Array<string>>([]);
     const [tableRows, setTableRows] = useState<Array<any>>([]);
     const [showTable, setShowTable] = useState<boolean>(false);
+    const [suggestions, setSuggestions] = useState<Array<string>>([]);
 
     const scrollToBottom = (timeout: number) => {
         setTimeout(() => {
-            messagesEndRef.current!.scrollIntoView({behavior: "smooth"})
+            messagesEndRef.current!.scrollIntoView({ behavior: "smooth" })
         }, timeout)
     }
 
@@ -46,18 +47,19 @@ export default function ChatView() {
         textAreaRef.current!.focus();
     }, []);
 
-
     useEffect(() => {
         if (selectedSessionContextValue && selectedSessionContextValue.selectedSession) {
             let selectedSession = selectedSessionContextValue.selectedSession;
-            if (!selectedSession.isNewSessionTriggered){
+            if (!selectedSession.isNewSessionTriggered) {
                 loadChat(selectedSession.id!).then((result) => {
                     setChat(result);
                     scrollToBottom(500);
                 });
+                setSuggestions([]);
             }
         } else {
-            setChat([])
+            setChat([]);
+            setSuggestions(selectedAgentContextValue.selectedAgent?.configuration.suggestions || []);
         }
     }, [selectedSessionContextValue.selectedSession]);
 
@@ -76,17 +78,15 @@ export default function ChatView() {
             selectedSessionContextValue.setSelectedSession(session);
         }
 
-        if (conversation.agentResponseParam && conversation.agentResponseParam.data && conversation.agentResponseParam.data.length > 0){
+        if (conversation.agentResponseParam && conversation.agentResponseParam.data && conversation.agentResponseParam.data.length > 0) {
             setTableHeaders(Object.keys(conversation.agentResponseParam.data[0]));
             setTableRows(conversation.agentResponseParam.data)
             setShowTable(true);
         }
 
-        // if (conversation.agentResponseParam.suggestions && conversation.agentResponseParam.suggestions.length > 0){
-        //     selectedAgentContextValue.setSelectedAgent((prev) => {
-        //         return {...prev!, configuration: {...prev!.configuration, suggestions: conversation.agentResponseParam.suggestions}}
-        //     });
-        // }
+        if (conversation.agentResponseParam.suggestions && conversation.agentResponseParam.suggestions.length > 0) {
+            setSuggestions(conversation.agentResponseParam.suggestions);
+        }
     }
 
     const handleSendMessage = (inputValue: string = inputMessage.trim()) => {
@@ -148,7 +148,7 @@ export default function ChatView() {
 
     return (
         <div className={' w-[100%] h-[90vh] overflow-y-scroll flex flex-col items-center justify-evenly'}>
-            <ChatBody handleSendMessage={handleSendMessage} showTable={showTable} setShowTable={setShowTable} messagesEndRef={messagesEndRef} chat={chat} tableHeaders={tableHeaders} tableRows={tableRows}></ChatBody>
+            <ChatBody isLoading={isLoading} suggestions={suggestions} handleSendMessage={handleSendMessage} showTable={showTable} setShowTable={setShowTable} messagesEndRef={messagesEndRef} chat={chat} tableHeaders={tableHeaders} tableRows={tableRows}></ChatBody>
 
             {/*Loading three dots*/}
             {isLoading && (
@@ -160,7 +160,7 @@ export default function ChatView() {
                 <div onClick={() => {
                     setShowError(false)
                 }}
-                     className={classNames('my-8 transition-opacity duration-500 w-[100%] flex justify-center', showError ? 'opacity-100' : 'opacity-0')}>
+                    className={classNames('my-8 transition-opacity duration-500 w-[100%] flex justify-center', showError ? 'opacity-100' : 'opacity-0')}>
                     <Alert className={classNames(' w-[85%]')} variant="filled" severity="error">
                         {errorMessage}
                     </Alert>
