@@ -12,6 +12,7 @@ RUN yarn install --frozen-lockfile
 
 # Copy the rest of the application code
 COPY . .
+RUN rm -f public/assets/env.txt
 
 # Build the application
 RUN yarn build
@@ -25,8 +26,11 @@ COPY --from=builder /app/dist /usr/share/nginx/html
 # Copy the default nginx configuration
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
+
+# Running ENVSUBST
+ADD docker/startup.sh /startup.sh
+RUN ["chmod", "+x", "/startup.sh"]
+CMD /startup.sh
+
 # Expose the port nginx will run on
 EXPOSE 80
-
-# Start nginx
-CMD ["nginx", "-g", "daemon off;"]

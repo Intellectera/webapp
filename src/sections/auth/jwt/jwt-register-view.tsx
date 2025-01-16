@@ -143,6 +143,7 @@ export default function JwtRegisterView() {
                     }}
                 />
 
+                {/* @ts-ignore */}
                 <ReCAPTCHA
                     sitekey={CAPTCHA_SITE_KEY}
                     onChange={(value) => setCaptcha(value)}

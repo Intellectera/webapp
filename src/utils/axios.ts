@@ -1,22 +1,23 @@
 import axios from 'axios';
 // config
-import {BACKEND_URL} from './../config-global';
-import {TOKEN_STORAGE_KEY} from "../auth/context/jwt/auth-provider.tsx";
+import { getBackendUrl } from './../config-global';
+import { TOKEN_STORAGE_KEY } from "../auth/context/jwt/auth-provider.tsx";
 import { CustomError } from './types.ts';
 
 // ----------------------------------------------------------------------
 
-const axiosInstance = axios.create({ baseURL: BACKEND_URL , withCredentials: true, timeout: 1000 * 60 * 5});
+const backendUrl = await getBackendUrl();
+const axiosInstance = axios.create({ baseURL: backendUrl, withCredentials: true, timeout: 1000 * 60 * 5 });
 
 axiosInstance.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error && error.response && error.response.status === 401){
+    if (error && error.response && error.response.status === 401) {
       sessionStorage.removeItem(TOKEN_STORAGE_KEY);
       delete axios.defaults.headers.common.Authorization;
       window.location.href = '/';
     }
-    const customError : CustomError = error.response.data as CustomError;
+    const customError: CustomError = error.response.data as CustomError;
     return Promise.reject(customError);
   }
 );

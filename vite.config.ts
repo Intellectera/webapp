@@ -14,6 +14,7 @@ export default defineConfig({
         }
       }
     },
+    target: 'esnext'
   },
   plugins: [react()],
   server: {

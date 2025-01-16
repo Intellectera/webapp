@@ -231,6 +231,7 @@ export default function ChatBody({ showTable, isLoading, suggestions, setShowTab
                                             <Maximize />
                                         )}
                                     </Button>
+                                    {/* @ts-ignore */}
                                     <Plot
                                         data={JSON.parse(conversation.agentResponseParam.plotly).data}
                                         layout={{
