@@ -62,24 +62,24 @@ spec:
                 }
             }
         }
-        stage("Install Dependencies") {
-            steps {
-                container('nodejs') {
-                    sh 'npm install'
-                }
-            }
-            post {
-                always {
-                    echo "========Install Dependencies========"
-                }
-                success {
-                    echo "========Install Dependencies executed successfully========"
-                }
-                failure {
-                    echo "========Install Dependencies Failed========"
-                }
-            }
-        }
+        //stage("Install Dependencies") {
+        //    steps {
+        //        container('nodejs') {
+        //            sh 'npm install'
+        //        }
+        //    }
+        //    post {
+        //        always {
+        //            echo "========Install Dependencies========"
+        //        }
+        //        success {
+        //            echo "========Install Dependencies executed successfully========"
+        //        }
+        //        failure {
+        //            echo "========Install Dependencies Failed========"
+        //        }
+        //    }
+        //}
         stage("Build & Push container image") {
             steps {
                 container(name: 'kaniko', shell: '/busybox/sh') {
