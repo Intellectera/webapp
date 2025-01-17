@@ -6,14 +6,7 @@ pipeline {
 apiVersion: v1
 kind: Pod
 spec:
-  containers:
-  - name: nodejs
-    image: node:18
-    command: ['cat']
-    tty: true
-    env:
-    - name: NODE_ENV
-      value: production
+  containers: 
   - name: kaniko
     image: gcr.io/kaniko-project/executor:debug
     imagePullPolicy: Always
