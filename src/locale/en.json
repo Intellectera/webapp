@@ -58,6 +58,8 @@
     "labels": {
       "selected_agent": "Selected Agent",
       "selected_workspace": "Selected Workspace",
+      "workspace": "Workspace",
+      "organization": "Organization",
       "agents": "Agents",
       "new_chat": "New Chat",
       "show_sql": "Show SQL",

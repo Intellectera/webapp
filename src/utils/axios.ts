@@ -56,11 +56,14 @@ export const API_ENDPOINTS = {
       stt: '/api/v1/conversation/stt',
       tts: '/api/v1/conversation/tts',
     },
+    usage: {
+      report: "/api/v1/conversation/usage-report"
+    },
     db: {
       loadTablesList: '/api/v1/conversation/list-tables'
     },
     license: {
       loadUsage: '/api/v1/license/load-usage'
-    }
+    },
   },
 };

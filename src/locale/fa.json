@@ -58,6 +58,8 @@
     "labels": {
       "selected_agent": "ایجنت انتخاب شده",
       "selected_workspace": "فضای کاری انتخاب شده",
+      "workspace": "فضای کاری",
+      "organization": "سازمان",
       "agents": "ایجنت ها",
       "new_chat": "چت جدید",
       "show_sql": "نمایش SQL",

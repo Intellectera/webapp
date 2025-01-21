@@ -34,7 +34,7 @@ export default function UsageView({ openUsage, setOpenUsage }: Props) {
                     {...((openUsage) ? { timeout: 300 } : {})}
                     in={openUsage} >
                     <div className={'h-screen w-screen transition-all ease-in '}>
-                        <div className={classNames(settings.themeMode === 'light' ? 'bg-white' : 'bg-gray-800', 'absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-xl w-5/6 sm:w-4/6 h-3/6')}>
+                        <div className={classNames(settings.themeMode === 'light' ? 'bg-white' : 'bg-gray-800', 'absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-xl w-5/6 sm:w-4/6 h-4/6')}>
                             <MonthlyUsage></MonthlyUsage>
                         </div>
                     </div>

@@ -2,11 +2,11 @@ import { useSettingsContext } from '../../components/settings';
 import { useEffect, useState } from 'react';
 import getTokenUsageData, { UsageData } from '../../utils/calls/chart/get-token-usage';
 import { useSelectedWorkspaceContext } from '../../layouts/dashboard/context/workspace-context';
-import { convertToPersianMonth, daysInMonth, monthsInEnglish, monthsInPersian } from '../../utils/data-util';
+import { daysInMonth, monthsInEnglish, monthsInPersian } from '../../utils/data-util';
 import { BarChart } from '@mui/x-charts/BarChart';
 import { axisClasses } from '@mui/x-charts/ChartsAxis';
 import { useTranslation } from "react-i18next";
-import { Typography } from '@mui/material';
+import { Button, Typography } from '@mui/material';
 
 
 export default function MonthlyUsage() {
@@ -15,35 +15,55 @@ export default function MonthlyUsage() {
     const [month, setMonth] = useState<number>(1);
     const [totalTokens, setTotalTokens] = useState<number>(0);
     const [monthUsage, setMonthUsage] = useState<Array<{ usage: number, label: string }>>([]);
-    const [usageData, setUsageData] = useState<UsageData | undefined>();
-    const {t, i18n: { language } } = useTranslation();
+    const [usageData, setUsageData] = useState<UsageData>();
+    const [selectedUsageData, setSelectedUsageData] = useState<"workspace" | "organization">("workspace");
+    const { t, i18n: { language } } = useTranslation();
 
-    const updateMonth = (monthNumber: number) => {
-        setMonth(monthNumber);
-        const monthUsageArr: any[] = [];
-        let total = 0;
-        for (let i = 1; i <= daysInMonth[monthNumber]; i++) {
-            const usageAmount = usageData?.usage.get(monthNumber)?.get(i) ?? 0;
-            total += usageAmount;
-            monthUsageArr.push({ usage: usageAmount, label: `${i}` })
-        }
-        setTotalTokens(total);
-        setMonthUsage(monthUsageArr);
-    }
 
     useEffect(() => {
         getTokenUsageData(selectedWorkspace!.id!, language).then((usageData: UsageData) => {
             setUsageData(usageData);
-            if (usageData.usage.size > 0) {
-                const firstMonth: number = Array.from(usageData.usage.keys())[0];
-                updateMonth(firstMonth);
-            }
         })
     }, []);
 
     useEffect(() => {
         updateMonth(month);
-    }, [month])
+    }, [month]);
+
+    useEffect(() => {
+        if (usageData) {
+            const usageMap = selectedUsageData === "workspace" ? usageData?.workspaceUsage : usageData?.organizationUsage;
+            if (usageMap.size > 0) {
+                const firstMonth: number = Array.from(usageMap.keys())[0];
+                setMonth(firstMonth);
+            }
+        }
+    }, [usageData]);
+
+    useEffect(() => {
+        const usageMap = selectedUsageData === "workspace" ? usageData?.workspaceUsage : usageData?.organizationUsage;
+        if (usageMap){
+            if (usageMap.size > 0) {
+                const firstMonth: number = Array.from(usageMap.keys())[0];
+                setMonth(firstMonth);
+            }
+        }
+    }, [selectedUsageData])
+
+    const updateMonth = (monthNumber: number) => {
+        const monthUsageArr: any[] = [];
+        let total = 0;
+        const usageMap = selectedUsageData === "workspace" ? usageData?.workspaceUsage : usageData?.organizationUsage;
+        if (usageMap) {
+            for (let i = 1; i <= daysInMonth[monthNumber]; i++) {
+                const usageAmount = usageMap.get(monthNumber)?.get(i) ?? 0;
+                total += usageAmount;
+                monthUsageArr.push({ usage: usageAmount, label: `${i}` })
+            }
+        }
+        setTotalTokens(total);
+        setMonthUsage(monthUsageArr);
+    }
 
     const handlePrevious = () => {
         setMonth(prev => {
@@ -82,6 +102,14 @@ export default function MonthlyUsage() {
 
     return (
         <div className='w-full h-full flex flex-col justify-center items-center'>
+            <div className='d-flex justify-center items-center my-5'>
+                <Button style={{ margin: 5 }} onClick={() => { setSelectedUsageData("workspace") }} variant={selectedUsageData == "workspace" ? 'contained' : 'outlined'} color={'info'}>
+                    {t('labels.workspace')}
+                </Button>
+                <Button style={{ margin: 5 }} onClick={() => { setSelectedUsageData("organization") }} variant={selectedUsageData == "organization" ? 'contained' : 'outlined'} color={'info'}>
+                    {t('labels.organization')}
+                </Button>
+            </div>
             <div className=''>
                 <Typography sx={{
                     color: settings.themeMode === 'dark' ? 'rgba(255, 255, 255, 0.6)' : 'rgba(0, 0, 0, 0.6)'
