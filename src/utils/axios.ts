@@ -30,6 +30,9 @@ export const API_ENDPOINTS = {
       me: '/api/v1/auth/me',
       login: '/api/v1/auth/authenticate',
       register: '/api/v1/auth/register',
+      forgetPassowrd: '/api/v1/auth/forgot-password',
+      checkForgetPassowrd: '',
+      resetPassword: '',
     },
     agent: {
       create: '/api/v1/agent/create',

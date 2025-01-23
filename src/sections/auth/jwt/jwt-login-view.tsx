@@ -128,7 +128,7 @@ export default function JwtLoginView() {
                 }}
             />
 
-            <Link variant="body2" color="inherit" underline="always" sx={{ alignSelf: 'flex-end' }}>
+            <Link component={RouterLink} href={paths.auth.jwt.forgetPassword} variant="body2" color="inherit" underline="always" sx={{ alignSelf: 'flex-end' }}>
                 {t('forgot_password')}
             </Link>
 
