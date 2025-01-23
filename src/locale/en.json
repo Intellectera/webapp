@@ -4,12 +4,13 @@
     "settings": "Settings",
     "logout": "Logout",
     "login": "Sing in to Intellectera",
-    "reset_password": "Reset Password",
+    "recover_password": "Recover Password",
     "forgot_password": "Forgot Password?",
     "new_user": "New User?",
     "create_account": "Create an Account",
     "email": "Email",
     "password": "Password",
+    "new_password": "New Password",
     "continue": "Continue",
     "errors": {
       "email_required": "Email is Required",
@@ -26,7 +27,9 @@
       "agent_instructions_required": "Agent Instructions is Required",
       "pre_def_question_required": "Pre Defined Question is Required",
       "something_went_wrong": "Something went wrong",
-      "forget_password": "Something went wrong please try again."
+      "forget_password": "Something went wrong please try again.",
+      "token_is_not_valid": "Token is no longer valid.",
+      "password_min": "Password must be at least 6 characters"
     },
     "titles": {
       "change_workspace": "Change Workspace",
@@ -140,7 +143,8 @@
       "user_deleted": "User deleted successfully",
       "you_dont_have_agent": "You don't have any Agent yet",
       "page_not_found": "Sorry, we couldn’t find the page you’re looking for. Perhaps you’ve mistyped the URL? Be sure to check your spelling.",
-      "forget_password_sent": "Reset password email has been sent to your email"
+      "forget_password_sent": "Reset password email has been sent to your email",
+      "recover_password_success": "Password has been changed successfully. Redirecting in "
     },
     "placeholders": {
       "db_name": "The name of the Database you want to connect."

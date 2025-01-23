@@ -32,7 +32,7 @@ export const API_ENDPOINTS = {
       register: '/api/v1/auth/register',
       forgetPassowrd: '/api/v1/auth/forgot-password',
       checkForgetPassowrd: '',
-      resetPassword: '',
+      recoverPassword: '/api/v1/auth/recover-password',
     },
     agent: {
       create: '/api/v1/agent/create',

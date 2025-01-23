@@ -4,12 +4,13 @@
     "settings": "تنظیمات",
     "logout": "خروج",
     "login": "وارد Intellectera شوید.",
-    "reset_password": "بازیابی رمز عبور",
+    "recover_password": "بازیابی رمز عبور",
     "forgot_password": "رمز عبور را فراموش کردید‌؟",
     "new_user": "کاربر جدید؟",
     "create_account": "ایجاد حساب کاربری",
     "email": "ایمیل",
     "password": "رمز عبور",
+    "new_password": "رمز عبور جدید",
     "continue": "ادامه",
     "errors": {
       "email_required": "ایمیل ضروری است",
@@ -26,7 +27,9 @@
       "agent_instructions_required": "دستور العمل ایجنت ضروری است",
       "pre_def_question_required": "سوال از پیش تعیین شده ضروری است",
       "something_went_wrong": "مشکلی پیش آمده است",
-      "forget_password": "مشکلی پیش آمده است لطفا دوباره امتحان کنید"
+      "forget_password": "مشکلی پیش آمده است لطفا دوباره امتحان کنید",
+      "token_is_not_valid": "توکن دیگر معتبر نیست",
+      "password_min": "رمز عبور باید حداقل ۶ کاراکتر باشد"
     },
     "titles": {
       "change_workspace": "تغییر فضای کاری",
@@ -140,7 +143,8 @@
       "user_deleted": "کاربر با موفقیت حذف شد",
       "you_dont_have_agent": "شما هنوز هیچ ایجنتی ندارید",
       "page_not_found": "متأسفانه، نتوانستیم صفحه مورد نظر شما را پیدا کنیم. شاید آدرس اشتباه تایپ شده؟",
-      "forget_password_sent": "ایمیل با لینک بازیابی رمز عبور به ایمیل شما ارسال شد"
+      "forget_password_sent": "ایمیل با لینک بازیابی رمز عبور به ایمیل شما ارسال شد",
+      "recover_password_success": "رمز عبور با موفقیت تغییر یافت. در حال انتقال "
     },
     "placeholders": {
       "db_name": "اسم دیتابیسی که میخواهید متصل شوید."

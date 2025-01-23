@@ -74,7 +74,7 @@ export default function ForgetPasswordView() {
 
     const renderHead = (
         <Stack spacing={2} sx={{ mb: 5 }}>
-            <Typography variant="h4">{t('reset_password')}</Typography>
+            <Typography variant="h4">{t('recover_password')}</Typography>
 
 
         </Stack>

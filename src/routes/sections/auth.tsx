@@ -9,6 +9,7 @@ import AuthClassicLayout from './../../layouts/auth/classic';
 const JwtLoginPage = lazy(() => import('./../../pages/auth/jwt/login'));
 const JwtRegisterPage = lazy(() => import('./../../pages/auth/jwt/register'));
 const ForgetPassword = lazy(() => import('../../pages/auth/jwt/forget-password'));
+const RecoverPassword = lazy(() => import('../../pages/auth/jwt/recover-password'));
 
 // ----------------------------------------------------------------------
 
@@ -28,6 +29,14 @@ export const authRoutes = [
       element: (
         <AuthClassicLayout>
           <ForgetPassword />
+        </AuthClassicLayout>
+      ),
+    },
+    {
+      path: 'recover-password/:token',
+      element: (
+        <AuthClassicLayout>
+          <RecoverPassword />
         </AuthClassicLayout>
       ),
     },
