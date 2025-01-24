@@ -11,6 +11,7 @@
     "email": "Email",
     "password": "Password",
     "new_password": "New Password",
+    "checking_workspace_invitation": "Checking workspace invitation ...",
     "continue": "Continue",
     "errors": {
       "email_required": "Email is Required",
@@ -29,7 +30,8 @@
       "something_went_wrong": "Something went wrong",
       "forget_password": "Something went wrong please try again.",
       "token_is_not_valid": "Token is no longer valid.",
-      "password_min": "Password must be at least 6 characters"
+      "password_min": "Password must be at least 6 characters",
+      "token_not_provided": "Token is not provided"
     },
     "titles": {
       "change_workspace": "Change Workspace",

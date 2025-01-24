@@ -10,6 +10,7 @@ const JwtLoginPage = lazy(() => import('./../../pages/auth/jwt/login'));
 const JwtRegisterPage = lazy(() => import('./../../pages/auth/jwt/register'));
 const ForgetPassword = lazy(() => import('../../pages/auth/jwt/forget-password'));
 const RecoverPassword = lazy(() => import('../../pages/auth/jwt/recover-password'));
+const WorkspaceInvitation = lazy(() => import('../../pages/auth/workspace-invitation'));
 
 // ----------------------------------------------------------------------
 
@@ -37,6 +38,14 @@ export const authRoutes = [
       element: (
         <AuthClassicLayout>
           <RecoverPassword />
+        </AuthClassicLayout>
+      ),
+    },
+    {
+      path: 'workspace-invitation/:token',
+      element: (
+        <AuthClassicLayout>
+          <WorkspaceInvitation />
         </AuthClassicLayout>
       ),
     },

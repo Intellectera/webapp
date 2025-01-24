@@ -46,7 +46,8 @@ export const API_ENDPOINTS = {
       loadAvailable: '/api/v1/workspace/list-available',
       loadWorkspaceUsers: '/api/v1/workspace/load-workspace-users',
       inviteUser: '/api/v1/workspace/invite',
-      deleteUser: '/api/v1/workspace/remove-user'
+      deleteUser: '/api/v1/workspace/remove-user',
+      approveInvitation: '/api/v1/workspace/approve-invite'
     },
     session: {
       load: '/api/v1/session/load',

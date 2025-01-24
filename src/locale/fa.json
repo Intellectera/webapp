@@ -11,6 +11,7 @@
     "email": "ایمیل",
     "password": "رمز عبور",
     "new_password": "رمز عبور جدید",
+    "checking_workspace_invitation": "در حال بررسی دعوتنامه فضای کاری ...",
     "continue": "ادامه",
     "errors": {
       "email_required": "ایمیل ضروری است",
@@ -29,7 +30,8 @@
       "something_went_wrong": "مشکلی پیش آمده است",
       "forget_password": "مشکلی پیش آمده است لطفا دوباره امتحان کنید",
       "token_is_not_valid": "توکن دیگر معتبر نیست",
-      "password_min": "رمز عبور باید حداقل ۶ کاراکتر باشد"
+      "password_min": "رمز عبور باید حداقل ۶ کاراکتر باشد",
+      "token_not_provided": "توکن ارائه نشده است"
     },
     "titles": {
       "change_workspace": "تغییر فضای کاری",

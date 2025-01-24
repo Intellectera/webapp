@@ -1,13 +1,13 @@
-import {useCallback, useEffect, useMemo, useReducer} from 'react';
+import { useCallback, useEffect, useMemo, useReducer } from 'react';
 // utils
-import axios, {API_ENDPOINTS} from './../../../utils/axios';
+import axios, { API_ENDPOINTS } from './../../../utils/axios';
 //
-import {AuthContext} from './auth-context';
-import {isValidToken, setSession} from './utils';
-import {ActionMapType, AuthStateType, AuthUserType} from './../../types';
-import {localStorageGetItem} from "../../../utils/storage-available.ts";
-import {localStorageLngKey} from "../../../layouts/_common/language-popover.tsx";
-import {useTranslation} from "react-i18next";
+import { AuthContext } from './auth-context';
+import { isValidToken, setSession } from './utils';
+import { ActionMapType, AuthStateType, AuthUserType } from './../../types';
+import { localStorageGetItem } from "../../../utils/storage-available.ts";
+import { localStorageLngKey } from "../../../layouts/_common/language-popover.tsx";
+import { useTranslation } from "react-i18next";
 
 enum Types {
   INITIAL = 'INITIAL',
@@ -75,7 +75,7 @@ type Props = {
 };
 
 export function AuthProvider({ children }: Props) {
-  const {i18n: {changeLanguage} } = useTranslation();
+  const { i18n: { changeLanguage } } = useTranslation();
 
   useEffect(() => {
     changeLanguage(localStorageGetItem(localStorageLngKey, 'en')).then();
@@ -143,12 +143,13 @@ export function AuthProvider({ children }: Props) {
 
   // REGISTER
   const register = useCallback(
-    async (email: string, password: string, firstName: string, lastName: string) => {
+    async (email: string, password: string, firstName: string, lastName: string, invitationId: string | null) => {
       const data = {
         email,
         password,
         firstName,
         lastName,
+        invitationId,
       };
 
       const response = await axios.post(API_ENDPOINTS.v1.auth.register, data);
@@ -196,5 +197,5 @@ export function AuthProvider({ children }: Props) {
     [login, logout, register, state.user, status]
   );
 
-   return <AuthContext.Provider value={memoizedValue}>{children}</AuthContext.Provider>;
+  return <AuthContext.Provider value={memoizedValue}>{children}</AuthContext.Provider>;
 }

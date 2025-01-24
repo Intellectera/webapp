@@ -36,6 +36,9 @@ export default function SessionsList() {
                     selectedSessionContextValue.setSelectedSession(undefined);
                 }
             })
+        } else {
+            setSessions([]);
+            selectedSessionContextValue.setSelectedSession(undefined);
         }
     }, [selectedAgentContextValue.selectedAgent])
 

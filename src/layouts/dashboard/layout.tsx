@@ -8,12 +8,9 @@ import Header from './header';
 import NavVertical from './nav-vertical';
 import {
     SelectedWorkspaceContextValue,
-    WORKSPACE_STORAGE_KEY
 } from "./context/workspace-provider.tsx";
 import {useEffect} from "react";
-import loadWorkspaces from "../../utils/calls/workspace/load-workspaces.ts";
-import {Workspace} from "../../utils/dto/Workspace.ts";
-import {localStorageGetItem, localStorageSetItem} from "../../utils/storage-available.ts";
+import {localStorageSetItem} from "../../utils/storage-available.ts";
 import {useSelectedWorkspaceContext} from "./context/workspace-context.tsx";
 import loadAgents from "../../utils/calls/agent/load-agents.ts";
 import {Agent} from "../../utils/dto/Agent.ts";
@@ -30,21 +27,6 @@ export default function DashboardLayout({children}: Props) {
     const selectedWorkspaceContextValue: SelectedWorkspaceContextValue = useSelectedWorkspaceContext();
     const selectedAgentContextValue: SelectedAgentContextValue = useSelectedAgentContext();
 
-    useEffect((): void => {
-        let loadedWorkspace = localStorageGetItem(WORKSPACE_STORAGE_KEY, '');
-        if (loadedWorkspace && loadedWorkspace.length > 0) {
-            let workspace = JSON.parse(loadedWorkspace);
-            selectedWorkspaceContextValue.setSelectedWorkspace(workspace);
-        } else {
-            loadWorkspaces().then((result: Array<Workspace>): void => {
-                if (result.length > 0) {
-                    let workspace = result[0];
-                    selectedWorkspaceContextValue.setSelectedWorkspace(workspace);
-                    localStorageSetItem(WORKSPACE_STORAGE_KEY, JSON.stringify(workspace));
-                }
-            });
-        }
-    }, []);
 
     useEffect(() => {
         if (selectedWorkspaceContextValue && selectedWorkspaceContextValue.selectedWorkspace){

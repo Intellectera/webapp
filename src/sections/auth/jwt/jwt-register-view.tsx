@@ -48,6 +48,12 @@ export default function JwtRegisterView() {
     const [captcha, setCaptcha] = useState<string | null>(null);
     const searchParams = useSearchParams();
     const returnTo = searchParams.get('returnTo');
+
+    let invitationEmail : string | null = searchParams.get('email');
+    invitationEmail = (invitationEmail && invitationEmail.trim().length > 0) ? invitationEmail : null;
+    let invitationId : string | null = searchParams.get('invitationId');
+    invitationId = (invitationId && invitationId.trim().length > 0) ? invitationId : null;
+
     const password = useBoolean();
 
     const RegisterSchema = Yup.object().shape({
@@ -60,7 +66,7 @@ export default function JwtRegisterView() {
     const defaultValues = {
         firstName: '',
         lastName: '',
-        email: '',
+        email: invitationEmail ? invitationEmail : '',
         password: '',
     };
 
@@ -78,7 +84,7 @@ export default function JwtRegisterView() {
     const onSubmit = useCallback(
         async (data: FormValuesProps) => {
             try {
-                await register?.(data.email, data.password, data.firstName, data.lastName);
+                await register?.(data.email, data.password, data.firstName, data.lastName, invitationId);
                 window.location.href = returnTo || PATH_AFTER_LOGIN;
             } catch (error) {
                 if (!IS_PRODUCTION) {
@@ -126,7 +132,7 @@ export default function JwtRegisterView() {
                     )}
                 </Stack>
 
-                <RHFTextField name="email" label={t('email')} />
+                <RHFTextField disabled={invitationEmail != null} name="email" label={t('email')} />
 
                 <RHFTextField
                     name="password"

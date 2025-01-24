@@ -12,12 +12,13 @@ import {
     SelectedWorkspaceContext,
     SelectedWorkspaceContextValue, WORKSPACE_STORAGE_KEY
 } from "../../layouts/dashboard/context/workspace-provider.tsx";
-import {localStorageSetItem} from "../../utils/storage-available.ts";
+import {localStorageRemoveItem, localStorageSetItem} from "../../utils/storage-available.ts";
 import {useTranslation} from "react-i18next";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import Select, {SelectChangeEvent} from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
+import { AGENT_STORAGE_KEY } from '../../layouts/dashboard/context/agent-provider.tsx';
 
 // ----------------------------------------------------------------------
 
@@ -40,6 +41,8 @@ export const ChangeWorkspaceView = ({handleClose, open}: { handleClose: any, ope
 
     const handleSelectWorkspace = (workspaceId: string) => {
         const workspace = workspaces.find(value => value.id === workspaceId)!;
+        localStorageRemoveItem(AGENT_STORAGE_KEY);
+        localStorageRemoveItem(WORKSPACE_STORAGE_KEY);
         localStorageSetItem(WORKSPACE_STORAGE_KEY, JSON.stringify(workspace));
         workspaceContextValue.setSelectedWorkspace(workspace);
         window.location.reload();

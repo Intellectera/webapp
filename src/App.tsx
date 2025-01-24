@@ -15,8 +15,6 @@ import Router from "./routes/sections";
 
 // theme
 import ThemeProvider from './theme';
-// hooks
-import { useScrollToTop } from './hooks/use-scroll-to-top';
 // components
 import ProgressBar from './components/progress-bar';
 import MotionLazy from './components/animate/motion-lazy';
@@ -28,8 +26,6 @@ import { useEffect } from 'react';
 // ----------------------------------------------------------------------
 
 export default function App() {
-    useScrollToTop();
-
     useEffect(() => {
         console.log(`
 

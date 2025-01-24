@@ -1,6 +1,6 @@
-import {m} from 'framer-motion';
+import { m } from 'framer-motion';
 // @mui
-import {alpha} from '@mui/material/styles';
+import { alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Avatar from '@mui/material/Avatar';
@@ -8,23 +8,25 @@ import Divider from '@mui/material/Divider';
 import MenuItem from '@mui/material/MenuItem';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
+
 // routes
-import {useRouter} from '../../routes/hook';
+import { useRouter } from '../../routes/hook';
 // auth
-import {useAuthContext} from '../../auth/hooks';
+import { useAuthContext } from '../../auth/hooks';
 // components
-import {varHover} from '../../components/animate';
-import CustomPopover, {usePopover} from './../../components/custom-popover';
-import {localStorageRemoveItem, localStorageSetItem} from '../../utils/storage-available';
-import {localStorageLngKey} from './language-popover';
-import {useSettingsContext} from '../../components/settings';
-import {SettingsView} from "../../sections/settings/view.tsx";
-import {useState} from "react";
-import {WORKSPACE_STORAGE_KEY} from "../dashboard/context/workspace-provider.tsx";
-import {ChangeWorkspaceView} from "../../sections/workspace/view.tsx";
-import {useTranslation} from "react-i18next";
-import {AGENT_STORAGE_KEY} from "../dashboard/context/agent-provider.tsx";
+import { varHover } from '../../components/animate';
+import CustomPopover, { usePopover } from './../../components/custom-popover';
+import { localStorageGetItem, localStorageRemoveItem, localStorageSetItem } from '../../utils/storage-available';
+import { localStorageLngKey } from './language-popover';
+import { useSettingsContext } from '../../components/settings';
+import { SettingsView } from "../../sections/settings/view.tsx";
+import { useEffect, useState } from "react";
+import { SelectedWorkspaceContextValue, WORKSPACE_STORAGE_KEY } from "../dashboard/context/workspace-provider.tsx";
+import { ChangeWorkspaceView } from "../../sections/workspace/view.tsx";
+import { useTranslation } from "react-i18next";
+import { AGENT_STORAGE_KEY } from "../dashboard/context/agent-provider.tsx";
 import UsageView from '../../sections/usage/view.tsx';
+import { useSelectedWorkspaceContext } from '../dashboard/context/workspace-context.tsx';
 
 // ----------------------------------------------------------------------
 
@@ -35,12 +37,13 @@ const OPTIONS: Array<{ label: string, linkTo: string }> = [];
 export default function AccountPopover() {
     const settings = useSettingsContext();
     const authContext = useAuthContext();
+    const selectedWorkspaceContextValue: SelectedWorkspaceContextValue = useSelectedWorkspaceContext();
 
     const handleClose = () => {
         settings.onClose();
     }
 
-    const {t } = useTranslation();
+    const { t } = useTranslation();
 
     const [openChangeWorkspace, setOpenChangeWorkspace] = useState(false);
     const [openUsage, setOpenUsage] = useState(false);
@@ -51,7 +54,7 @@ export default function AccountPopover() {
 
     const router = useRouter();
 
-    const {logout} = useAuthContext();
+    const { logout } = useAuthContext();
 
     const popover = usePopover();
 
@@ -90,6 +93,19 @@ export default function AccountPopover() {
         router.push(path);
     };
 
+
+    useEffect((): void => {
+        let loadedWorkspace = localStorageGetItem(WORKSPACE_STORAGE_KEY, '');
+        if (loadedWorkspace && loadedWorkspace.length > 0) {
+            let workspace = JSON.parse(loadedWorkspace);
+            selectedWorkspaceContextValue.setSelectedWorkspace(workspace);
+        } else {
+            selectedWorkspaceContextValue.setSelectedWorkspace(undefined);
+            localStorageRemoveItem(AGENT_STORAGE_KEY);
+            handleOpenChangeWorkspace();
+        }
+    }, []);
+
     return (
         <>
             <SettingsView handleClose={handleClose}></SettingsView>
@@ -120,20 +136,20 @@ export default function AccountPopover() {
                 />
             </IconButton>
 
-            <CustomPopover open={popover.open} onClose={popover.onClose} sx={{width: 200, p: 0}}>
-                <Box sx={{p: 2, pb: 1.5}}>
+            <CustomPopover open={popover.open} onClose={popover.onClose} sx={{ width: 200, p: 0 }}>
+                <Box sx={{ p: 2, pb: 1.5 }}>
                     <Typography variant="subtitle2" noWrap>
                         {authContext.user?.firstName + ' ' + authContext.user?.lastName}
                     </Typography>
 
-                    <Typography variant="body2" sx={{color: 'text.secondary'}} noWrap>
+                    <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
                         {authContext.user?.email}
                     </Typography>
                 </Box>
 
-                <Divider sx={{borderStyle: 'dashed'}}/>
+                <Divider sx={{ borderStyle: 'dashed' }} />
 
-                <Stack sx={{p: 1}}>
+                <Stack sx={{ p: 1 }}>
                     {OPTIONS.map((option) => (
                         <MenuItem key={option.label} onClick={() => handleClickItem(option.linkTo)}>
                             {option.label}
@@ -143,30 +159,36 @@ export default function AccountPopover() {
 
                 {/* <Divider sx={{ borderStyle: 'dashed' }} /> */}
 
-                <MenuItem
-                    onClick={handleOpenSettings}
-                    sx={{m: 1, fontWeight: 'fontWeightBold'}}
-                >
-                    {t('settings')}
-                </MenuItem>
+                {(selectedWorkspaceContextValue.selectedWorkspace?.role == 1 || 
+                selectedWorkspaceContextValue.selectedWorkspace?.role == 2
+                ) && (
+                    <>
+                        <MenuItem
+                            onClick={handleOpenSettings}
+                            sx={{ m: 1, fontWeight: 'fontWeightBold' }}
+                        >
+                            {t('settings')}
+                        </MenuItem>
 
-                <MenuItem
-                    onClick={handleOpenUsage}
-                    sx={{m: 1, fontWeight: 'fontWeightBold'}}
-                >
-                    {t('labels.usage')}
-                </MenuItem>
+                        <MenuItem
+                            onClick={handleOpenUsage}
+                            sx={{ m: 1, fontWeight: 'fontWeightBold' }}
+                        >
+                            {t('labels.usage')}
+                        </MenuItem>
+                    </>
+                )}
 
                 <MenuItem
                     onClick={handleOpenChangeWorkspace}
-                    sx={{m: 1, fontWeight: 'fontWeightBold'}}
+                    sx={{ m: 1, fontWeight: 'fontWeightBold' }}
                 >
                     {t('titles.change_workspace')}
                 </MenuItem>
 
                 <MenuItem
                     onClick={handleLogout}
-                    sx={{m: 1, fontWeight: 'fontWeightBold', color: 'error.main'}}
+                    sx={{ m: 1, fontWeight: 'fontWeightBold', color: 'error.main' }}
                 >
                     {t('logout')}
                 </MenuItem>
