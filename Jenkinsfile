@@ -37,7 +37,7 @@ spec:
     }
     environment {
         APP_NAME = "webapp"
-        RELEASE = "1.1.1"
+        RELEASE = "1.1.2"
         REGISTERY = "https://hub.intellectera.ai"
         REGISTERY_NAME = "hub.intellectera.ai"
         PROJECT = "intelcloud"

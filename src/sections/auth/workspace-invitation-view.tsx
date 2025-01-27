@@ -15,22 +15,32 @@ export default function WorkspaceInvitationView() {
     const { t } = useTranslation();
     const { token } = useParams();
     const router = useRouter();
+    const [remaining, setRemaining] = useState(5);
 
-    const [hasError, setHasError] = useState(false);
     const [alertMessage, setAlertMessage] = useState("");
+    const [success, setSuccess] = useState(false);
 
     const approveWorkspaceInvitation = () => {
         approveInvitation({ invitationId: token! }).then(response => {
+            setAlertMessage("");
             localStorageRemoveItem(WORKSPACE_STORAGE_KEY);
             localStorageRemoveItem(AGENT_STORAGE_KEY);
-            
-            if (response.accountExists) {
-                window.location.href = '/';
-            } else {
-                const searchParams = new URLSearchParams({ email: response.email, invitationId: token! }).toString();
-                const href = `${paths.auth.jwt.register}?${searchParams}`
-                router.replace(href);
-            }
+
+            setSuccess(true);
+            const interval = setInterval(() => {
+                setRemaining((prev) => prev - 1);
+            }, 1000);
+            setTimeout(() => {
+                clearInterval(interval);
+                setSuccess(false);
+                if (response.accountExists) {
+                    window.location.href = '/';
+                } else {
+                    const searchParams = new URLSearchParams({ email: response.email, invitationId: token! }).toString();
+                    const href = `${paths.auth.jwt.register}?${searchParams}`
+                    router.replace(href);
+                }
+            }, 5000);
         }).catch(error => {
             const customError: CustomError = error as CustomError;
             setAlertMessage(customError.error.message ? customError.error.message : 'Unknown error');
@@ -39,7 +49,6 @@ export default function WorkspaceInvitationView() {
 
     useEffect(() => {
         if (!token || token === "") {
-            setHasError(true);
             setAlertMessage(t('errors.token_not_provided'));
         } else {
             approveWorkspaceInvitation();
@@ -48,11 +57,13 @@ export default function WorkspaceInvitationView() {
 
     return (
         <div className="flex flex-col items-center justify-center h-full">
+            {success && <Alert severity="success">{t('messages.recover_password_success') + ` ${remaining} ...`}</Alert>}
+
             <Typography variant="h4">{t('checking_workspace_invitation')}</Typography>
 
             {(alertMessage && alertMessage.length > 0) && (
-                <Alert className="w-100" variant="filled" severity={hasError ? "error" : "success"}>
-                    {hasError ? t('errors.forget_password') : t('messages.forget_password_sent')}
+                <Alert className="w-100" variant="filled" severity={"error"}>
+                    {alertMessage}
                 </Alert>
             )}
 
