@@ -27,33 +27,30 @@ export default function MonthlyUsage() {
     }, []);
 
     useEffect(() => {
-        updateMonth(month);
-    }, [month]);
-
-    useEffect(() => {
         if (usageData) {
             const usageMap = selectedUsageData === "workspace" ? usageData?.workspaceUsage : usageData?.organizationUsage;
             if (usageMap.size > 0) {
                 const firstMonth: number = Array.from(usageMap.keys())[0];
                 setMonth(firstMonth);
+                updateMonth(firstMonth, usageMap);
             }
         }
     }, [usageData]);
 
     useEffect(() => {
         const usageMap = selectedUsageData === "workspace" ? usageData?.workspaceUsage : usageData?.organizationUsage;
-        if (usageMap){
+        if (usageMap) {
             if (usageMap.size > 0) {
                 const firstMonth: number = Array.from(usageMap.keys())[0];
                 setMonth(firstMonth);
+                updateMonth(firstMonth, usageMap);
             }
         }
     }, [selectedUsageData])
 
-    const updateMonth = (monthNumber: number) => {
+    const updateMonth = (monthNumber: number, usageMap: Map<number, Map<number, number>>) => {
         const monthUsageArr: any[] = [];
         let total = 0;
-        const usageMap = selectedUsageData === "workspace" ? usageData?.workspaceUsage : usageData?.organizationUsage;
         if (usageMap) {
             for (let i = 1; i <= daysInMonth[monthNumber]; i++) {
                 const usageAmount = usageMap.get(monthNumber)?.get(i) ?? 0;
