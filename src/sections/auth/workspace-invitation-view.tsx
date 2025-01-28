@@ -57,7 +57,7 @@ export default function WorkspaceInvitationView() {
 
     return (
         <div className="flex flex-col items-center justify-center h-full">
-            {success && <Alert severity="success">{t('messages.recover_password_success') + ` ${remaining} ...`}</Alert>}
+            {success && <Alert severity="success">{t('messages.workspace_invitation_success') + ` ${remaining} ...`}</Alert>}
 
             <Typography variant="h4">{t('checking_workspace_invitation')}</Typography>
 

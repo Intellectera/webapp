@@ -146,7 +146,8 @@
       "you_dont_have_agent": "You don't have any Agent yet",
       "page_not_found": "Sorry, we couldn’t find the page you’re looking for. Perhaps you’ve mistyped the URL? Be sure to check your spelling.",
       "forget_password_sent": "Reset password email has been sent to your email",
-      "recover_password_success": "Password has been changed successfully. Redirecting in "
+      "recover_password_success": "Password has been changed successfully. Redirecting in ",
+      "workspace_invitation_success": "Workspace invitation has been accepted. Redirecting in "
     },
     "placeholders": {
       "db_name": "The name of the Database you want to connect."
