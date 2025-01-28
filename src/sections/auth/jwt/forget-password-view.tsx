@@ -61,12 +61,13 @@ export default function ForgetPasswordView() {
             forgetPassowrd(data).then((result) => {
                 setShowAlert(true);
                 setHasError(!result);
-            }).catch((error: CustomError) => {
+            }).catch((error: Error) => {
                 if (!IS_PRODUCTION) {
                     console.error(error);
                 }
                 setHasError(true);
                 setShowAlert(true);
+                reset();
             })
         },
         [reset]
