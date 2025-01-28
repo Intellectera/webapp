@@ -107,7 +107,7 @@ export default function UsersView() {
                 }
                 setIsSubmitLoading(false);
             })
-        }, [reset]
+        }, [reset, selectedRole]
     );
 
 
