@@ -20,9 +20,9 @@ spec:
       requests:
         memory: "1Gi"
         cpu: "1"
-      limits:
-        memory: "2Gi"
-        cpu: "2"
+    #  limits:
+    #    memory: "2Gi"
+    #    cpu: "2"
   volumes:
   - name: kaniko-secret
     projected:
